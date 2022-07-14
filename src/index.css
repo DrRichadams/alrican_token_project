@@ -24,22 +24,23 @@ code {
 }
 
 @media (max-width: 750px) {
-  .future_box_container{
+  .future_box_container {
     flex-wrap: wrap;
   }
 }
 
-.left_sect,.right_sect {
-    flex: 1;
+.left_sect,
+.right_sect {
+  flex: 1;
 }
 
 .right_sect {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* margin: 30px 0; */
-    /* background-color: red; */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 30px 0; */
+  /* background-color: red; */
 }
 
 .left_about,
@@ -76,7 +77,8 @@ code {
   cursor: pointer;
 }
 
-.service_btn:hover{
+.service_btn:hover {
   color: rgba(255, 136, 0, 0.733);
-  /* color: #ff0000; */
+  /* color: #0cf57528; */
+  /* color: #01050f5e; */
 }
