@@ -26,10 +26,12 @@ const InvestmentPlansPage = () => {
                     isBtn={true} 
                     onClick={() => alert("Worked agaun")} />
                 <TrustBoxComp 
-                    img_url={"/icons/coin.png"} 
+                    img_url={"/icons/airNFT.png"} 
                     amount={"0.00"} 
                     title={"Air drops"} 
-                    isBtn={false} 
+                    btn_text={"Top Up"} 
+                    // isBtn={true} 
+                    // onClick={() => alert("Worked already")}
                 />
             </TrustBoxesContainer>
         </div>

@@ -50,12 +50,12 @@ const UserDashboard = () => {
                             </NavLink>
                             <NavLink to={"/user_dash/earnings"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
                                 <AiFillGold size={30} />
-                                <MenuLinkTitlte>DIVIDENTS AND AFFILIATES</MenuLinkTitlte>
+                                <MenuLinkTitlte>AFFILIATES</MenuLinkTitlte>
                             </NavLink>
-                            <NavLink to={"/user_dash/affiliates"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
+                            {/* <NavLink to={"/user_dash/affiliates"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
                                 <FaUserFriends size={30} />
                                 <MenuLinkTitlte>INVESTMENTS</MenuLinkTitlte>
-                            </NavLink>
+                            </NavLink> */}
                             <NavLink to={"/user_dash/withdrawal_history"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
                                 <MdHistory size={30} />
                                 <MenuLinkTitlte>WITHDRAWAL HISTORY</MenuLinkTitlte>

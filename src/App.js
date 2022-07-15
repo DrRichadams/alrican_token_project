@@ -30,10 +30,10 @@ function App() {
               <Route path='' element={<InvestmentPlansPage />} />
               <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
               <Route path='earnings' element={<EarningsPage />}>
-                <Route path='' element={<Dividents />} />
-                <Route path='affiliates' element={<Affiliates />} />
+                {/* <Route path='' element={<Dividents />} /> */}
+                <Route path='' element={<Affiliates />} />
               </Route>
-              <Route path='affiliates' element={<InvestmentsPage />} />
+              {/* <Route path='affiliates' element={<InvestmentsPage />} /> */}
           </Route>: ""
           }
           <Route path='*' element={<ErrorNoROute />} />
