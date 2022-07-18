@@ -14,30 +14,39 @@ import InvestmentsPage from "./DashboardUser/pages/InvestmentsPage";
 import Affiliates from './DashboardUser/pages/Affiliates';
 import Dividents from './DashboardUser/pages/Dividents';
 import ErrorNoROute from './pages/ErrorNoROute';
+import Rerouter from './features/Rerouter';
+
+import { AuthContextProvider } from './contexts/AuthContext';
+import Spinner from "./Spinner";
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
+  const [ isLoading, setIsLoading ] = useState(false)
+  if(isLoading) return <Spinner />
   return (
     <div className="App">
-      <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/forgotPassword' element={<ForgotPassword />} />
-          {
-            userRoutesAllowed ?
-            <Route path='/user_dash' element={<UserDashboard />}>
-              <Route path='' element={<InvestmentPlansPage />} />
-              <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
-              <Route path='earnings' element={<EarningsPage />}>
-                {/* <Route path='' element={<Dividents />} /> */}
-                <Route path='' element={<Affiliates />} />
-              </Route>
-              {/* <Route path='affiliates' element={<InvestmentsPage />} /> */}
-          </Route>: ""
-          }
-          <Route path='*' element={<ErrorNoROute />} />
-      </Routes>
+      <AuthContextProvider>
+        <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/forgotPassword' element={<ForgotPassword />} />
+            <Route path='/rerouter' element={<Rerouter />} />
+            {
+              userRoutesAllowed ?
+              <Route path='/user_dash' element={<UserDashboard />}>
+                <Route path='' element={<InvestmentPlansPage />} />
+                <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
+                <Route path='earnings' element={<EarningsPage />}>
+                  {/* <Route path='' element={<Dividents />} /> */}
+                  <Route path='' element={<Affiliates />} />
+                </Route>
+                {/* <Route path='affiliates' element={<InvestmentsPage />} /> */}
+            </Route>: ""
+            }
+            <Route path='*' element={<ErrorNoROute />} />
+        </Routes>
+      </AuthContextProvider>
       
     </div>
   );

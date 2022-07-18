@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors } from "../constants/colors";
 import { Link } from "react-router-dom";
-
+ 
 
 export const AuthPara = styled.p`
     text-align: center;
@@ -66,7 +66,7 @@ export const AuthButtonContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 20px;
     /* background-color: red; */
 `;
 
@@ -111,7 +111,7 @@ export const AuthTitle = styled.h3`
     pointer-events: none;
 `;
 
-export const AuthDetailsContainer = styled.div`
+export const AuthDetailsContainer = styled.form`
     background-color: #fff;
     width: 450px;
     min-height: 70vh;
@@ -151,4 +151,25 @@ export const BackTitle = styled.p`
     @media (max-width: 570px) {
         text-align: right;
     }
+`;
+
+export const AuthError = styled.div`
+    margin: 0 auto;
+    padding: 6px 0;
+    width: 300px;
+    text-align: center;
+    font-size: 13px;
+    font-family: Roboto, sans-serif;
+    color: coral;
+    opacity: 1;
+`;
+export const ErrorText = styled.p`
+    margin: 0;
+    padding: 6px 0;
+    width: 300px;
+    text-align: center;
+    font-size: 13px;
+    font-family: Roboto, sans-serif;
+    color: coral;
+    opacity: 1;
 `;

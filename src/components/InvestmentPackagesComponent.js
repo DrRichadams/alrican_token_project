@@ -6,7 +6,7 @@ const InvestmentPackagesComponent = () => {
     return(
         <InvestmentPackages>
             { investment_packages.map((item, index) => (
-                <PackageBox bg_color={item.bg_color}>
+                <PackageBox key={index} bg_color={item.bg_color}>
                     <PackageTitle1 color={item.color}>{item.package_name}</PackageTitle1>
                     <PackageTitle color={item.color}>{item.story}</PackageTitle>
                     <PackagePrize>USD${item.fee}</PackagePrize>

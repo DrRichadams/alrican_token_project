@@ -49,6 +49,7 @@ import {
 
 const HomePage = () => {
     const [ selQuestion, setSelQuestion ] = useState(0)
+    
     return(
         <div className="home_page_">
             <SectionContainer bg_color={colors.primary}>
