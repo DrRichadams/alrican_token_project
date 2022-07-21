@@ -19,6 +19,10 @@ import Rerouter from './features/Rerouter';
 import { AuthContextProvider } from './contexts/AuthContext';
 import Spinner from "./Spinner";
 
+import ProtectedRoute from './protectedRoutes/ProtectedRoute';
+import ProtectedAdmin from './protectedRoutes/ProtectedAdmin';
+import ProtectedConfig from './protectedRoutes/ProtectedConfig';
+
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
   const [ isLoading, setIsLoading ] = useState(false)
@@ -31,10 +35,10 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/forgotPassword' element={<ForgotPassword />} />
-            <Route path='/rerouter' element={<Rerouter />} />
+            <Route path='/rerouter' element={<ProtectedConfig><Rerouter /></ProtectedConfig>} />
             {
               userRoutesAllowed ?
-              <Route path='/user_dash' element={<UserDashboard />}>
+              <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
                 <Route path='' element={<InvestmentPlansPage />} />
                 <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
                 <Route path='earnings' element={<EarningsPage />}>

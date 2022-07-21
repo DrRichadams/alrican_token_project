@@ -46,7 +46,7 @@ const Login = () => {
         if(password && email) {
             try {
                 setautherror(null);
-                await signIn(email, password)
+                await signIn(email, password);
             } catch (e) {
                 setautherror(e.message);
             }
