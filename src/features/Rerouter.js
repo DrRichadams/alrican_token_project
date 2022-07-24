@@ -10,7 +10,7 @@ const Rerouter = () => {
         if(routedata.userType == "normal") return <Navigate to='/user_dash' />
         if(routedata.userType == "admin") return <Navigate to='/admin_dash' />
     }
-    return<Spinner />
+    return<Spinner /> 
 }
 
 export default Rerouter;

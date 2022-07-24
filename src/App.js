@@ -23,6 +23,7 @@ import Spinner from "./Spinner";
 import ProtectedRoute from './protectedRoutes/ProtectedRoute';
 import ProtectedAdmin from './protectedRoutes/ProtectedAdmin';
 import ProtectedConfig from './protectedRoutes/ProtectedConfig';
+import LogoutModal from './modals/LogoutModal';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -52,8 +53,8 @@ function App() {
             <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} />
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
+        <LogoutModal />
       </AuthContextProvider>
-      
     </div>
   );
 }
