@@ -7,8 +7,9 @@ import {auth, db} from "../firebase/config";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
-    const [user, setUser] = useState(null)
-    const [routedata, setroutedata] = useState(null)
+    const [user, setUser] = useState(null);
+    const [routedata, setroutedata] = useState(null);
+    const [isSpinner, setIsSpinner] = useState(false);
 
     const addUserToFirestore = async (id, names, email, address, dob, cell) => {
         await setDoc(doc(db, "users", id), {
@@ -66,13 +67,14 @@ export const AuthContextProvider = ({children}) => {
             // console.log("My ID", currentUser.uid)
             // console.log(currentUser);
             setUser(currentUser)
-            getData(currentUser.uid).then((udata) => {
+            currentUser && getData(currentUser.uid).then((udata) => {
                 setroutedata({
                     isVerified: udata.isVerified,
                     userType: udata.userType
                 })
                 // console.log("My udata", udata.isVerified)
                 // console.log("My udata", udata.userType)
+                console.log("My udata", {...udata})
             })
         })
         return () => {
@@ -80,8 +82,20 @@ export const AuthContextProvider = ({children}) => {
         }
     }, []);
 
+    const loadSpinner = () => setIsSpinner(true);
+    const unloadSpinner = () => setIsSpinner(false);
+
     return(
-        <AuthContext.Provider value={{createUser, user, logout, signIn, routedata}}>
+        <AuthContext.Provider value={{
+            createUser, 
+            user, 
+            logout, 
+            signIn, 
+            routedata,
+            isSpinner,
+            loadSpinner,
+            unloadSpinner
+        }}>
             {children}
         </AuthContext.Provider>
     );

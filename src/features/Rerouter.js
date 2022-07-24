@@ -1,21 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { UserAuth } from "../contexts/AuthContext";
+import Spinner from "../Spinner";
 
 const Rerouter = () => {
-    const navigate = useNavigate();
-    const {logout} = UserAuth();
-    const handleLogout = async () => {
-        await logout();
-        console.log("Logged out from rerouter!");
-        navigate('/login')
+    const {routedata} = UserAuth();
+    if(routedata) {
+        if(!routedata.isVerified) return <Navigate to='/verify' />
+        if(routedata.userType == "normal") return <Navigate to='/user_dash' />
+        if(routedata.userType == "admin") return <Navigate to='/admin_dash' />
     }
-    return(
-        <div>
-            Authenticated
-            <button onClick={() => handleLogout()}>Logout</button>
-        </div>
-    )
+    return<Spinner />
 }
 
 export default Rerouter;

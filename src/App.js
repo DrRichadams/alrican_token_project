@@ -13,6 +13,7 @@ import EarningsPage from "./DashboardUser/pages/EarningsPage";
 import InvestmentsPage from "./DashboardUser/pages/InvestmentsPage";
 import Affiliates from './DashboardUser/pages/Affiliates';
 import Dividents from './DashboardUser/pages/Dividents';
+import AdminDash from './DashboardAdmin/pages/AdminDash';
 import ErrorNoROute from './pages/ErrorNoROute';
 import Rerouter from './features/Rerouter';
 
@@ -28,7 +29,7 @@ function App() {
   const [ isLoading, setIsLoading ] = useState(false)
   if(isLoading) return <Spinner />
   return (
-    <div className="App">
+    <div className="App"> 
       <AuthContextProvider>
         <Routes>
             <Route path='/' element={<HomePage />} />
@@ -48,6 +49,7 @@ function App() {
                 {/* <Route path='affiliates' element={<InvestmentsPage />} /> */}
             </Route>: ""
             }
+            <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} />
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
       </AuthContextProvider>

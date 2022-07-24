@@ -64,7 +64,7 @@ const Login = () => {
 
     if(user) return <Navigate to={"/rerouter"} />
 
-    return(
+    return( 
         <SectionContainer size={100} bg_color={colors.primary}>
             <TopBar className="top_bar">
                 <BackLink to={"/"}> <BsArrowLeft size={25} /> </BackLink>

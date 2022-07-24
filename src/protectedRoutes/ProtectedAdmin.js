@@ -7,7 +7,7 @@ const ProtectedAdmin = ({children}) => {
     // const {isVerified,userType} = routedata;
     if(!user) return <Navigate to='/login' />
     if(!routedata.isVerified) return <Navigate to='/verify' />
-    if(routedata.userType === "normal") return <Navigate to='/user_dash' />
+    if(routedata.userType != "admin") return <Navigate to='/login' />
 
     return children;
 }

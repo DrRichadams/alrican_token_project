@@ -8,9 +8,11 @@ const ProtectedRoute = ({children}) => {
     console.log("User Var", user);
     console.log("Route Var", routedata);
     // if(!user) return <Navigate to='/login' />
-    if(!routedata?.isVerified) return <Navigate to='/verify' />
-
-    return children;
+    if(routedata) {
+        if(!routedata?.isVerified) return <Navigate to='/verify' />
+        if(routedata?.userType != "normal") return <Navigate to='/login' />
+        return children;
+    }
 }
 
 export default ProtectedRoute;

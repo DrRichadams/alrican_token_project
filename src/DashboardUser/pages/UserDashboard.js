@@ -7,6 +7,7 @@ import { AiFillGold } from "react-icons/ai"
 import { AiFillAppstore } from "react-icons/ai"
 import { FaUserFriends } from "react-icons/fa"
 import { MdHistory } from "react-icons/md"
+import { RiLogoutCircleRLine } from "react-icons/ri"
 
 import { 
     LeftMenu,
@@ -25,13 +26,18 @@ import {
  } from "../features/UserDashStyledComponents";
  import { RightContainer } from "../features/Containers";
  import RightContainerComponent from "../features/Containers";
-
+import { UserAuth } from "../../contexts/AuthContext";
 
 const UserDashboard = () => {
+    const {logout} = UserAuth();
+    const handleLogout = () => {
+        alert("Logging you out")
+    }
     return(
         <MainContainer className="main_container">
             <LeftContainer className="left_container">
                 <LeftMenu className="left_menu">
+                    <ProfileContainer>
                     <UserProfileContainer className="user_profile_container">
                         <UserPicContainer className="left_user_profile_box">
                             <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" />
@@ -41,6 +47,10 @@ const UserDashboard = () => {
                             <UserPlan>Premium member</UserPlan>
                         </UserDetailsContainer>
                     </UserProfileContainer>
+                    <LogoutBtn onClick={handleLogout}>
+                        <RiLogoutCircleRLine size={25}/>
+                    </LogoutBtn>
+                    </ProfileContainer>
                     <div className="left_menu_links_container">
                         <h3 className="menu_links_title">More options</h3>
                         <div className="menu_boxes">
@@ -70,5 +80,21 @@ const UserDashboard = () => {
         </MainContainer>
     )
 }
+
+export const ProfileContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: orange;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    :hover {
+        color: red;
+    }
+`;
+
+export const LogoutBtn = styled.div`
+
+`;
 
 export default UserDashboard;
