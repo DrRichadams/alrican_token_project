@@ -28,10 +28,16 @@ import {
  import RightContainerComponent from "../features/Containers";
 import { UserAuth } from "../../contexts/AuthContext";
 
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store/actions/modalAction";
+
 const UserDashboard = () => {
-    const {logout} = UserAuth();
+    const { userdata} = UserAuth();
+    console.log("My user", userdata)
+    const dispatch = useDispatch()
     const handleLogout = () => {
-        alert("Logging you out")
+        // alert("Logging you out")
+        dispatch(openModal())
     }
     return(
         <MainContainer className="main_container">
@@ -43,8 +49,8 @@ const UserDashboard = () => {
                             <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" />
                         </UserPicContainer>
                         <UserDetailsContainer className="right_user_profile_box">
-                            <UserTitle>Alice Alexus</UserTitle>
-                            <UserPlan>Premium member</UserPlan>
+                            <UserTitle>{userdata.names}</UserTitle>
+                            <UserPlan>{userdata.userType}</UserPlan>
                         </UserDetailsContainer>
                     </UserProfileContainer>
                     <LogoutBtn onClick={handleLogout}>

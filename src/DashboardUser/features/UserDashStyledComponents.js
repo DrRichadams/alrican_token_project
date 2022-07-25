@@ -66,6 +66,7 @@ export const UserTitle = styled.h3`
     margin: 0;
     color: ${colors.primary};
     font-size: 17px;
+    text-transform: capitalize;
 `;
 export const UserPicContainer = styled.div`
     width: 50px;

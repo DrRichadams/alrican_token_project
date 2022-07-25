@@ -7,14 +7,21 @@ import { IoLogOut, IoChevronBack } from "react-icons/io5";
 import { colors } from "../constants/colors";
 import { UserAuth } from "../contexts/AuthContext";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { closeModal } from "../store/actions/modalAction";
 
 const LogoutModal = () => {
     const {logout} = UserAuth();
     const navigate = useNavigate();
+
+    const dispatch = useDispatch()
     const handleLogout = async () => {
         await logout();
+        dispatch(closeModal())
         navigate('/login');
+    };
+    const handleCancelLogout =  () => {
+        dispatch(closeModal())
     };
 
     const {isOpen} = useSelector(state => state.modalReducer)
@@ -29,7 +36,7 @@ const LogoutModal = () => {
                     <LogoutText>You are logging out of the system!</LogoutText>
                 </LogoutWarning>
                 <LogoutBtns>
-                    <LogoutCancel>
+                    <LogoutCancel onClick={handleCancelLogout}>
                         <IoChevronBack size={25} />
                         <LogoutBtnText>Cancel</LogoutBtnText>
                     </LogoutCancel>

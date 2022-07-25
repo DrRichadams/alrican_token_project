@@ -35,7 +35,7 @@ function App() {
         <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
+            <Route path='/signup/:uid' element={<Signup />} />
             <Route path='/forgotPassword' element={<ForgotPassword />} />
             <Route path='/rerouter' element={<ProtectedConfig><Rerouter /></ProtectedConfig>} />
             {

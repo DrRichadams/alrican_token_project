@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate, Navigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import { BiUserCircle } from "react-icons/bi";
@@ -33,6 +33,7 @@ const Signup = () => {
 
     const {createUser, user} = UserAuth();
     const navigate = useNavigate();
+    const {uid} = useParams();
 
     const [ names, setnames ] = useState('');
     const [ address, setaddress ] = useState('');
@@ -96,7 +97,7 @@ const Signup = () => {
                 <BackTitle>Ariel Crypto.</BackTitle>
             </TopBar>
             <AuthDetailsContainer onSubmit={(e) => handleSubmit(e)}>
-                <AuthTitle>CREATE ACCOUNT</AuthTitle>
+                <AuthTitle>CREATE ACCOUNT FOR {uid}</AuthTitle>
                 <AuthDetailsBox>
                     {nameserror && <ErrorText>{nameserror}</ErrorText>}
                     <AuthInputBox><AuthInput placeholder="Full names" type={"text"} onChange={(e) => {setnameserror(''); setnames(e.target.value)}} value={names} /></AuthInputBox>

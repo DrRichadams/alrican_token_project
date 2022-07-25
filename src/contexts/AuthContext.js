@@ -8,6 +8,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [userdata, setuserdata] = useState(null);
     const [routedata, setroutedata] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
 
@@ -66,12 +67,13 @@ export const AuthContextProvider = ({children}) => {
             // getData(currentUser.uid)
             // console.log("My ID", currentUser.uid)
             // console.log(currentUser);
-            setUser(currentUser)
+            setUser(currentUser) 
             currentUser && getData(currentUser.uid).then((udata) => {
                 setroutedata({
                     isVerified: udata.isVerified,
                     userType: udata.userType
                 })
+                setuserdata({...udata})
                 // console.log("My udata", udata.isVerified)
                 // console.log("My udata", udata.userType)
                 console.log("My udata", {...udata})
@@ -94,7 +96,8 @@ export const AuthContextProvider = ({children}) => {
             routedata,
             isSpinner,
             loadSpinner,
-            unloadSpinner
+            unloadSpinner,
+            userdata
         }}>
             {children}
         </AuthContext.Provider>
