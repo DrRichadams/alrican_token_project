@@ -17,6 +17,11 @@ import AdminDash from './DashboardAdmin/pages/AdminDash';
 import ErrorNoROute from './pages/ErrorNoROute';
 import Rerouter from './features/Rerouter';
 
+import Verify_1_welcome from './pages/Verify_1_welcome';
+import Verify_2_payment from './pages/Verify_2_payment';
+import Verify_3_proof from './pages/Verify_3_proof';
+import Verify_4_thanks from './pages/Verify_4_thanks';
+
 import { AuthContextProvider } from './contexts/AuthContext';
 import Spinner from "./Spinner";
 
@@ -38,6 +43,10 @@ function App() {
             <Route path='/signup/:uid' element={<Signup />} />
             <Route path='/forgotPassword' element={<ForgotPassword />} />
             <Route path='/rerouter' element={<ProtectedConfig><Rerouter /></ProtectedConfig>} />
+            <Route path='/verify1' element={<Verify_1_welcome />} />
+            <Route path='/verify2' element={<Verify_2_payment />} />
+            <Route path='/verify3' element={<Verify_3_proof />} />
+            <Route path='/verify4' element={<Verify_4_thanks />} />
             {
               userRoutesAllowed ?
               <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>

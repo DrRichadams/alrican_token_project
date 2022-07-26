@@ -80,7 +80,7 @@ const Signup = () => {
                 setAuthError(null);
                 await createUser(email, password, names, address, dob, cell);
                 resetForm();
-                // navigate('/account')
+                navigate('/rerouter')
             } catch (e) {
                 setAuthError(e.message);
                 console.log(e.message);
