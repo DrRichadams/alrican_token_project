@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { SectionContainer } from '../features/SectionContainer';
+import MinMenuBar from '../features/MinMenuBar';
 
 const Verify_3_proof = () => {
   return (
-    <div>
-      <div className="menuBar">
-        <div className="logo">A.C.M</div>
-        <button>logout</button>
-      </div>
+    <SectionContainer>
+      <MinMenuBar />
       <div className="messages">
           <h1 className="title1">Submit proof of payment</h1>
           <p>Take a screenshot of your transaction and submit it here</p>
@@ -19,7 +18,7 @@ const Verify_3_proof = () => {
         </div>
       </div>
       <button className="submit">Submit proof of payment</button>
-    </div>
+    </SectionContainer>
   )
 }
 

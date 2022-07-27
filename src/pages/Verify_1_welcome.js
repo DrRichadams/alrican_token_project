@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+import { SectionContainer } from '../features/SectionContainer';
+import { colors } from '../constants/colors';
+import MinMenuBar from '../features/MinMenuBar';
 
 const Verify_1_welcome = () => {
   return (
-    <div>
-      <div className="menuBar">
-        <div className="logo">A.C.M</div>
-        <button>logout</button>
-      </div>
+    <SectionContainer>
+      <MinMenuBar />
       <div className="messages">
           <h1 className="title1">Welcome Nadim.</h1>
           <h3>Thank you for joining our amazing family.</h3>
@@ -32,7 +33,7 @@ const Verify_1_welcome = () => {
             <p className="name">Dogie Coin</p>
           </div>
       </div>
-    </div>
+    </SectionContainer>
   )
 }
 

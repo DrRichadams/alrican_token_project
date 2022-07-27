@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { SectionContainer } from '../features/SectionContainer';
+import MinMenuBar from '../features/MinMenuBar';
 
 const Verify_2_payment = () => {
   return (
-    <div>
-      <div className="menuBar">
-        <div className="logo">A.C.M</div>
-        <button>logout</button>
-      </div>
+    <SectionContainer>
+      <MinMenuBar />
       <div className="messages">
           <h1 className="title1">Paying with Bitcoin</h1>
           <p>
@@ -32,7 +31,7 @@ const Verify_2_payment = () => {
             <p>Make sure you have proof of payment before you continue.</p>
           </div>
       </div>
-    </div>
+    </SectionContainer>
   )
 }
 
