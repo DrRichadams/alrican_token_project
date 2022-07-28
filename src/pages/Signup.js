@@ -1,17 +1,15 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate, Navigate, useParams } from "react-router-dom";
+import { useNavigate, Navigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
-import { BiUserCircle } from "react-icons/bi";
-import { BiLock } from "react-icons/bi";
+
 
 import { colors } from "../constants/colors";
 import { SectionContainer } from "../features/SectionContainer";
 
 import { 
     ForgotPasswordLink,
-    SignUpLink,
     ExtraAuthBtnsContainer,
     AuthBtn,
     AuthButtonContainer,
@@ -26,8 +24,12 @@ import {
     AuthError,
     ErrorText
  } from "../features/AuthStyledComponents";
+import Spinner from "../Spinner";
 
  import { UserAuth } from "../contexts/AuthContext";
+ import { db } from "../firebase/config";
+ import { doc, getDoc } from "firebase/firestore";
+import { useEffect } from "react";
 
 const Signup = () => {
 
@@ -51,7 +53,10 @@ const Signup = () => {
     const [ passworderror, setpassworderror ] = useState(null);
     const [ confirmpassworderror, setconfirmpassworderror ] = useState(null);
 
-    const [ authError, setAuthError ] = useState(null)
+    const [ authError, setAuthError ] = useState(null);
+    const [ isloading, setisloading ] = useState(false);
+
+    const [ refererdata, setrefererdata ] = useState(null)
 
     const resetForm = () => {
         setnames(''); setaddress(''); setdob(''); setcell(''); setemail(''); setpassword(''); setconfirmpassword('');
@@ -88,43 +93,99 @@ const Signup = () => {
         }
     }
 
-    if(user) return <Navigate to={"/rerouter"} />
+    const getData = async (acr_id) => {
+        const docRef = doc(db, "users", acr_id);
+        setisloading(true);
+        const docSnap = await getDoc(docRef);
+        setisloading(false);
+        
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
 
-    return(
-        <SectionContainer size={100} bg_color={colors.primary}>
-            <TopBar className="top_bar">
-                <BackLink to={"/"}> <BsArrowLeft size={25} /> </BackLink>
-                <BackTitle>Ariel Crypto.</BackTitle>
-            </TopBar>
-            <AuthDetailsContainer onSubmit={(e) => handleSubmit(e)}>
-                <AuthTitle>CREATE ACCOUNT FOR {uid}</AuthTitle>
-                <AuthDetailsBox>
-                    {nameserror && <ErrorText>{nameserror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Full names" type={"text"} onChange={(e) => {setnameserror(''); setnames(e.target.value)}} value={names} /></AuthInputBox>
-                    {addresserror && <ErrorText>{addresserror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Physical Address" type={"text"} onChange={(e) => {setaddresserror(''); setaddress(e.target.value)}} value={address} /></AuthInputBox>
-                    {doberror && <ErrorText>{doberror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Date of birth" type={"text"} onChange={(e) => {setdoberror(''); setdob(e.target.value)}} value={dob} /></AuthInputBox>
-                    {cellerror && <ErrorText>{cellerror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Cell" type={"text"} onChange={(e) => {setcellerror(''); setcell(e.target.value)}} value={cell} /></AuthInputBox>
-                    {emailerror && <ErrorText>{emailerror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Email" type={"email"} onChange={(e) => {setemailerror(''); setemail(e.target.value)}} value={email} /></AuthInputBox>
-                    {passworderror && <ErrorText>{passworderror}</ErrorText>}
-                    <AuthInputBox><AuthInput placeholder="Create password" type={"password"} onChange={(e) => {setpassworderror(''); setpassword(e.target.value)}} value={password} /></AuthInputBox>
-                    {confirmpassworderror && password && <ErrorText>{confirmpassworderror}</ErrorText>}
-                    {password && <AuthInputBox><AuthInput placeholder="Confirm Password" type={"password"} onChange={(e) => {setconfirmpassworderror(''); setconfirmpassword(e.target.value)}} value={confirmpassword} /></AuthInputBox>}
-                </AuthDetailsBox>
-                <AuthError>{authError}</AuthError>
-                <AuthButtonContainer>
-                    <AuthBtn>SUBMIT DETAILS</AuthBtn>
-                    <ExtraAuthBtnsContainer>
-                        <ForgotPasswordLink to={"/login"}>Alredy have an account ?</ForgotPasswordLink>
-                        {/* <SignUpLink to={"/login"}>Alredy have an account ?</SignUpLink> */}
-                    </ExtraAuthBtnsContainer>
-                </AuthButtonContainer>
-            </AuthDetailsContainer>
-        </SectionContainer>
-    )
+    useEffect(() => {
+        getData(uid).then(thatdata => {
+            // console.log("SignUp DATA", thatdata)
+            setrefererdata(thatdata)
+        })
+    }, [])
+
+    if(user) return <Navigate to={"/rerouter"} />
+    if(isloading) return <Spinner />
+
+    if(refererdata) {
+        return(
+            <SectionContainer size={100} bg_color={colors.primary}>
+                <TopBar className="top_bar">
+                    <BackLink to={"/"}> <BsArrowLeft size={25} /> </BackLink>
+                    <BackTitle>Ariel Crypto.</BackTitle>
+                </TopBar>
+                <AuthDetailsContainer onSubmit={(e) => handleSubmit(e)}>
+                    <AuthTitle>CREATE ACCOUNT FOR</AuthTitle>
+                    <AuthDetailsBox>
+                        {nameserror && <ErrorText>{nameserror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Full names" type={"text"} onChange={(e) => {setnameserror(''); setnames(e.target.value)}} value={names} /></AuthInputBox>
+                        {addresserror && <ErrorText>{addresserror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Physical Address" type={"text"} onChange={(e) => {setaddresserror(''); setaddress(e.target.value)}} value={address} /></AuthInputBox>
+                        {doberror && <ErrorText>{doberror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Date of birth" type={"text"} onChange={(e) => {setdoberror(''); setdob(e.target.value)}} value={dob} /></AuthInputBox>
+                        {cellerror && <ErrorText>{cellerror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Cell" type={"text"} onChange={(e) => {setcellerror(''); setcell(e.target.value)}} value={cell} /></AuthInputBox>
+                        {emailerror && <ErrorText>{emailerror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Email" type={"email"} onChange={(e) => {setemailerror(''); setemail(e.target.value)}} value={email} /></AuthInputBox>
+                        {passworderror && <ErrorText>{passworderror}</ErrorText>}
+                        <AuthInputBox><AuthInput placeholder="Create password" type={"password"} onChange={(e) => {setpassworderror(''); setpassword(e.target.value)}} value={password} /></AuthInputBox>
+                        {confirmpassworderror && password && <ErrorText>{confirmpassworderror}</ErrorText>}
+                        {password && <AuthInputBox><AuthInput placeholder="Confirm Password" type={"password"} onChange={(e) => {setconfirmpassworderror(''); setconfirmpassword(e.target.value)}} value={confirmpassword} /></AuthInputBox>}
+                    </AuthDetailsBox>
+                    <AuthError>{authError}</AuthError>
+                    <AuthButtonContainer>
+                        <AuthBtn>SUBMIT DETAILS</AuthBtn>
+                        <ExtraAuthBtnsContainer>
+                            <ForgotPasswordLink to={"/login"}>Alredy have an account ?</ForgotPasswordLink>
+                            {/* <SignUpLink to={"/login"}>Alredy have an account ?</SignUpLink> */}
+                        </ExtraAuthBtnsContainer>
+                    </AuthButtonContainer>
+                </AuthDetailsContainer>
+            </SectionContainer>
+        )
+    }
+    if(!isloading) {
+        return(
+            <NoUserContainer>
+                <NoUserText>Oops... The link does no exist!</NoUserText>
+                <NoUserReturnBtn onClick={() => navigate("/")}>Go to homepage</NoUserReturnBtn>
+            </NoUserContainer>
+        )
+    }
 }
+
+export const NoUserText = styled.h3`
+    color: ${colors.accent};
+`;
+export const NoUserReturnBtn = styled.button`
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: blue;
+    font-family: Inter, sans-serif;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+    :hover {
+        color: orangered;
+    }
+`;
+export const NoUserContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+`;
 
 export default Signup;
