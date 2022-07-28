@@ -6,7 +6,7 @@ import Spinner from "../Spinner";
 const Rerouter = () => {
     const {routedata} = UserAuth();
     if(routedata) {
-        if(!routedata.isVerified) return <Navigate to='/verify' />
+        if(!routedata.isVerified) return <Navigate to='/verify1' />
         if(routedata.userType == "normal") return <Navigate to='/user_dash' />
         if(routedata.userType == "admin") return <Navigate to='/admin_dash' />
     }

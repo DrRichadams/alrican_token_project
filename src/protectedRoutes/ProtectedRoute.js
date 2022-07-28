@@ -9,8 +9,8 @@ const ProtectedRoute = ({children}) => {
     console.log("Route Var", routedata);
     // if(!user) return <Navigate to='/login' />
     if(routedata) {
-        if(!routedata?.isVerified) return <Navigate to='/verify' />
-        if(routedata?.userType != "normal") return <Navigate to='/login' />
+        if(!routedata.isVerified) return <Navigate to='/verify1' />
+        if(routedata.userType != "normal") return <Navigate to='/rerouter' />
         return children;
     }
 }

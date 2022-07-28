@@ -25,6 +25,12 @@ export const AuthContextProvider = ({children}) => {
             isVerified: false,
             createdAt: serverTimestamp(),
         });
+
+        await setDoc(doc(db, "trust-coins", id), {
+            id,
+            air_drops: "0.00",
+            coins: "0.00"
+        })
     }
 
     const createUser = (email, password, names, address, dob, cell) => {

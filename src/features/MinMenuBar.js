@@ -1,17 +1,23 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { openModal } from '../store/actions/modalAction';
 import { colors } from '../constants/colors';
 
 const MinMenuBar = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleNavigate = () => {
         navigate("/")
-    }
+    };
+    const handleLogout = () => {
+        dispatch(openModal())
+    };
   return (
     <MenuBar className="menuBar">
         <MenuBarLogo className="logo" onClick={handleNavigate}>A.C.M</MenuBarLogo>
-        <LogoutBtn>logout</LogoutBtn>
+        <LogoutBtn onClick={handleLogout}>logout</LogoutBtn>
     </MenuBar>
   )
 }

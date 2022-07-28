@@ -3,36 +3,49 @@ import styled from 'styled-components';
 import { SectionContainer } from '../features/SectionContainer';
 import { colors } from '../constants/colors';
 import MinMenuBar from '../features/MinMenuBar';
+import { RiErrorWarningLine } from "react-icons/ri";
+
+import { 
+  WalletsContainer,
+  WalletBox,
+  WarningText,
+  WarningBox,
+  VerMessage2,
+  VerMessage1,
+  VerTitle,
+  MessageContainer,
+ } from '../features/VerifyStyledComponents';
 
 const Verify_1_welcome = () => {
   return (
     <SectionContainer>
       <MinMenuBar />
-      <div className="messages">
-          <h1 className="title1">Welcome Nadim.</h1>
-          <h3>Thank you for joining our amazing family.</h3>
-          <p>
-            To continue and start using our services, pay a none-refundable fee of USD$ 50 to any one of the following crypto wallets.
-          </p>
-          <div className="warning">
-            <p>Please, keep a record of the transaction, it will be required late for verification.</p>
-          </div>
-      </div>
+      <MessageContainer>
+          <VerTitle>Welcome Nadim</VerTitle>
+          <VerMessage1>Thank you for joining our amazing family</VerMessage1>
+          <VerMessage2>
+            To continue and start using our services, pay a none-refundable fee of USD$ 50 to any one of the following crypto wallets
+          </VerMessage2>
+          <WarningBox>
+            <RiErrorWarningLine size={30} color={colors.accent} />
+            <WarningText>Please, keep a record of the transaction, it will be required later for verification</WarningText>
+          </WarningBox>
+      </MessageContainer>
 
-      <div className="wallets">
-          <div className="wallet_box">
+      <WalletsContainer>
+          <WalletBox>
             <div className="icon">O</div>
             <p className="name">Bitcoin</p>
-          </div>
-          <div className="wallet_box">
+          </WalletBox>
+          <WalletBox>
             <div className="icon">O</div>
             <p className="name">Ethereum</p>
-          </div>
-          <div className="wallet_box">
+          </WalletBox>
+          <WalletBox>
             <div className="icon">O</div>
             <p className="name">Dogie Coin</p>
-          </div>
-      </div>
+          </WalletBox>
+      </WalletsContainer>
     </SectionContainer>
   )
 }
