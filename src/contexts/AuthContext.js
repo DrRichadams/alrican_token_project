@@ -10,9 +10,11 @@ export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [userdata, setuserdata] = useState(null);
     const [routedata, setroutedata] = useState(null);
+    const [trustcoins, settrustcoins] = useState(null);
+    const [affiliates, setaffiliates] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
 
-    const addUserToFirestore = async (id, names, email, address, dob, cell) => {
+    const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
         await setDoc(doc(db, "users", id), {
             id,
             names,
@@ -24,19 +26,22 @@ export const AuthContextProvider = ({children}) => {
             userType: "normal",
             isVerified: false,
             createdAt: serverTimestamp(),
+            refererId: refId,
+            // affiliates: [],
         });
 
         await setDoc(doc(db, "trust-coins", id), {
             id,
             air_drops: "0.00",
             coins: "0.00"
-        })
+        });
+        await setDoc(doc(db, "affiliates", id), {});
     }
 
-    const createUser = (email, password, names, address, dob, cell) => {
+    const createUser = (email, password, names, address, dob, cell, refId) => {
         return createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
             const {user} = userCredential;
-            addUserToFirestore(user.uid, names, email, address, dob, cell);
+            addUserToFirestore(user.uid, names, email, address, dob, cell, refId);
             console.log(user);
         });
     };
@@ -68,6 +73,29 @@ export const AuthContextProvider = ({children}) => {
         // }
     }
 
+    const getCoins = async (uid) => {
+        const docRef = doc(db, "trust-coins", uid);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
+    const getAffiliates = async (uid) => {
+        const docRef = doc(db, "affiliates", uid);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             // getData(currentUser.uid)
@@ -80,9 +108,15 @@ export const AuthContextProvider = ({children}) => {
                     userType: udata.userType
                 })
                 setuserdata({...udata})
-                // console.log("My udata", udata.isVerified)
-                // console.log("My udata", udata.userType)
-                console.log("My udata", {...udata})
+            })
+
+            currentUser && getCoins(currentUser.uid).then((udata) => {
+                settrustcoins({...udata});
+                console.log("My coins", udata)
+            })
+            currentUser && getAffiliates(currentUser.uid).then((udata) => {
+                setaffiliates({...udata});
+                console.log("My affiliates", udata)
             })
         })
         return () => {
@@ -103,7 +137,9 @@ export const AuthContextProvider = ({children}) => {
             isSpinner,
             loadSpinner,
             unloadSpinner,
-            userdata
+            userdata,
+            trustcoins,
+            affiliates
         }}>
             {children}
         </AuthContext.Provider>

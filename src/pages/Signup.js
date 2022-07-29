@@ -83,7 +83,7 @@ const Signup = () => {
         if(names && address && dob && cell && email && password && confirmpassword && checkEquality(password, confirmpassword)) {
             try {
                 setAuthError(null);
-                await createUser(email, password, names, address, dob, cell);
+                await createUser(email, password, names, address, dob, cell, uid);
                 resetForm();
                 navigate('/rerouter')
             } catch (e) {
