@@ -48,7 +48,7 @@ const Affiliates = () => {
             <AffiliatesListContainer>
                 {
                     AFFILIATES.map((item, index) => (
-                        <AffiliateBox>
+                        <AffiliateBox key={index}>
                             <AffiliateDetails>
                                 <AffiliateName>{item.name}</AffiliateName>
                                 <AffiliateEmail>{item.email}</AffiliateEmail>
