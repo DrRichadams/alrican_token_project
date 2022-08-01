@@ -35,6 +35,15 @@ export const AuthContextProvider = ({children}) => {
             air_drops: "0.00",
             coins: "0.00"
         });
+        await setDoc(doc(db, "affiliates", refId), {
+            [id]: {
+                id,
+                isVerified: false,
+                isClaimed: false,
+                email,
+                names,
+            }
+        }, { merge: true });
         await setDoc(doc(db, "affiliates", id), {});
     }
 
@@ -115,8 +124,14 @@ export const AuthContextProvider = ({children}) => {
                 console.log("My coins", udata)
             })
             currentUser && getAffiliates(currentUser.uid).then((udata) => {
-                setaffiliates({...udata});
-                console.log("My affiliates", udata)
+                // let affilArray = [];
+                // for(const key in Object.keys(udata)) {
+                //     affilArray.push(udata[key])
+                //     console.log("My key", udata[key])
+                // }
+                setaffiliates(Object.values(udata));
+                // setaffiliates(affilArray);
+                console.log("My affiliates", Object.values(udata))
             })
         })
         return () => {
