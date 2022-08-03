@@ -85,19 +85,19 @@ export const Label = styled.h3`
     color: ${colors.accent};
 `;
 
-export const FromBox = styled.p`
+export const FromBox = styled.div`
     margin: 0;
 `;
-export const AmountBox = styled.p`
+export const AmountBox = styled.div`
     margin: 0;
 `;
-export const ReqDate = styled.p`
+export const ReqDate = styled.div`
     margin: 0;
 `;
-export const ResDate = styled.p`
+export const ResDate = styled.div`
     margin: 0;
 `;
-export const Status = styled.p`
+export const Status = styled.div`
     margin: 0;
     display: flex;
     justify-content: space-between;

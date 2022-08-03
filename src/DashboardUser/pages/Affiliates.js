@@ -68,7 +68,7 @@ const Affiliates = () => {
                     ))
                 }
                 {
-                    !affiliates.length && 
+                    !affiliates && 
                     <NoAffiliates>
                         <MdOutlineNearbyError size={50} />
                         <NoAffiliatesText>You don't have affiliates yet!!!</NoAffiliatesText>

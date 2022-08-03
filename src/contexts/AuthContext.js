@@ -13,6 +13,8 @@ export const AuthContextProvider = ({children}) => {
     const [trustcoins, settrustcoins] = useState(null);
     const [affiliates, setaffiliates] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
+    const [affiliatesPercentage, setaffiliatesPercentage] = useState(10);
+    const [affiliatesFee, setaffiliatesFee] = useState(50);
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
         await setDoc(doc(db, "users", id), {
@@ -42,6 +44,8 @@ export const AuthContextProvider = ({children}) => {
                 isClaimed: false,
                 email,
                 names,
+                affiliatesPercentage: affiliatesPercentage,
+                affiliatesFee: affiliatesFee,
             }
         }, { merge: true });
         await setDoc(doc(db, "affiliates", id), {});
@@ -104,6 +108,17 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
+    const getRates = async () => {
+        const docRef = doc(db, "rates", "affiliateRates");
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -132,6 +147,12 @@ export const AuthContextProvider = ({children}) => {
                 setaffiliates(Object.values(udata));
                 // setaffiliates(affilArray);
                 console.log("My affiliates", Object.values(udata))
+            })
+
+            currentUser && getRates().then((udata) => {
+                setaffiliatesFee(udata.affiliatesFee);
+                setaffiliatesPercentage(udata.affiliatesPercentage);
+                // console.log("My Rates", udata)
             })
         })
         return () => {
