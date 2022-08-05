@@ -25,10 +25,25 @@ import Verify_4_thanks from './pages/Verify_4_thanks';
 import { AuthContextProvider } from './contexts/AuthContext';
 import Spinner from "./Spinner";
 
+import WithdrawAffiliatesPage from './DashboardUser/pages/WithdrawAffiliatesPage';
+import WithdrawTrustCoinsPage from './DashboardUser/pages/WithdrawTrustCoinsPage';
+
 import ProtectedRoute from './protectedRoutes/ProtectedRoute';
 import ProtectedAdmin from './protectedRoutes/ProtectedAdmin';
 import ProtectedConfig from './protectedRoutes/ProtectedConfig';
 import LogoutModal from './modals/LogoutModal';
+
+import Dashboard from "./DashboardAdmin/pages/Dashboard";
+import SetRates from "./DashboardAdmin/pages/SetRates";
+import Terms_Conditions from "./DashboardAdmin/pages/Terms_Conditions";
+import TopupRequests from "./DashboardAdmin/pages/TopupRequests";
+import VerifyUsers from "./DashboardAdmin/pages/VerifyUsers";
+import WithdrawRequests from "./DashboardAdmin/pages/WithdrawRequests";
+import AdminRouter from "./DashboardAdmin/pages/AdminRouter";
+import DashboardRerouter from './DashboardAdmin/comps/DashboardRerouter';
+import PotentiallyPaidAccounts from './DashboardAdmin/comps/PotentiallyPaidAccounts';
+import UnpaidAccounts from './DashboardAdmin/comps/UnpaidAccounts';
+import AllAccounts from './DashboardAdmin/comps/AllAccounts';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -51,6 +66,8 @@ function App() {
               userRoutesAllowed ?
               <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
                 <Route path='' element={<InvestmentPlansPage />} />
+                <Route path='withdrawAffiliates' element={<WithdrawAffiliatesPage />} />
+                <Route path='withdrawCoins' element={<WithdrawTrustCoinsPage />} />
                 <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
                 <Route path='earnings' element={<EarningsPage />}>
                   {/* <Route path='' element={<Dividents />} /> */}
@@ -59,7 +76,21 @@ function App() {
                 {/* <Route path='affiliates' element={<InvestmentsPage />} /> */}
             </Route>: ""
             }
-            <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} />
+            {/* <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} /> */}
+            <Route path='admin_dash' element={<AdminDash />}>
+              <Route path="" element={<AdminRouter />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="verify_users" element={<VerifyUsers />}>
+                <Route path="" element={<DashboardRerouter />} />
+                <Route path="potentially_paid" element={<PotentiallyPaidAccounts />} />
+                <Route path="unpaid_accounts" element={<UnpaidAccounts />} />
+                <Route path="all_accounts" element={<AllAccounts />} />
+              </Route>
+              <Route path="withdraw_requests" element={<WithdrawRequests />} />
+              <Route path="set_rates" element={<SetRates />} />
+              <Route path="top_up_requests" element={<TopupRequests />} />
+              <Route path="terms_conditions" element={<Terms_Conditions />} />
+            </Route>
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
         <LogoutModal />

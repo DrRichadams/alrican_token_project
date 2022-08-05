@@ -69,6 +69,19 @@ export const BG_DOTS = [
 // ];
 
 
+export const USERS = [
+    { id: 1, name: "James", surname: "Gordon", email: "james@gmail.com", hasDocs: true, isVerified: true },
+    { id: 2, name: "Marry", surname: "Magdalene", email: "marry@gmail.com", hasDocs: false, isVerified: false },
+    { id: 3, name: "Amos", surname: "Monach", email: "mona@gmail.com", hasDocs: true, isVerified: true },
+    { id: 4, name: "Nathan", surname: "Thuse", email: "thuse@gmail.com", hasDocs: false, isVerified: false },
+    { id: 5, name: "Andrew", surname: "Jones", email: "andy@gmail.com", hasDocs: false, isVerified: false },
+    { id: 6, name: "Moses", surname: "Chrone", email: "mose@gmail.com", hasDocs: true, isVerified: false },
+    { id: 7, name: "Cathrene", surname: "Dunes", email: "cathy@gmail.com", hasDocs: false, isVerified: false },
+    { id: 8, name: "Dollyne", surname: "Parton", email: "dolly@gmail.com", hasDocs: true, isVerified: false },
+    { id: 9, name: "Jora", surname: "Momont", email: "jor@gmail.com", hasDocs: true, isVerified: true },
+    { id: 10, name: "Tessa", surname: "Nowa", email: "tess@gmail.com", hasDocs: false, isVerified: false },
+    { id: 11, name: "Theresa", surname: "Mecko", email: "resa@gmail.com", hasDocs: false, isVerified: false },
+];
 export const AFFILIATES = [
     { id: 1, name: "James", surname: "Gordon", email: "james@gmail.com", amount: 10 },
     { id: 2, name: "Marry", surname: "Magdalene", email: "marry@gmail.com", amount: 50 },

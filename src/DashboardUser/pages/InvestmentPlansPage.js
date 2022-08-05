@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "../../constants/colors";
 import TrustBoxComp from "../comps/TrustBox";
@@ -7,6 +8,8 @@ import { TrustTitle, TrustBoxesContainer } from "../features/InvestmentPlanStyle
 import { UserAuth } from "../../contexts/AuthContext";
 
 const InvestmentPlansPage = () => {
+
+    const navigate = useNavigate();
 
     const [coins, setcoins] = useState(null);
     const {trustcoins} = UserAuth();
@@ -35,7 +38,7 @@ const InvestmentPlansPage = () => {
                         title={"Your Trust Coin Value"} 
                         btn_text={"Request Withdraw"} 
                         isBtn={true} 
-                        onClick={() => alert("Worked agaun")} />
+                        onClick={() => navigate("withdrawCoins")} />
                     <TrustBoxComp 
                         img_url={"/icons/airNFT.png"} 
                         amount={`${coins.air_drops}`} 
