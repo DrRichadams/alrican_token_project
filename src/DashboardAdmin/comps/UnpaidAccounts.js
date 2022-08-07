@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { USERS } from '../../constants/DATA';
+import UserBox from '../features/UserBox';
 
 const UnpaidAccounts = () => {
+  const unpaidUsers = USERS.filter(item=>!item.hasDocs)
   return (
-    <div>
-      Unpaid accounts
-    </div>
+    <>
+      {unpaidUsers.map(item=>(
+        <UserBox name={item.name} email={item.email} btnTitle="Delete" onClick={() => {}} />
+      ))}
+    </>
   )
 }
 

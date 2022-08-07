@@ -4,13 +4,16 @@ import { colors } from '../../constants/colors';
 
 const PageTitles = ({name, location}) => {
   return (
-    <div>
+    <TitlesContainer>
         <Greeting>Hi <Name>{name}</Name></Greeting>
         <WhereYouAre>{location}</WhereYouAre>
-    </div>
+    </TitlesContainer>
   )
 }
 
+export const TitlesContainer = styled.div`
+    margin-bottom: 15px;
+`;
 export const Name = styled.span`
     margin: 0;
     /* font-family: Roboto, sans-serif;

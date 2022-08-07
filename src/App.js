@@ -44,6 +44,15 @@ import DashboardRerouter from './DashboardAdmin/comps/DashboardRerouter';
 import PotentiallyPaidAccounts from './DashboardAdmin/comps/PotentiallyPaidAccounts';
 import UnpaidAccounts from './DashboardAdmin/comps/UnpaidAccounts';
 import AllAccounts from './DashboardAdmin/comps/AllAccounts';
+import PendingRequests from "./DashboardAdmin/comps/PendingRequests";
+import ApprovedRequests from "./DashboardAdmin/comps/ApprovedRequests";
+import RejectedRequests from './DashboardAdmin/comps/RejectedRequests';
+import TrustCoinRate from './DashboardAdmin/comps/TrustCoinRate';
+import AffiliatesFee from './DashboardAdmin/comps/AffiliatesFee';
+import TopUpRequests from './DashboardAdmin/comps/TopUpRequests';
+import TopUpHistory from './DashboardAdmin/comps/TopUpHistory';
+import TsAndCsForCoins from './DashboardAdmin/comps/TsAndCsForCoins';
+import TsAndCsForAffiliates from './DashboardAdmin/comps/TsAndCsForAffiliates';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -78,7 +87,7 @@ function App() {
             }
             {/* <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} /> */}
             <Route path='admin_dash' element={<AdminDash />}>
-              <Route path="" element={<AdminRouter />} />
+              <Route path="" element={<AdminRouter routeto="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="verify_users" element={<VerifyUsers />}>
                 <Route path="" element={<DashboardRerouter />} />
@@ -86,10 +95,27 @@ function App() {
                 <Route path="unpaid_accounts" element={<UnpaidAccounts />} />
                 <Route path="all_accounts" element={<AllAccounts />} />
               </Route>
-              <Route path="withdraw_requests" element={<WithdrawRequests />} />
-              <Route path="set_rates" element={<SetRates />} />
-              <Route path="top_up_requests" element={<TopupRequests />} />
-              <Route path="terms_conditions" element={<Terms_Conditions />} />
+              <Route path="withdraw_requests" element={<WithdrawRequests />}>
+                <Route path="" element={<AdminRouter routeto="pending_requests" />} />
+                <Route path="pending_requests" element={<PendingRequests />} />
+                <Route path="approved_requests" element={<ApprovedRequests />} />
+                <Route path="rejected_requests" element={<RejectedRequests />} />
+              </Route>
+              <Route path="set_rates" element={<SetRates />}>
+                <Route path="" element={<AdminRouter routeto="trust_coin_rate" />} />
+                <Route path='trust_coin_rate' element={<TrustCoinRate />} />
+                <Route path='affiliates_fee' element={<AffiliatesFee />} />
+              </Route>
+              <Route path="top_up_requests" element={<TopupRequests />}>
+                <Route path="" element={<AdminRouter routeto="awaiting" />} />
+                <Route path='awaiting' element={<TopUpRequests />} />
+                <Route path='history' element={<TopUpHistory />} />
+              </Route>
+              <Route path="terms_conditions" element={<Terms_Conditions />}>
+                <Route path="" element={<AdminRouter routeto="trust_coins" />} />
+                <Route path='trust_coins' element={<TsAndCsForCoins />} />
+                <Route path='affiliates' element={<TsAndCsForAffiliates />} />
+              </Route>
             </Route>
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
