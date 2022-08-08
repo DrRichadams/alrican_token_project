@@ -107,15 +107,15 @@ export const MONTHLY_EARNING = [
 ]
 
 export const WITHDRAWAL_HISTORY = [
-    { id: 1, from: "Affiliates", amount: 2000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved" },
-    { id: 2, from: "Affiliates", amount: 100, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending" },
-    { id: 3, from: "Investments", amount: 400, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending" },
-    { id: 4, from: "Affiliates", amount: 5000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "rejected" },
-    { id: 5, from: "Investments", amount: 9000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending" },
-    { id: 6, from: "Affiliates", amount: 200, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved" },
-    { id: 7, from: "Investments", amount: 500, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved" },
-    { id: 8, from: "Investments", amount: 4000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "rejected" },
-    { id: 9, from: "Investments", amount: 2000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved" },
-    { id: 10, from: "Affiliates", amount: 7000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending" },
-    { id: 11, from: "Investments", amount: 20000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending" },
+    { id: 1, from: "Affiliates", amount: 2000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved", name: "James", surname: "Gordon", email: "james@gmail.com" },
+    { id: 2, from: "Affiliates", amount: 100, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Marry", surname: "Magdalene", email: "marry@gmail.com" },
+    { id: 3, from: "Investments", amount: 400, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Amos", surname: "Monach", email: "mona@gmail.com" },
+    { id: 4, from: "Affiliates", amount: 5000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "rejected", name: "Nathan", surname: "Thuse", email: "thuse@gmail.com" },
+    { id: 5, from: "Investments", amount: 9000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Andrew", surname: "Jones", email: "andy@gmail.com" },
+    { id: 6, from: "Affiliates", amount: 200, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved", name: "Moses", surname: "Chrone", email: "mose@gmail.com", },
+    { id: 7, from: "Investments", amount: 500, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved", name: "Cathrene", surname: "Dunes", email: "cathy@gmail.com" },
+    { id: 8, from: "Investments", amount: 4000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "rejected", name: "Dollyne", surname: "Parton", email: "dolly@gmail.com" },
+    { id: 9, from: "Investments", amount: 2000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "approved", name: "Jora", surname: "Momont", email: "jor@gmail.com" },
+    { id: 10, from: "Affiliates", amount: 7000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Tessa", surname: "Nowa", email: "tess@gmail.com" },
+    { id: 11, from: "Investments", amount: 20000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Theresa", surname: "Mecko", email: "resa@gmail.com" },
 ];

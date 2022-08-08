@@ -7,12 +7,34 @@ import PageMenus from '../features/PageMenus';
 
 const WithdrawRequests = () => {
   return (
-    <div>
+    <WithdrawRequestsContainer>
       <PageTitles name="Richard" location="Approve or decline withdraw requests" />
       <PageMenus place="withdraw_requests" />
-      <Outlet />
-    </div>
+      <OutletContainer>
+        <Outlet />
+      </OutletContainer>
+    </WithdrawRequestsContainer>
   )
 }
+
+export const OutletContainer = styled.div`
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-rows: 180px;
+  gap: 20px;
+`;
+export const WithdrawRequestsContainer = styled.div`
+  /* overflow: hidden; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
 
 export default WithdrawRequests

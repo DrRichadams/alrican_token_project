@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { Routes, Route, Link } from "react-router-dom"
 
 import './index.css';
@@ -59,7 +60,7 @@ function App() {
   const [ isLoading, setIsLoading ] = useState(false)
   if(isLoading) return <Spinner />
   return (
-    <div className="App"> 
+    <AppContainer> 
       <AuthContextProvider>
         <Routes>
             <Route path='/' element={<HomePage />} />
@@ -112,7 +113,7 @@ function App() {
                 <Route path='history' element={<TopUpHistory />} />
               </Route>
               <Route path="terms_conditions" element={<Terms_Conditions />}>
-                <Route path="" element={<AdminRouter routeto="trust_coins" />} />
+                <Route path="" element={<AdminRouter routeto="trust_coins " />} />
                 <Route path='trust_coins' element={<TsAndCsForCoins />} />
                 <Route path='affiliates' element={<TsAndCsForAffiliates />} />
               </Route>
@@ -121,8 +122,13 @@ function App() {
         </Routes>
         <LogoutModal />
       </AuthContextProvider>
-    </div>
+    </AppContainer>
   );
 }
+
+const AppContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default App;

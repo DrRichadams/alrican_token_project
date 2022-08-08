@@ -8,6 +8,7 @@ const Dashboard = () => {
   return (
     <div>
         <PageTitles name="Richard" location="Dashboard" />
+        Users and values in their different accounts
     </div>
   )
 }

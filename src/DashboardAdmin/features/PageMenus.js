@@ -41,6 +41,7 @@ const PageMenus = ({place}) => {
                 <ControlsContainer>
                     <MenuBtn title="Trust coin rate" active={location.pathname.includes("trust_coin_rate")} link="" clickable={() => navigate("trust_coin_rate")} />
                     <MenuBtn title="Affiliates fee" active={location.pathname.includes("affiliates_fee")} link="" clickable={() => navigate("affiliates_fee")} />
+                    <MenuBtn title="Wallet Addresses" active={location.pathname.includes("affiliates_fee")} link="" clickable={() => navigate("affiliates_fee")} />
                 </ControlsContainer>
                 {/* <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge> */}
               </Menu>
