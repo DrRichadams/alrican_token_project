@@ -26,8 +26,9 @@ export const OutletContainer = styled.div`
   padding-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-auto-rows: 180px;
+  /* grid-auto-rows: 180px; */
   gap: 20px;
+  row-gap: 50px;
 `;
 export const WithdrawRequestsContainer = styled.div`
   /* overflow: hidden; */

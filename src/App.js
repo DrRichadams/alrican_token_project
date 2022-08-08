@@ -54,6 +54,7 @@ import TopUpRequests from './DashboardAdmin/comps/TopUpRequests';
 import TopUpHistory from './DashboardAdmin/comps/TopUpHistory';
 import TsAndCsForCoins from './DashboardAdmin/comps/TsAndCsForCoins';
 import TsAndCsForAffiliates from './DashboardAdmin/comps/TsAndCsForAffiliates';
+import WalletAddresses from './DashboardAdmin/comps/WalletAddresses';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -106,6 +107,7 @@ function App() {
                 <Route path="" element={<AdminRouter routeto="trust_coin_rate" />} />
                 <Route path='trust_coin_rate' element={<TrustCoinRate />} />
                 <Route path='affiliates_fee' element={<AffiliatesFee />} />
+                <Route path='wallet_addresses' element={<WalletAddresses />} />
               </Route>
               <Route path="top_up_requests" element={<TopupRequests />}>
                 <Route path="" element={<AdminRouter routeto="awaiting" />} />

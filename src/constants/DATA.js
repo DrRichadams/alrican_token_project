@@ -119,3 +119,10 @@ export const WITHDRAWAL_HISTORY = [
     { id: 10, from: "Affiliates", amount: 7000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Tessa", surname: "Nowa", email: "tess@gmail.com" },
     { id: 11, from: "Investments", amount: 20000, date_of_request: "29/06/22", date_of_reception: "01/07/22", status: "pending", name: "Theresa", surname: "Mecko", email: "resa@gmail.com" },
 ];
+
+
+export const WALLETS = [
+    { id: 1, name: "Bitcoin", address: "sdfjlnsdkfljasdflkjlkjasd" },
+    { id: 2, name: "Etherium", address: "sdfjlnsdkfljasdflkjlkjasd" },
+    { id: 3, name: "Dogcoin", address: "sdfjlnsdkfljasdflkjlkjasd" },
+]

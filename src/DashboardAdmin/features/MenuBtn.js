@@ -14,7 +14,7 @@ import {
 const MenuBtn = ({title, type, active, link, clickable}) => {
   const navigate = useNavigate();
   const handleNavigate = (navto) => {
-    navigate(navto, {name: "Ma1"})
+    navigate(navto)
     clickable && clickable()
   };
   return (
