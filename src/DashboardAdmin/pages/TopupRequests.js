@@ -7,12 +7,21 @@ import PageMenus from '../features/PageMenus';
 
 const TopupRequests = () => {
   return (
-    <div>
-      <PageTitles name="Richard" location="Respond to Top up requests" />
+    <TopupRequestsContainer>
+      <PageTitles name="Richard" location="Respond to trust coin Top up requests" />
       <PageMenus place="top_up_requests" />
       <Outlet />
-    </div>
+    </TopupRequestsContainer>
   )
 }
+
+
+export const TopupRequestsContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+`;
 
 export default TopupRequests
