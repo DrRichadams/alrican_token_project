@@ -11,7 +11,6 @@ import {
   StatTitle,
   CoinBox,
   StatValue,
-  CoinBox,
  } from '../features/DashboardStyledComponents';
 
 export const DashboardCircle = ({value, title}) => {
