@@ -42,7 +42,8 @@ const Dashboard = () => {
             <CirclrBelowTitle>Withdraw requests</CirclrBelowTitle>
           </Circle>
         </DashboardCircles>
-        <div className="dash_rectangles">
+
+        <DashboardRects>
           <UserWallets>
             <WalletsTitle>Wallets in use</WalletsTitle>
             <WalletBox>
@@ -67,38 +68,73 @@ const Dashboard = () => {
               <BtnChange>Change</BtnChange>
             </WalletBox>
           </UserWallets>
-          <div className="user_stats">
-            <div className="from_coins_stats">
-              <p>From Trust Coins</p>
-              <div className="coin_box">
-                <p>BTC</p><p>10.0002</p>
-              </div>
-              <div className="coin_box">
-                <p>ETH</p><p>13.0002</p>
-              </div>
-              <div className="coin_box">
-                <p>OG</p><p>0.00021</p>
-              </div>
-            </div>
-            <div className="from_user_fees_stats">
-              <p>User fees</p>
-              <div className="coin_box">
-                <p>BTC</p><p>10.0002</p>
-              </div>
-              <div className="coin_box">
-                <p>ETH</p><p>13.0002</p>
-              </div>
-              <div className="coin_box">
-                <p>OG</p><p>0.00021</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          <UserStats>
+            <StatBox>
+              <StatTitle>From Trust Coins</StatTitle>
+              <CoinBox>
+                <StatValue>BTC</StatValue><StatValue>10.0002</StatValue>
+              </CoinBox>
+              <CoinBox>
+                <StatValue>ETH</StatValue><StatValue>13.0002</StatValue>
+              </CoinBox>
+              <CoinBox>
+                <StatValue>OG</StatValue><StatValue>0.00021</StatValue>
+              </CoinBox>
+            </StatBox>
+            <StatBox>
+              <StatTitle>User fees</StatTitle>
+              <CoinBox>
+                <StatValue>BTC</StatValue><StatValue>10.0002</StatValue>
+              </CoinBox>
+              <CoinBox>
+                <StatValue>ETH</StatValue><StatValue>13.0002</StatValue>
+              </CoinBox>
+              <CoinBox>
+                <StatValue>OG</StatValue><StatValue>0.00021</StatValue>
+              </CoinBox>
+            </StatBox>
+          </UserStats>
+        </DashboardRects>
     </div>
   )
 }
 
 
+export const StatValue = styled.p`
+ font-family: Roboto, sans-serif;
+ color: ${colors.accent};
+ margin: 4px 0;
+`;
+export const StatTitle = styled.p`
+ font-family: Inter, sans-serif;
+ color: #fff;
+ margin: 0;
+ margin-bottom: 12px;
+`;
+export const CoinBox = styled.div`
+  display: flex;
+  /* gap: 20px; */
+  justify-content: space-between;
+  align-items: center;
+`;
+export const UserStats = styled.div`
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+export const StatBox = styled.div`
+  background-color: #242731;
+  width: 100%;
+  border-radius: 12px;
+  padding: 12px;
+`;
+export const DashboardRects = styled.div`
+  display: flex;
+  /* align-items: center; */
+  gap: 25px;
+  margin-top: 55px;
+`;
 export const WalletType = styled.p`
   color: ${colors.accentShadow};
   margin: 0;
