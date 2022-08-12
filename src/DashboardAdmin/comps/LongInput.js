@@ -11,14 +11,14 @@ import {
     UpdateBtn,
  } from '../features/AffiliatesFeeStyledComponents';
 
-const LongInput = ({title, prefix, placeholder, onChange, onClick, btnText}) => {
+const LongInput = ({title, prefix, placeholder, onChange, onClick, btnText, value}) => {
   return (
     <SettingsBox>
         <SignupDetails>
         <Title>{title}</Title>
         <SignupInputBox>
             <InputPrefix>{prefix}</InputPrefix>
-            <Input type="text" placeholder={placeholder} onChange={(e) => onChange(e)} />
+            <Input type="text" placeholder={placeholder} onChange={(e) => onChange(e)} value={value} />
         </SignupInputBox>
         </SignupDetails>
         <div>
