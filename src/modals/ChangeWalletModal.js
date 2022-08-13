@@ -22,7 +22,37 @@ import {
 
 const ChangeWalletModal = () => {
 
-    const {bitcoinwallets, ethereumwallets, tronwallets} = UserAuth();
+    const {bitcoinwallets, ethereumwallets, tronwallets, updateWalletsFirebase} = UserAuth();
+
+    let activeBTCID;
+    let activeETHID;
+    let activeTRNID;
+
+    bitcoinwallets && bitcoinwallets.forEach(item => {
+        if(item.isActive) {
+            activeBTCID = item.id
+        }
+    });
+    ethereumwallets && ethereumwallets.forEach(item => {
+        if(item.isActive) {
+            activeETHID = item.id
+        }
+    });
+    tronwallets && tronwallets.forEach(item => {
+        if(item.isActive) {
+            activeTRNID = item.id
+        }
+    });
+
+    const handleChangeWallet = (id) => {
+        let disAble;
+        if(currentwallet === "bitcoin") disAble = activeBTCID;
+        if(currentwallet === "ethereum") disAble = activeETHID;
+        if(currentwallet === "tron") disAble = activeTRNID;
+
+        updateWalletsFirebase(currentwallet, id, disAble)
+    }
+
 
     const [currentwallet, setcurrentwallet] = useState('bitcoin');
     const [isbitcoin, setisbitcoin] = useState(true);
@@ -88,7 +118,7 @@ const ChangeWalletModal = () => {
                                 <WalletLabel>Address</WalletLabel>
                             </AddressBox>
                             <ButtonsBox>
-                                <WalletBtn>Use</WalletBtn>
+                                <WalletBtn onClick={() => handleChangeWallet(item.id)}>Use wallet</WalletBtn>
                                 {/* <WalletBtn><ImBin2 size={18} /></WalletBtn> */}
                             </ButtonsBox>
                         </WalletItem>

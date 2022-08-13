@@ -91,6 +91,19 @@ export const AuthContextProvider = ({children}) => {
         setsignupfee(fee)
     }
 
+    const updateWalletsFirebase = async (id, toEnable, toDisable) => {
+        await setDoc(doc(db, "wallets", id), {
+            [toEnable]: {
+                isActive: true
+            },
+            [toDisable]: {
+                isActive: false
+            }
+        }, { merge: true });
+        alert("Wallet chabges successfully");
+        window.location.reload();
+    }
+
     const createUser = (email, password, names, address, dob, cell, refId) => {
         return createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
             const {user} = userCredential;
@@ -264,6 +277,8 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getBitcoinWallets().then((udata) => setbitcoinwallets(Object.values(udata)));
             currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
+
+            // currentUser && updateWalletsFirebase().then((udata) => alert("Wallets updated successfully"));
         })
         return () => {
             unsubscribe();
@@ -299,6 +314,7 @@ export const AuthContextProvider = ({children}) => {
             bitcoinwallets,
             ethereumwallets,
             tronwallets,
+            updateWalletsFirebase,
         }}>
             {children}
         </AuthContext.Provider>

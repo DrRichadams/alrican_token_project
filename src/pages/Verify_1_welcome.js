@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { UserAuth } from '../contexts/AuthContext';
 import { SectionContainer } from '../features/SectionContainer';
 import { colors } from '../constants/colors';
 import MinMenuBar from '../features/MinMenuBar';
@@ -17,11 +18,14 @@ import {
  } from '../features/VerifyStyledComponents';
 
 const Verify_1_welcome = () => {
+
+  const {userdata} = UserAuth();
+
   return (
     <SectionContainer>
       <MinMenuBar />
       <MessageContainer>
-          <VerTitle>Welcome Nadim</VerTitle>
+          <VerTitle>Welcome {userdata && userdata.names}</VerTitle>
           <VerMessage1>Thank you for joining our amazing family</VerMessage1>
           <VerMessage2>
             To continue and start using our services, pay a none-refundable fee of USD$ 50 to any one of the following crypto wallets
@@ -43,7 +47,7 @@ const Verify_1_welcome = () => {
           </WalletBox>
           <WalletBox>
             <div className="icon">O</div>
-            <p className="name">Dogie Coin</p>
+            <p className="name">Tron</p>
           </WalletBox>
       </WalletsContainer>
     </SectionContainer>
