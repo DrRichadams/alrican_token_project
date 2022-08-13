@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { UserAuth } from '../../contexts/AuthContext';
 import { useDispatch } from "react-redux";
-import { openAddWalletModal } from '../../store/actions/modalAction';
+import { openAddWalletModal, openChangeWalletModal } from '../../store/actions/modalAction';
 import { AiOutlinePlus } from "react-icons/ai"
 import { colors } from '../../constants/colors';
 
 
 const Awallet = ({aname, awallet}) => {
+    const dispatch = useDispatch();
+    const handleOpenChangeWalletModal = () => {
+        dispatch(openChangeWalletModal())
+    }
+
     return(
         <Wallet>
             <WalletNameBox>
@@ -20,7 +25,7 @@ const Awallet = ({aname, awallet}) => {
             </WalletAddressBox>
             <WalletBtnsBox>
                 {/* <WalletBtn>Delete</WalletBtn> */}
-                {awallet && <WalletBtn>Change</WalletBtn>}
+                {awallet && <WalletBtn onClick={() => handleOpenChangeWalletModal()}>Change</WalletBtn>}
             </WalletBtnsBox>
         </Wallet>
     )

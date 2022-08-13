@@ -56,6 +56,7 @@ import TsAndCsForCoins from './DashboardAdmin/comps/TsAndCsForCoins';
 import TsAndCsForAffiliates from './DashboardAdmin/comps/TsAndCsForAffiliates';
 import WalletAddresses from './DashboardAdmin/comps/WalletAddresses';
 import AddWalletModal from './modals/AddWalletModal';
+import ChangeWalletModal from './modals/ChangeWalletModal';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -123,6 +124,7 @@ function App() {
             </Route>
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
+        <ChangeWalletModal />
         <AddWalletModal />
         <LogoutModal />
       </AuthContextProvider>

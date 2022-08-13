@@ -2,6 +2,8 @@ export const CLOSE_MODAL = "CLOSE_MODAL";
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_WALLET_MODAL = "CLOSE_WALLET_MODAL";
 export const OPEN_WALLET_MODAL = "OPEN_WALLET_MODAL";
+export const CLOSE_CHANGE_WALLET_MODAL = "CLOSE_CHANGE_WALLET_MODAL";
+export const OPEN_CHANGE_WALLET_MODAL = "OPEN_CHANGE_WALLET_MODAL";
 
 export const closeModal = () => {
     return{ type: CLOSE_MODAL }
@@ -15,4 +17,10 @@ export const closeAddWalletModal = () => {
 }
 export const openAddWalletModal = () => {
     return{ type: OPEN_WALLET_MODAL }
+}
+export const closeChangeWalletModal = () => {
+    return{ type: CLOSE_CHANGE_WALLET_MODAL }
+}
+export const openChangeWalletModal = () => {
+    return{ type: OPEN_CHANGE_WALLET_MODAL }
 }
