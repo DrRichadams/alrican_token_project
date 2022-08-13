@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { UserAuth } from '../contexts/AuthContext';
 import { SectionContainer } from '../features/SectionContainer';
 import MinMenuBar from '../features/MinMenuBar';
 import { RiErrorWarningLine } from "react-icons/ri";
@@ -8,12 +10,14 @@ import { colors } from '../constants/colors';
 import { VerTitle, VerMessage1, MessageContainer, WarningBox, WarningText } from '../features/VerifyStyledComponents';
 
 const Verify_2_payment = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
     <SectionContainer>
       <MinMenuBar />
       <MessageContainer>
-          <VerTitle>Paying with Bitcoin</VerTitle>
-          <VerMessage1>Scan the QR code or use the wallet address below</VerMessage1>
+          <VerTitle>Paying with {location.state?.wallet}</VerTitle>
+          <VerMessage1>Veriy you have chosen the correct wallet and use the wallet address below</VerMessage1>
       </MessageContainer>
       <Margins>
         <WarningBox>
@@ -23,19 +27,19 @@ const Verify_2_payment = () => {
       </Margins>
           <PayOptions>
             <QrCodeContainer>
-              <Img src={process.env.PUBLIC_URL + "icons/qrcode.jpg"} alt="" />
+              <Img src={process.env.PUBLIC_URL + `icons/${location.state?.wallet}.png`} alt="" />
             </QrCodeContainer>
             <WalletAddress>
               <WalletTitle>Wallet Address</WalletTitle>
               <WalletAddressBox>
-                <AddressText>1192-2252-7634-8835</AddressText>
-                <BtnCopy>Copy</BtnCopy>
+                <AddressText>{location.state?.address}</AddressText>
+                {/* <BtnCopy>Copy</BtnCopy> */}
               </WalletAddressBox>
             </WalletAddress>
           </PayOptions>
 
           <BtnContainer>
-            <ContBtn>Continue</ContBtn>
+            <ContBtn onClick={() => navigate("/verify3")}>Continue</ContBtn>
           </BtnContainer>
     </SectionContainer>
   )
