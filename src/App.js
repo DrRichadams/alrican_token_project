@@ -45,6 +45,7 @@ import DashboardRerouter from './DashboardAdmin/comps/DashboardRerouter';
 import PotentiallyPaidAccounts from './DashboardAdmin/comps/PotentiallyPaidAccounts';
 import UnpaidAccounts from './DashboardAdmin/comps/UnpaidAccounts';
 import AllAccounts from './DashboardAdmin/comps/AllAccounts';
+import VerifySingleUser from './DashboardAdmin/comps/VerifySingleUser';
 import PendingRequests from "./DashboardAdmin/comps/PendingRequests";
 import ApprovedRequests from "./DashboardAdmin/comps/ApprovedRequests";
 import RejectedRequests from './DashboardAdmin/comps/RejectedRequests';
@@ -98,6 +99,7 @@ function App() {
                 <Route path="potentially_paid" element={<PotentiallyPaidAccounts />} />
                 <Route path="unpaid_accounts" element={<UnpaidAccounts />} />
                 <Route path="all_accounts" element={<AllAccounts />} />
+                <Route path="verify_single" element={<VerifySingleUser />} />
               </Route>
               <Route path="withdraw_requests" element={<WithdrawRequests />}>
                 <Route path="" element={<AdminRouter routeto="pending_requests" />} />

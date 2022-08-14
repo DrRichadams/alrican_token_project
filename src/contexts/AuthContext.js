@@ -23,6 +23,7 @@ export const AuthContextProvider = ({children}) => {
     const [bitcoinwallets, setbitcoinwallets] = useState([]);
     const [ethereumwallets, setethereumwallets] = useState([]);
     const [tronwallets, settronwallets] = useState([]);
+    const [proofImg, setproofImg] = useState(null);
 
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
@@ -100,9 +101,30 @@ export const AuthContextProvider = ({children}) => {
                 isActive: false
             }
         }, { merge: true });
-        alert("Wallet chabges successfully");
+        alert("Wallet changed successfully");
         window.location.reload();
     }
+    const addImgUrlFirebase = async (user_id, collect_name, img_name) => {
+        await setDoc(doc(db, `${collect_name}`, user_id), {
+            id: user_id,
+            img_name,
+        }, { merge: true });
+        console.log("img Url added to database");
+        // window.location.reload();
+    }
+
+    // const getProofImg = async (id) => {
+    //     const docRef = doc(db, "proofs", id);
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         console.log(data)
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
 
     const createUser = (email, password, names, address, dob, cell, refId) => {
         return createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
@@ -278,7 +300,8 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
 
-            // currentUser && updateWalletsFirebase().then((udata) => alert("Wallets updated successfully"));
+            // currentUser && getProofImg(currentUser.id).then((udata) => setproofImg(udata));
+            // currentUser && getProofImg(currentUser.id);
         })
         return () => {
             unsubscribe();
@@ -315,6 +338,8 @@ export const AuthContextProvider = ({children}) => {
             ethereumwallets,
             tronwallets,
             updateWalletsFirebase,
+            addImgUrlFirebase,
+            proofImg,
         }}>
             {children}
         </AuthContext.Provider>

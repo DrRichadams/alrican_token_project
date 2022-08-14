@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { UserAuth } from '../../contexts/AuthContext';
 import { colors } from '../../constants/colors';
 
-const PageTitles = ({name, location}) => {
+const PageTitles = ({location}) => {
+    const {userdata} = UserAuth();
   return (
     <TitlesContainer>
-        <Greeting>Hi <Name>{name}</Name></Greeting>
+        <Greeting>Hi <Name>{userdata && userdata.names}</Name></Greeting>
         <WhereYouAre>{location}</WhereYouAre>
     </TitlesContainer>
   )

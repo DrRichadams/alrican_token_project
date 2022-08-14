@@ -6,13 +6,15 @@ import PageTitles from '../features/PageTitles';
 import PageMenus from '../features/PageMenus';
 import MenuBtn from '../features/MenuBtn';
 import { USERS } from '../../constants/DATA';
+import { UserAuth } from '../../contexts/AuthContext';
 
 const VerifyUsers = () => {
+  const {userdata} = UserAuth();
   const navigate = useNavigate();
   const location = useLocation();
   return (
     <VerifyContainer>
-      <PageTitles name="Richard" location="Approve new users" />
+      <PageTitles location="Approve new users" />
       <PageMenus place="verify" />
       <OutletContainer>
           <Outlet />

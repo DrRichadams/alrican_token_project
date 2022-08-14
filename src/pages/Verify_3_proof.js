@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { SectionContainer } from '../features/SectionContainer';
 import MinMenuBar from '../features/MinMenuBar';
 import { VerTitle, VerMessage1, MessageContainer } from '../features/VerifyStyledComponents';
@@ -6,8 +7,36 @@ import styled from 'styled-components';
 import { WarningBox, WarningText } from '../features/VerifyStyledComponents';
 import {RiErrorWarningLine} from "react-icons/ri";
 import { colors } from '../constants/colors';
+import { storage } from '../firebase/config';
+import { ref, uploadBytes } from "firebase/storage";
+import { UserAuth } from '../contexts/AuthContext';
 
 const Verify_3_proof = () => {
+  const navigate = useNavigate();
+
+  const {userdata, addImgUrlFirebase} = UserAuth();
+  const [imageUpload, setImageUpload] = useState(null)
+  const [imgType, setimgType] = useState(null)
+
+  const uploadProof = () => {
+      if(!imageUpload) return
+      // alert("Uploading")
+      // console.log(imageUpload)
+      const imageRef = ref(storage, `proofs/${userdata.id}.${imgType}`);
+      uploadBytes(imageRef, imageUpload).then((data) => {
+        alert("Proof submitted successfully");
+        addImgUrlFirebase(userdata.id, "proofs", data.metadata.name)
+        navigate("/verify4")
+      })
+      console.log("userdata", userdata)
+  }
+
+  const handleFileChange = (e) => {
+    console.log("The file data",e.target.files[0].name.split('.')[1]);
+    setimgType(e.target.files[0].name.split('.')[1])
+    setImageUpload(e.target.files[0])
+  }
+
   return (
     <SectionContainer>
       <MinMenuBar />
@@ -21,10 +50,10 @@ const Verify_3_proof = () => {
             </WarningBox>
             <div className="select">
               <p>Select your screenshot from your computer storage</p>
-              <input type="file" />
+              <input type="file" onChange={(e) => handleFileChange(e)} />
             </div>
         </MessageContainer>
-        <SubmitProofBtn>Submit proof of payment</SubmitProofBtn>
+        <SubmitProofBtn onClick={uploadProof}>Submit proof of payment</SubmitProofBtn>
       </CustomeContainer>
     </SectionContainer>
   )
