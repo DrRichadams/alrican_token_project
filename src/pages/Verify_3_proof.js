@@ -14,7 +14,7 @@ import { UserAuth } from '../contexts/AuthContext';
 const Verify_3_proof = () => {
   const navigate = useNavigate();
 
-  const {userdata, addImgUrlFirebase} = UserAuth();
+  const {userdata, addImgUrlFirebase, hasProvidedProofFirebase} = UserAuth();
   const [imageUpload, setImageUpload] = useState(null)
   const [imgType, setimgType] = useState(null)
 
@@ -25,7 +25,8 @@ const Verify_3_proof = () => {
       const imageRef = ref(storage, `proofs/${userdata.id}.${imgType}`);
       uploadBytes(imageRef, imageUpload).then((data) => {
         alert("Proof submitted successfully");
-        addImgUrlFirebase(userdata.id, "proofs", data.metadata.name)
+        addImgUrlFirebase(userdata.id, "proofs", data.metadata.name);
+        hasProvidedProofFirebase(userdata.id);
         navigate("/verify4")
       })
       console.log("userdata", userdata)

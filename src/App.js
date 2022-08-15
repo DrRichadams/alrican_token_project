@@ -99,8 +99,9 @@ function App() {
                 <Route path="potentially_paid" element={<PotentiallyPaidAccounts />} />
                 <Route path="unpaid_accounts" element={<UnpaidAccounts />} />
                 <Route path="all_accounts" element={<AllAccounts />} />
-                <Route path="verify_single" element={<VerifySingleUser />} />
               </Route>
+              {/* SINGULAR ROUTE */}
+              <Route path="verify_single" element={<VerifySingleUser />} />
               <Route path="withdraw_requests" element={<WithdrawRequests />}>
                 <Route path="" element={<AdminRouter routeto="pending_requests" />} />
                 <Route path="pending_requests" element={<PendingRequests />} />

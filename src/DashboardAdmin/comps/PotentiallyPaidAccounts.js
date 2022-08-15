@@ -11,12 +11,19 @@ const PotentiallyPaidAccounts = () => {
   const [my_users, set_my_users] = useState(null);
   const navigate = useNavigate();
 
-  const handleVerify = (id) => {
-    navigate("/admin_dash/verify_users/verify_single", {state: id})
+  const handleVerify = (id, refererId, name, email, cell, address) => {
+    navigate("/admin_dash/verify_single", {state: {
+      id,
+      refererId,
+      name,
+      email,
+      cell,
+      address,
+    }})
   }
 
   useEffect(() => {
-    const q = query(collection(db, "users"), where("isVerified", "==", false));
+    const q = query(collection(db, "users"), where("hasProof", "==", true), where("isVerified", "==", false));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const users = [];
       querySnapshot.forEach((doc) => {
@@ -30,16 +37,18 @@ const PotentiallyPaidAccounts = () => {
   }
   }, [])
 
-  useEffect(() => {
-    console.log("The users ", my_users)
-  }, [my_users])
+  // useEffect(() => {
+  //   console.log("The users ", my_users)
+  // }, [my_users])
 
   
   // const potentialUsers = USERS.filter(item=>item.hasDocs)
   return (
     <>
       {my_users && my_users.map(item=>(
-        <UserBox name={item.names} email={item.email} btnTitle="Verify" onClick={() => {handleVerify(item.id)}} key={item.id} />
+        <UserBox name={item.names} email={item.email} btnTitle="Verify" onClick={() => {
+          handleVerify(item.id, item.refererId, item.names, item.email, item.cell, item.address)
+        }} key={item.id} />
       ))}
     </>
   )

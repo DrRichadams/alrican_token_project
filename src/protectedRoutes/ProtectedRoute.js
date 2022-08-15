@@ -9,6 +9,7 @@ const ProtectedRoute = ({children}) => {
     console.log("Route Var", routedata);
     // if(!user) return <Navigate to='/login' />
     if(routedata) {
+        // if(routedata.hasProof) return <Navigate to='/verify4' />
         if(!routedata.isVerified) return <Navigate to='/verify1' />
         if(routedata.userType != "normal") return <Navigate to='/rerouter' />
         return children;

@@ -89,7 +89,7 @@ const Login = () => {
                     <AuthBtn>LOGIN</AuthBtn>
                     <ExtraAuthBtnsContainer>
                         <ForgotPasswordLink to={"/forgotPassword"}>Forgot password</ForgotPasswordLink>
-                        <SignUpLink to={"/signup"}>SignUp</SignUpLink>
+                        <SignUpLink to={"/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2"}>SignUp</SignUpLink>
                     </ExtraAuthBtnsContainer>
                 </AuthButtonContainer>
             </AuthDetailsContainer>

@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HomeMenu from "../components/HomeMenu";
 import { SectionContainer } from "../features/SectionContainer";
@@ -49,6 +50,7 @@ import {
 
 const HomePage = () => {
     const [ selQuestion, setSelQuestion ] = useState(0)
+    const navigate = useNavigate();
     
     return(
         <div className="home_page_">
@@ -57,13 +59,13 @@ const HomePage = () => {
                 {/* <div className="home_banner"> */}
                 <HomeBanner>
                     <div className="left_sect">
-                        <Title1 color={colors.secondary}>Ariel Crypto Management</Title1>
-                        <Title2 color={colors.accent}>Your #1 investment platform</Title2>
-                        <Text1 color={colors.secondary}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        tempor incididunt ut labore et dolore magna aliqua 
-                        Ut enim ad minim veniam,
-                        </Text1>
+                        <Title1 color={colors.secondary}>ALL AFRICAN TOKEN</Title1>
+                        <Title2 color={colors.accent}>Private Sale</Title2>
+                        <BannerText color={colors.secondary}>
+                            Welcome to the <Highlight>All african Coin</Highlight> Private sale. 
+                            Here you get a chance to purchase our coin at a very affordable 
+                            price and become one of the first individuals to purchase our cryptocurrency
+                        </BannerText>
                     </div>
                     <div className="right_sect">
                         <Img1 src={process.env.PUBLIC_URL + "/images/banner_pic.png"} alt="" />
@@ -76,7 +78,15 @@ const HomePage = () => {
                 <About_sect className="about_box">
                     <div className="left_about">
                         <h3>About <span>Us</span></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        <p>
+                            We are a group of African Blockchain software developers and 
+                            Cryptocurrency Experts and Enthousiast with 6+ years of experience. 
+                            Team consists of 54 specialists and they are all equally distributed 
+                            around Africa to represent and meet each country's population needs 
+                            surrounding the crypto space. Our subject matter specialist offers 
+                            professional blockchain app development services and Tokens that 
+                            guarantee immutability and transparency across a distributed ledger.
+                        </p>
                     </div>
                     <div className="right_about">
                         <Img1 src={process.env.PUBLIC_URL + "/images/right_about.png"} alt="" />
@@ -84,38 +94,97 @@ const HomePage = () => {
                 </About_sect>
             </SectionContainer>
             <SectionContainer bg_color={colors.secondary}>
-                <h3>WHAT WE STAND FOR</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, animi autem voluptatum impedit eos explicabo corrupti dolorum molestias blanditiis qui ipsa aut unde fugit nihil, accusamus molestiae, fuga porro alias?</p>
-                <div className="future_box_container">
-                    <BoxContainer>
-                        <h3>MISSION</h3>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi, iusto! Ab saepe sunt nobis aliquam harum, ad, possimus, dolorum amet cupiditate quas at et laboriosam perspiciatis nostrum consectetur animi velit ipsam! Velit voluptates quis ipsum.</p>
-                    </BoxContainer>
-                    <BoxContainer>
-                        <h3>VISION</h3>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi, iusto! Ab saepe sunt nobis aliquam harum, ad, possimus, dolorum amet cupiditate quas at et laboriosam perspiciatis nostrum consectetur animi velit ipsam! Velit voluptates quis ipsum.</p>
-                    </BoxContainer>
-                    <BoxContainer>
-                        <h3>VALUES</h3>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi, iusto! Ab saepe sunt nobis aliquam harum, ad, possimus, dolorum amet cupiditate quas at et laboriosam perspiciatis nostrum consectetur animi velit ipsam! Velit voluptates quis ipsum.</p>
-                    </BoxContainer>
-                </div>
+                <ValuesTitle>WHAT WE STAND FOR</ValuesTitle>
+                {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, animi autem voluptatum impedit eos explicabo corrupti dolorum molestias blanditiis qui ipsa aut unde fugit nihil, accusamus molestiae, fuga porro alias?</p> */}
+                <QualitiesBox>
+                    <StandForContainer>
+                        <img src={process.env.PUBLIC_URL + "images/mission.png"} alt="" />
+                        <DetailsBox>
+                            <QualitiesTitle>MISSION</QualitiesTitle>
+                            <QualitiesStory>
+                                Mission For the <Highlight>All African Token</Highlight> is to create multiple streams of income for its 
+                                Holders. All African Token wants to provide multiple streams of income for its holders to 
+                                unlock financial Freedom. All African Token will have an Exchange that will enable 
+                                its holders to trade crypto Assets. All African Token will provide debit cards to its 
+                                holders to be able to swap their crypto for fiat as well as their fiat for crypto 
+                                on the platforms. Crypto ATMs will be available all around Africa to enable Holders 
+                                to withdraw their crypto assets.
+                            </QualitiesStory>
+                        </DetailsBox>
+                    </StandForContainer>
+                    <StandForContainer>
+                        <DetailsBox>
+                            <QualitiesTitle>VISION</QualitiesTitle>
+                            <QualitiesStory>
+                                Vision for Token is to enable users to use the product that will be provided by the 
+                                All African coin with efficiency and Income Generation for all its holders, Tokens that 
+                                will be used to purchase, transact on the All African Platforms will be burned to decrease 
+                                the Circulation and this will increase the Token price for the holders 
+                            </QualitiesStory>
+                        </DetailsBox>
+                        <img src={process.env.PUBLIC_URL + "images/vision.png"} alt="" />
+                    </StandForContainer>
+                    <StandForContainer>
+                    <img src={process.env.PUBLIC_URL + "images/values.png"} alt="" />
+                        <DetailsBox>
+                            <QualitiesTitle>VALUES</QualitiesTitle>
+                            <QualitiesStory>
+                                <ValueContainer>
+                                    <ValueDot></ValueDot>
+                                    <ValueTitle>HONESTY</ValueTitle>
+                                </ValueContainer>
+                                <ValueContainer>
+                                    <ValueDot></ValueDot>
+                                    <ValueTitle>TRANSPARENCY</ValueTitle>
+                                </ValueContainer>
+                                <ValueContainer>
+                                    <ValueDot></ValueDot>
+                                    <ValueTitle>DILIGENCE</ValueTitle>
+                                </ValueContainer>
+                                <ValueContainer>
+                                    <ValueDot></ValueDot>
+                                    <ValueTitle>PATIENCE</ValueTitle>
+                                </ValueContainer>
+                            </QualitiesStory>
+                        </DetailsBox>
+                    </StandForContainer>
+                </QualitiesBox>
             </SectionContainer>
             <SectionContainer bg_color={colors.bg_color}>
                 <CustomeTitle color={colors.accent} b_color="black">OUR SERVICES</CustomeTitle>
                 <InnerServiceContainer>
                     <Img1 src={process.env.PUBLIC_URL + "/images/affiliates_pic.png"} alt="" className="left_service service_pic" />
                     <div className="right_service service_box">
-                        <h1 className="service_title">Affiliate Marketing</h1>
-                        <p className="service_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <button className="service_btn">Get Started</button>
+                        <h1 className="service_title">Invite and Earn</h1>
+                        <p className="service_paragraph">
+                            All African Token is offering its holders an opportunity to earn some great rewards 
+                            by Inviting others to the private sale. You will receive 10% paid in your wallet 
+                            instantly when you invite a friend to become an All African Token Holder as well 
+                            as many more Benefits. Consult White paper to find out more information on 
+                            Affiliate Benefits
+                        </p>
+                        <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button>
                     </div>
                 </InnerServiceContainer>
                 <InnerServiceContainer>
                     <div className="left_service service_box">
-                        <h1 className="service_title">Investment Management</h1>
-                        <p className="service_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <button className="service_btn">Get Started</button>
+                        <h1 className="service_title">All African Token Future Services</h1>
+                        <p className="service_paragraph">
+                            <Highlight>All African Token</Highlight> is planning to have the following services :
+                        </p>
+                        <ValueContainerColumn>
+                            <ValueTitle>Alrican metaverse</ValueTitle>
+                            <ValueTitle>Alrican DEX (Decentralized Exchange)</ValueTitle>
+                            <ValueTitle>Alrican CEX (Centralized Exchange)</ValueTitle>
+                            <ValueTitle>Alrican ATMS  </ValueTitle>
+                            <ValueTitle>NFT Market place </ValueTitle>
+                            <ValueTitle>Smart Contracts </ValueTitle>
+                            <ValueTitle>Crypto Refills</ValueTitle>
+                            <ValueTitle>Music streaming app </ValueTitle>
+                            <ValueTitle>Movies and series Streaming </ValueTitle>
+                            <ValueTitle>And many more  </ValueTitle>
+                        </ValueContainerColumn>
+                        <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button>
                     </div>
                     <Img1 src={process.env.PUBLIC_URL + "/images/investment_img.png"} alt="" className="right_service service_pic" />
                 </InnerServiceContainer>
@@ -201,7 +270,7 @@ const HomePage = () => {
                     <div className="part2">
                         <FooterTitle>GET STARTED.</FooterTitle>
                         <FooterParagraph>We have several investment channels to choose from. Start your awesome<br/> journey now.</FooterParagraph>
-                        <PackageBtn>Get started</PackageBtn>
+                        <PackageBtn onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get started</PackageBtn>
                     </div>
                     <div className="part3">
                         <FooterTitle>GET IN TOUCH</FooterTitle>
@@ -227,5 +296,77 @@ const HomePage = () => {
         </div>
     )
 }
+
+
+
+export const ValueContainerColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 15px;
+    margin-bottom: 14px;
+`;
+export const ValueContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 14px;
+`;
+export const ValueDot = styled.div`
+    background-color: green;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+`;
+export const ValueTitle = styled.p`
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    color: #01050f;
+`;
+
+export const QualitiesStory = styled.h3`
+    font-family: Roboto, sans-serif;
+    color: #01050f;
+    font-weight: 300;
+    font-size: 1rem;
+`;
+export const QualitiesTitle = styled.h3`
+    margin: 0;
+    margin-top: 25px;
+    font-family: Inter, sans-serif;
+    color: ${colors.accent};
+`;
+export const QualitiesBox = styled.div`
+    
+`;
+export const DetailsBox = styled.div`
+    
+`;
+export const StandForContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 40px;
+    padding: 12px;
+    gap: 20px;
+`;
+export const ValuesTitle = styled.h3`
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Inter, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: ${colors.accent};
+`;
+export const BannerText = styled.p`
+    color: #fff;
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
+    line-height: 23px;
+`;
+export const Highlight = styled.span`
+    color: ${colors.accent};
+    text-transform: uppercase;
+    font-weight: 600;
+`;
 
 export default HomePage;

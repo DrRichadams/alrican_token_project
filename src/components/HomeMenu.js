@@ -7,10 +7,10 @@ import { colors } from "../constants/colors";
 const HomeMenu = () => {
     return(
         <MenuContainer>
-            <LogoBtn to={"/"}>A.C.M</LogoBtn>
+            <LogoBtn to={"/"}>A.A.T</LogoBtn>
             <AuthBtnContainer>
                 <LinkBtn to={"/login"}>LOGIN</LinkBtn>
-                <CTABtn to={"/signup"}>GET STARTED</CTABtn>
+                <CTABtn to={"/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2"}>GET STARTED</CTABtn>
             </AuthBtnContainer>
         </MenuContainer>
     )

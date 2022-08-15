@@ -29,9 +29,10 @@ const ImageRender = ({imgName}) => {
   getDownloadURL(imgRef)
   .then((url) => {
     setMy_img(url)
-    console.log("Possible url ", url)
+    // console.log("Possible url ", url)
   })
-  return<Image src={my_img} alt="" />
+  if(my_img !== null) return<Image src={my_img} alt="" />
+  if(my_img === null) return <ImageWarning>The image is either too big or it is still loading</ImageWarning>
 }
 
 const Verify_4_thanks = () => {
@@ -77,6 +78,12 @@ const Verify_4_thanks = () => {
   )
 }
 
+
+export const ImageWarning = styled.div`
+  color: #fff;
+  font-family: Roboto, sans-serif;
+  color: ${colors.accent};
+`;
 
 export const Waiting = styled.p`
   margin: 0;

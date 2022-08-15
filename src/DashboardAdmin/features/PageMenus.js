@@ -15,9 +15,10 @@ const PageMenus = ({place}) => {
                 <ControlsContainer>
                     <MenuBtn title="Potentially paid accounts" active={location.pathname.includes("potentially_paid")} link="" clickable={() => navigate("potentially_paid")} />
                     <MenuBtn title="Unpaid accounts" active={location.pathname.includes("unpaid_accounts")} link="" clickable={() => navigate("unpaid_accounts")} />
-                    <MenuBtn title="All accounts" active={location.pathname.includes("all_accounts")} link="" clickable={() => navigate("all_accounts")} />
+                    {/* <MenuBtn title="All accounts" active={location.pathname.includes("all_accounts")} link="" clickable={() => navigate("all_accounts")} /> */}
+                    <MenuBtn title="Active accounts" active={location.pathname.includes("all_accounts")} link="" clickable={() => navigate("all_accounts")} />
                 </ControlsContainer>
-                <AllAccountsBadge>Total accounts | {USERS.length}</AllAccountsBadge>
+                {/* <AllAccountsBadge>Total accounts | {USERS.length}</AllAccountsBadge> */}
               </Menu>
           )
     }
@@ -30,7 +31,7 @@ const PageMenus = ({place}) => {
                     <MenuBtn title="Approved requests" active={location.pathname.includes("approved_requests")} link="" clickable={() => navigate("approved_requests")} />
                     <MenuBtn title="Rejected requests" active={location.pathname.includes("rejected_requests")} link="" clickable={() => navigate("rejected_requests")} />
                 </ControlsContainer>
-                <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge>
+                {/* <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge> */}
               </Menu>
           )
     }
@@ -55,7 +56,7 @@ const PageMenus = ({place}) => {
                     <MenuBtn title="Requests" active={location.pathname.includes("awaiting")} link="" clickable={() => navigate("awaiting")} />
                     <MenuBtn title="History" active={location.pathname.includes("history")} link="" clickable={() => navigate("history")} />
                 </ControlsContainer>
-                <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge>
+                {/* <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge> */}
               </Menu>
           )
     }

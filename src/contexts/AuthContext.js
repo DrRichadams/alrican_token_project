@@ -39,6 +39,7 @@ export const AuthContextProvider = ({children}) => {
             isVerified: false,
             createdAt: serverTimestamp(),
             refererId: refId,
+            hasProof: false,
             // affiliates: [],
         });
 
@@ -104,6 +105,19 @@ export const AuthContextProvider = ({children}) => {
         alert("Wallet changed successfully");
         window.location.reload();
     }
+
+    const userVerificationFirebase = async (id) => {
+        await setDoc(doc(db, "users", id), {
+            isVerified: true,
+        }, { merge: true });
+        alert("User is now verified");
+        // window.location.reload();
+    }
+    const hasProvidedProofFirebase = async (user_id) => {
+        await setDoc(doc(db, `users`, user_id), {
+            hasProof: true,
+        }, { merge: true });
+    }
     const addImgUrlFirebase = async (user_id, collect_name, img_name) => {
         await setDoc(doc(db, `${collect_name}`, user_id), {
             id: user_id,
@@ -139,7 +153,9 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const logout = () => {
-        return signOut(auth)
+        return signOut(auth).then(() => {
+            // window.location.reload();
+        })
     }
 
     const getData = async (uid) => {
@@ -282,7 +298,8 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getData(currentUser.uid).then((udata) => {
                 setroutedata({
                     isVerified: udata.isVerified,
-                    userType: udata.userType
+                    userType: udata.userType,
+                    hasProof: udata.hasProof,
                 })
                 setuserdata({...udata})
             })
@@ -340,6 +357,8 @@ export const AuthContextProvider = ({children}) => {
             updateWalletsFirebase,
             addImgUrlFirebase,
             proofImg,
+            userVerificationFirebase,
+            hasProvidedProofFirebase,
         }}>
             {children}
         </AuthContext.Provider>

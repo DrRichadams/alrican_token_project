@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { UserAuth } from '../contexts/AuthContext';
 import { SectionContainer } from '../features/SectionContainer';
 import { colors } from '../constants/colors';
@@ -21,7 +21,9 @@ import {
 const Verify_1_welcome = () => {
   const navigate = useNavigate();
 
-  const {userdata, signupfee, bitcoinwallets, ethereumwallets, tronwallets} = UserAuth();
+  const {userdata, signupfee, bitcoinwallets, ethereumwallets, tronwallets, routedata} = UserAuth();
+
+  if(routedata?.hasProof) return <Navigate to="/verify4" />
 
   const activeBTN = bitcoinwallets?.find(item=>item.isActive);
   const activeETH = ethereumwallets?.find(item=>item.isActive);

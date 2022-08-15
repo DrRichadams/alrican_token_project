@@ -29,6 +29,7 @@ const LogoutModal = () => {
         await logout();
         dispatch(closeModal())
         navigate('/login');
+        window.location.reload();
     };
     const handleCancelLogout =  () => {
         dispatch(closeModal())
