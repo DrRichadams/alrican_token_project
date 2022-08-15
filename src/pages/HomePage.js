@@ -12,6 +12,8 @@ import {
     qualities,
     FAQ
 } from "../constants/DATA";
+import { AiFillStar } from "react-icons/ai";
+import { FaTelegramPlane } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { SiLinkedin } from "react-icons/si";
 import { RiInstagramFill, RiTwitterFill } from "react-icons/ri";
@@ -47,6 +49,18 @@ import {
     BoxContainer,
     InvestmentPackages
 } from "../features/HomePageStyledComponents";
+
+
+const MyCoPlan = ({plan}) => {
+    return(
+        <CoPlanBox>
+            <StarContainer><AiFillStar size={25} /></StarContainer>
+            <CoPlanTitle>
+                {plan}
+            </CoPlanTitle>
+        </CoPlanBox>
+    )
+}
 
 const HomePage = () => {
     const [ selQuestion, setSelQuestion ] = useState(0)
@@ -189,28 +203,34 @@ const HomePage = () => {
                     <Img1 src={process.env.PUBLIC_URL + "/images/investment_img.png"} alt="" className="right_service service_pic" />
                 </InnerServiceContainer>
             </SectionContainer>
-            <SectionContainer bg_color={colors.primary}>
+            {/* <SectionContainer bg_color={colors.primary}>
                 <CustomeTitle color={colors.accent} b_color="#fff">Investment Strategy</CustomeTitle>
                 <div className="investment_strategies">
                     { investment_strategies.map((item, index) => ( <StrategyBox pos={index + 5} key={item.id}> <StrategyTitle>{item.name}</StrategyTitle> </StrategyBox> )) }
                 </div>
-            </SectionContainer>
-            <SectionContainer bg_color={colors.primary}>
+            </SectionContainer> */}
+            {/* <SectionContainer bg_color={colors.primary}>
                 <CustomeTitle color={colors.accent} b_color="#fff">Our Investment Packages</CustomeTitle>
                 
                 <InvestmentPackagesComponent />
-            </SectionContainer>
+            </SectionContainer> */}
             <SectionContainer bg_color={colors.menu_color}>
-                <CustomeTitle color={colors.accent} b_color={colors.accent}>How it works</CustomeTitle>
+                <CustomeTitle color={colors.accent} b_color={colors.accent}> Why Buy Tokens during a private sale?</CustomeTitle>
                 <InnerServiceContainer>
                     <Img1 src={process.env.PUBLIC_URL + "/images/how_it_works.png"} alt="" className="left_service service_pic" />
                     <div className="right_service service_box">
-                        <h1 className="service_title">How to get the best out of your investments and affiliates</h1>
-                        <p className="service_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <h1 className="service_title">How to get the best out of our Token and Affiliates</h1>
+                        <p className="service_paragraph">
+                            The Benefits of buying your Tokens during our private sale is that you will accumulate 
+                            more coins at a cheaper cost and you will be part of the first individuals to be notified 
+                            when the coin is listed. When the coin is distributed to the general public, you will 
+                            receive quick and significant returns. Our Private is granting holders the opportunity 
+                            to earn through our Invite and Earn program
+                        </p>
                     </div>
                 </InnerServiceContainer>
             </SectionContainer>
-            <SectionContainer bg_color={colors.primary}>
+            {/* <SectionContainer bg_color={colors.primary}>
                 <CustomeTitle color={colors.accent} b_color={colors.accent}>Assets under management value</CustomeTitle>
                 <InnerServiceContainer>
                     <div className="right_service service_box">
@@ -219,26 +239,43 @@ const HomePage = () => {
                     </div>
                     <Img1 src={process.env.PUBLIC_URL + "/images/assets_under.png"} alt="" className="left_service service_pic" />
                 </InnerServiceContainer>
-            </SectionContainer>
+            </SectionContainer> */}
             <SectionContainer bg_color={colors.secondary}>
                 <CustomeTitle color={colors.accent} b_color={colors.accent}>Compensation Plan</CustomeTitle>
-                <CompansationPlan className="about_box">
-                    <div className="left_about">
-                        <h3>HERE IS OUR COMPENSATION PLAN</h3>
+                <CompansationPlanContainer>
+                    <div>
+                        {/* <h3>HERE IS OUR COMPENSATION PLAN</h3> */}
                         {/* <h3>About <span>Us</span></h3> */}
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        <CoPlansBox>
+                            <MyCoPlan plan={`When you spread the word about the ICO to others and they buy using your 
+                                    referral link you will be given 20% available for withdrawal instantly`}/>
+                            <MyCoPlan plan={`Fear of loss bounce, invite 4 others within the same months you joined 
+                                    and get your cash back NB! They must buy coins that are of the same value of yours or more`} />
+                            <MyCoPlan plan={`Earn a gift code of $80 for every 18th referral`} />
+                            <MyCoPlan plan={`Become a Board member when you become part of the ICO you increase your chances of 
+                                             becoming a board member when you have over 25000 referrals under your link you qualify 
+                                             to be part of the board with a bounce payment of $67,157.00 and a sitting allowance 
+                                             of $11192. As well as a free 6 months training on crypto currency and block chain. 
+                                             NB This must be applied for under certain T/C. For profile evaluation.`} />
+                            <MyCoPlan plan={`You will receive discount on all Products of the ALL AFRICAN COIN`} />
+                            <MyCoPlan plan={` IF you have a total of 1000 referrals unlock a vacation`} />
+                            <MyCoPlan plan={`All African coin will be giving jobs to individuals that meet a certain Criteria that 
+                            have joined the ICO jobs WHICH will be announced on the day of the launch with a monthly salary ranging 
+                            between $300 to $1500.`} />
+                            <MyCoPlan plan={`Receive a sign up bonus `} />
+                        </CoPlansBox>
                     </div>
-                    <div className="right_about">
+                    {/* <div className="right_about">
                         <Img1 src={process.env.PUBLIC_URL + "/images/compansation.png"} alt="" />
-                    </div>
-                </CompansationPlan>
+                    </div> */}
+                </CompansationPlanContainer>
             </SectionContainer>
             <SectionContainer bg_color={"#01050F"}>
                 <CustomeTitle color={colors.accent} b_color={colors.accent}>Let's get social</CustomeTitle>
                 <Para>Get to know us personally through our social media platforms. <br></br>Can't wait to see you there!</Para>
                 <SocContainer className="social_media_boxes">
                     <SocCircle link="facebook.com" color="#1976D2"><FaFacebookF size={36} /></SocCircle>
-                    <SocCircle link="linkedin.com" color="#0177B5"><SiLinkedin size={36} /></SocCircle>
+                    <SocCircle link="telegram.com" color="#0177B5"><FaTelegramPlane size={36} /></SocCircle>
                     <SocCircle link="instagram.com" color="#D34069"><RiInstagramFill size={36} /></SocCircle>
                     <SocCircle link="twitter.com" color="#03A9F4"><RiTwitterFill size={36} /></SocCircle>
                 </SocContainer>
@@ -264,24 +301,26 @@ const HomePage = () => {
             <SectionContainer bg_color={colors.bg_color} size={60}>
                 <InnerFooter>
                     <div className="part1">
-                        <FooterTitle>A.C.M</FooterTitle>
-                        <FooterParagraph>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, animi autem voluptatum impedit eos explicabo corrupti dolorum molestias blanditiis qui ipsa aut unde fugit nihil, accusamus molestiae, fuga porro alias?</FooterParagraph>
+                        <FooterTitle>ALL AFRICAN TOKEN</FooterTitle>
+                        <FooterParagraphInhouse>
+                           <Highlight> OVERCOMING</Highlight> POVERTY IS NOT A TASK OF CHARITY IT IS AN ACT OF JUSTICE <br /> “ Nelson Mandela
+                        </FooterParagraphInhouse>
                     </div>
                     <div className="part2">
                         <FooterTitle>GET STARTED.</FooterTitle>
-                        <FooterParagraph>We have several investment channels to choose from. Start your awesome<br/> journey now.</FooterParagraph>
+                        <FooterParagraphInhouse><Highlight>ALL AFRICAN TOKEN</Highlight>  WILL ELIMINATE POVERTY IN THE AFRICAN CONTINENT COME AND WITNESS HISTORY<br/> journey now.</FooterParagraphInhouse>
                         <PackageBtn onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get started</PackageBtn>
                     </div>
                     <div className="part3">
                         <FooterTitle>GET IN TOUCH</FooterTitle>
                         <div className="contacts">
-                            <ContactDetail>
+                            {/* <ContactDetail>
                                 <strong>Cell:</strong>
                                 <FooterParagraph>+264 854 998 481</FooterParagraph>
-                            </ContactDetail>
+                            </ContactDetail> */}
                             <ContactDetail>
                                 <strong>Email:</strong>
-                                <FooterParagraph>assistance@ariel_crypto.com</FooterParagraph>
+                                <FooterParagraph>assistance@allafricantoken.com</FooterParagraph>
                             </ContactDetail>
                         </div>
                     </div>
@@ -298,7 +337,60 @@ const HomePage = () => {
 }
 
 
+export const FooterParagraphInhouse = styled.p`
+    margin: 0;
+    color: #01050f;
+    text-transform: lowercase;
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
+    padding-top: 10px;
+    padding-bottom: 10px;
+`;
+export const CoPlansBox = styled.div`
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+`;
+export const CoPlanBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 1px 1px 12px rgba(192,192,192,0.2);
+    padding: 12px;
+    text-align: center;
+`;
+export const CoPlanTitle = styled.p`
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 23px;
+    color: ${colors.accent};
+`;
 
+export const StarContainer = styled.div`
+    border: 1px solid ${colors.accent};
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${colors.accent};
+`;
+export const CompansationPlanContainer = styled.div`
+    /* display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 15px;
+    margin-bottom: 14px;
+`;
 export const ValueContainerColumn = styled.div`
     display: flex;
     flex-direction: column;
