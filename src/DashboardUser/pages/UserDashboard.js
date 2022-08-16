@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import { Outlet, NavLink } from "react-router-dom";
 
@@ -30,24 +30,65 @@ import { UserAuth } from "../../contexts/AuthContext";
 
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/actions/modalAction";
+import { doc, getDoc } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage, db } from "../../firebase/config";
+
+
+
+const getProofImg = async (id) => {
+    const docRef = doc(db, "avatars", id);
+    const docSnap = await getDoc(docRef);
+  
+    try {
+        const data = docSnap.data();
+        console.log(data)
+        return data
+    } catch (error) {console.log("My error", error)}
+}
+
+const ImageRender = ({imgName}) => {
+    const [my_img, setMy_img] = useState(null)
+    const imgRef = ref(storage, `avatars/${imgName}`);
+    getDownloadURL(imgRef)
+    .then((url) => {
+      setMy_img(url)
+    //   console.log("Possible url ", url)
+    })
+    if(my_img !== null) return<Imager src={my_img} alt="" />
+    if(my_img === null) return <ImageWarning></ImageWarning>
+  }
+
 
 const UserDashboard = () => {
-    const { userdata} = UserAuth();
+    const [imageName, setImageName] = useState(null)
+    const { userdata, user } = UserAuth();
     console.log("My user", userdata)
     const dispatch = useDispatch()
     const handleLogout = () => {
         // alert("Logging you out")
         dispatch(openModal())
     }
+
+    useEffect(() => {
+        try{
+         getProofImg(user.uid).then((data) => {
+           console.log("My img profile", data)
+           setImageName(data.name)
+          })
+        } catch(e) {console.log(e)}
+    }, [user])
+
     return(
         <MainContainer className="main_container">
             <LeftContainer className="left_container">
                 <LeftMenu className="left_menu">
                     <ProfileContainer>
                     <UserProfileContainer className="user_profile_container">
-                        <UserPicContainer className="left_user_profile_box">
-                            <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" />
-                        </UserPicContainer>
+                        <ImgBox>
+                            {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
+                            {imageName && <ImageRender imgName={imageName} />}
+                        </ImgBox>
                         <UserDetailsContainer className="right_user_profile_box">
                             <UserTitle>{userdata.names}</UserTitle>
                             <UserPlan>{userdata.userType}</UserPlan>
@@ -86,6 +127,27 @@ const UserDashboard = () => {
         </MainContainer>
     )
 }
+
+
+export const ImgBox = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+    background-color: ${colors.accent};
+`;
+export const Imager = styled.img`
+    width: 100%;
+`;
+
+export const ImageWarning = styled.div`
+  background: linear-gradient(45deg, #8E2DE2, #4A00E0);
+`;
+export const Waiting = styled.p`
+  margin: 0;
+  color: #fff;
+`;
 
 export const ProfileContainer = styled.div`
     display: flex;

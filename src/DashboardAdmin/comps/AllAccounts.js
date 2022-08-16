@@ -29,7 +29,7 @@ const AllAccounts = () => {
   return (
     <>
       {my_users && my_users.map(item=>(
-        <UserBox name={item.names} email={item.email} />
+        <UserBox name={item.names} email={item.email} key={item.id} />
       ))}
     </>
   )

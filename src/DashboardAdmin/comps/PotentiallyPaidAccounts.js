@@ -15,7 +15,7 @@ const PotentiallyPaidAccounts = () => {
     navigate("/admin_dash/verify_single", {state: {
       id,
       refererId,
-      name,
+      name, 
       email,
       cell,
       address,
@@ -36,7 +36,7 @@ const PotentiallyPaidAccounts = () => {
       unsubscribe();
   }
   }, [])
-
+ 
   // useEffect(() => {
   //   console.log("The users ", my_users)
   // }, [my_users])

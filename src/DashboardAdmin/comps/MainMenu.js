@@ -9,7 +9,7 @@ const MainMenu = () => {
     const location = useLocation();
   return (
     <MenuContainer>
-        <Brand>Ariel Crypto</Brand>
+        <Brand>ALRICAN TOKEN</Brand>
 
         <AdminControlsTitle>Admin Controls</AdminControlsTitle>
         <AdminControls>

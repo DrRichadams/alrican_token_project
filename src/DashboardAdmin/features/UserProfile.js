@@ -1,17 +1,56 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import { openModal } from '../../store/actions/modalAction';
 import { colors } from '../../constants/colors';
 import { FiLogOut } from "react-icons/fi";
+import { doc, getDoc } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage, db } from '../../firebase/config';
+import { UserAuth } from '../../contexts/AuthContext';
+
+const getProofImg = async (id) => {
+    const docRef = doc(db, "avatars", id);
+    const docSnap = await getDoc(docRef);
+  
+    try {
+        const data = docSnap.data();
+        console.log(data)
+        return data
+    } catch (error) {console.log("My error", error)}
+  }
+
+  const ImageRender = ({imgName}) => {
+    const [my_img, setMy_img] = useState(null)
+    const imgRef = ref(storage, `avatars/${imgName}`);
+    getDownloadURL(imgRef)
+    .then((url) => {
+      setMy_img(url)
+    //   console.log("Possible url ", url)
+    })
+    if(my_img !== null) return<Imager src={my_img} alt="" />
+    if(my_img === null) return <ImageWarning></ImageWarning>
+  }
 
 const UserProfile = () => {
+    const [imageName, setImageName] = useState(null)
+    const {user} = UserAuth();
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        try{
+         getProofImg(user.uid).then((data) => {
+           console.log("My img profile", data)
+           setImageName(data.name)
+          })
+        } catch(e) {console.log(e)}
+       }, [user])
   return (
     <Controls>
         <UserProfiler>
             <Image>
-                <Img src={process.env.PUBLIC_URL + "/images/user1.jpg"} alt="" />
+                {/* <Img src={process.env.PUBLIC_URL + "/images/user1.jpg"} alt="" /> */}
+                {imageName && <ImageRender imgName={imageName} />}
             </Image>
             <Names>
                 <Name>Richard</Name>
@@ -25,6 +64,19 @@ const UserProfile = () => {
   )
 }
 
+
+
+export const Imager = styled.img`
+    width: 100%;
+`;
+
+export const ImageWarning = styled.div`
+  background: linear-gradient(45deg, #8E2DE2, #4A00E0);
+`;
+export const Waiting = styled.p`
+  margin: 0;
+  color: #fff;
+`;
 
 export const LogoutBtn = styled.div`
     color: ${colors.accent};

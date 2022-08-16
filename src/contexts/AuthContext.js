@@ -48,6 +48,10 @@ export const AuthContextProvider = ({children}) => {
             air_drops: "0.00",
             coins: "0.00"
         });
+        await setDoc(doc(db, "avatars", id), {
+            id,
+            name: "default.png",
+        });
         await setDoc(doc(db, "affiliates", refId), {
             [id]: {
                 id,
@@ -107,8 +111,16 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const userVerificationFirebase = async (id) => {
+        // We have to later subtract the affiliates percentage from signup fee
+
+        let deducted = (signupfee - ((affiliatespercentage / 100) * signupfee));
+
         await setDoc(doc(db, "users", id), {
             isVerified: true,
+        }, { merge: true });
+
+        await setDoc(doc(db, "trust-coins", id), {
+            coins: deducted,
         }, { merge: true });
         alert("User is now verified");
         // window.location.reload();
