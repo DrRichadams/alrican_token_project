@@ -18,7 +18,7 @@ const getProofImg = async (id) => {
         console.log(data)
         return data
     } catch (error) {console.log("My error", error)}
-  }
+}
 
   const ImageRender = ({imgName}) => {
     const [my_img, setMy_img] = useState(null)
@@ -44,7 +44,7 @@ const UserProfile = () => {
            setImageName(data.name)
           })
         } catch(e) {console.log(e)}
-       }, [user])
+    }, [user])
   return (
     <Controls>
         <UserProfiler>

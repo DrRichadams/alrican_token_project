@@ -58,6 +58,7 @@ import TsAndCsForAffiliates from './DashboardAdmin/comps/TsAndCsForAffiliates';
 import WalletAddresses from './DashboardAdmin/comps/WalletAddresses';
 import AddWalletModal from './modals/AddWalletModal';
 import ChangeWalletModal from './modals/ChangeWalletModal';
+import ChangeAvatarModal from './modals/ChangeAvatarModal';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -130,6 +131,7 @@ function App() {
         <ChangeWalletModal />
         <AddWalletModal />
         <LogoutModal />
+        <ChangeAvatarModal />
       </AuthContextProvider>
     </AppContainer>
   );
