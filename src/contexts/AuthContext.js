@@ -109,6 +109,13 @@ export const AuthContextProvider = ({children}) => {
         alert("Wallet changed successfully");
         window.location.reload();
     }
+    const updateAvatarFirebase = async (id, name) => {
+        await setDoc(doc(db, "avatars", id), {
+            name
+        }, { merge: true });
+        alert("Avatar updated successfully");
+        window.location.reload();
+    }
 
     const userVerificationFirebase = async (id) => {
         // We have to later subtract the affiliates percentage from signup fee
@@ -371,6 +378,7 @@ export const AuthContextProvider = ({children}) => {
             proofImg,
             userVerificationFirebase,
             hasProvidedProofFirebase,
+            updateAvatarFirebase,
         }}>
             {children}
         </AuthContext.Provider>

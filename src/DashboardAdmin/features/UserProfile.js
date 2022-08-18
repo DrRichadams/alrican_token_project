@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
-import { openModal } from '../../store/actions/modalAction';
+import { openAvatarModal, openModal } from '../../store/actions/modalAction';
 import { colors } from '../../constants/colors';
 import { FiLogOut } from "react-icons/fi";
 import { doc, getDoc } from "firebase/firestore";
@@ -45,10 +45,15 @@ const UserProfile = () => {
           })
         } catch(e) {console.log(e)}
     }, [user])
+
+    const handleUserProfileClicked = () => {
+        dispatch(openAvatarModal())
+    }
+
   return (
     <Controls>
         <UserProfiler>
-            <Image>
+            <Image onClick={() => handleUserProfileClicked()}>
                 {/* <Img src={process.env.PUBLIC_URL + "/images/user1.jpg"} alt="" /> */}
                 {imageName && <ImageRender imgName={imageName} />}
             </Image>
@@ -112,6 +117,27 @@ export const Image = styled.div`
     border: 2px solid ${colors.accent};
     border-radius: 50%;
     overflow: hidden;
+    position: relative;
+    transition: all .25s ease-in-out;
+    :hover {
+        ::after{
+            content: 'Edit';
+            transition: all .25s ease-in-out;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Roboto, sans-serif;
+            color: #f5f5f5;
+            cursor: pointer;
+        }
+    }
 `;
 
 export const Names = styled.div`

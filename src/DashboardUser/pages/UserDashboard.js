@@ -29,7 +29,7 @@ import {
 import { UserAuth } from "../../contexts/AuthContext";
 
 import { useDispatch } from "react-redux";
-import { openModal } from "../../store/actions/modalAction";
+import { openModal, openAvatarModal } from "../../store/actions/modalAction";
 import { doc, getDoc } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../../firebase/config";
@@ -79,16 +79,20 @@ const UserDashboard = () => {
         } catch(e) {console.log(e)}
     }, [user])
 
+    const handleUserProfileClicked = () => {
+        dispatch(openAvatarModal())
+    }
+
     return(
         <MainContainer className="main_container">
             <LeftContainer className="left_container">
                 <LeftMenu className="left_menu">
                     <ProfileContainer>
                     <UserProfileContainer className="user_profile_container">
-                        <ImgBox>
+                        <ImgBoxer onClick={() => handleUserProfileClicked()}>
                             {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
                             {imageName && <ImageRender imgName={imageName} />}
-                        </ImgBox>
+                        </ImgBoxer>
                         <UserDetailsContainer className="right_user_profile_box">
                             <UserTitle>{userdata.names}</UserTitle>
                             <UserPlan>{userdata.userType}</UserPlan>
@@ -128,6 +132,38 @@ const UserDashboard = () => {
     )
 }
 
+
+
+export const ImgBoxer = styled.div`
+        background-color: #f5f5f5;
+    width: 50px;
+    height: 50px;
+    border: 2px solid ${colors.accent};
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    transition: all .25s ease-in-out;
+    margin-right: 20px;
+    :hover {
+        ::after{
+            content: 'Edit';
+            transition: all .25s ease-in-out;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Roboto, sans-serif;
+            color: #f5f5f5;
+            cursor: pointer;
+        }
+    }
+`;
 
 export const ImgBox = styled.div`
     width: 50px;
