@@ -11,7 +11,9 @@ export const RightContainer = styled.div`
     background-repeat: no-repeat;
     background-position: center; */
     width: 100%;
+    min-height: 100vh;
     padding: 20px 100px;
+    padding-top: 50px;
     position: relative;
     overflow: hidden;
 `;

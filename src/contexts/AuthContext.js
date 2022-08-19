@@ -1,6 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore"; 
+import { 
+    doc, 
+    setDoc, 
+    serverTimestamp, 
+    getDoc,
+    collection,
+    query,
+    onSnapshot
+ } from "firebase/firestore"; 
 
 import {auth, db} from "../firebase/config";
 
@@ -24,6 +32,7 @@ export const AuthContextProvider = ({children}) => {
     const [ethereumwallets, setethereumwallets] = useState([]);
     const [tronwallets, settronwallets] = useState([]);
     const [proofImg, setproofImg] = useState(null);
+    const [my_avatars, set_my_avatars] = useState([]);
 
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
@@ -50,7 +59,8 @@ export const AuthContextProvider = ({children}) => {
         });
         await setDoc(doc(db, "avatars", id), {
             id,
-            name: "default.png",
+            avatar_id: "default",
+            url: `https://firebasestorage.googleapis.com/v0/b/acm-crypto.appspot.com/o/avatars%2Fdefault.png?alt=media&token=140155b0-fc3e-4472-a9c5-8b89a752973b`,
         });
         await setDoc(doc(db, "affiliates", refId), {
             [id]: {
@@ -109,9 +119,10 @@ export const AuthContextProvider = ({children}) => {
         alert("Wallet changed successfully");
         window.location.reload();
     }
-    const updateAvatarFirebase = async (id, name) => {
+    const updateAvatarFirebase = async (id, name, av_id) => { 
         await setDoc(doc(db, "avatars", id), {
-            name
+            avatar_id: av_id,
+            url: name
         }, { merge: true });
         alert("Avatar updated successfully");
         window.location.reload();
@@ -344,6 +355,22 @@ export const AuthContextProvider = ({children}) => {
         }
     }, []);
 
+
+    useEffect(() => {
+        const q = query(collection(db, "avatar-store"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const avatars = [];
+          querySnapshot.forEach((doc) => {
+            avatars.push(doc.data());
+          });
+          set_my_avatars(avatars);
+        });
+    
+        return () => {
+          unsubscribe();
+      }
+      }, [])
+
     const loadSpinner = () => setIsSpinner(true);
     const unloadSpinner = () => setIsSpinner(false);
 
@@ -379,6 +406,7 @@ export const AuthContextProvider = ({children}) => {
             userVerificationFirebase,
             hasProvidedProofFirebase,
             updateAvatarFirebase,
+            my_avatars,
         }}>
             {children}
         </AuthContext.Provider>

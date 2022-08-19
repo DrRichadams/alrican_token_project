@@ -34,7 +34,7 @@ export const LeftMenu = styled.div`
     box-sizing: border-box;
 `;
 export const LeftContainer = styled.div`
-
+    /* display: none; */
 `;
 export const MainContainer = styled.div`
     display: flex;

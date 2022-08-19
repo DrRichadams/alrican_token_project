@@ -25,57 +25,46 @@ const getProofImg = async (id) => {
 
 const ChangeAvatarModal = () => {
     const [imageName, setImageName] = useState(null)
+    const [avId, setavId] = useState(null)
     const [currentImg, setCurrentImg] = useState('default.png')
     const {isOpen} = useSelector(state => state.changeAvatar);
     const dispatch = useDispatch()
 
-    const {user, updateAvatarFirebase} = UserAuth();
+    const {user, updateAvatarFirebase, my_avatars} = UserAuth();
 
       useEffect(() => {
         try{
          getProofImg(user.uid).then((data) => {
            console.log("My img profile", data)
-           setImageName(data.name)
+           setImageName(data.url)
           })
         } catch(e) {console.log(e)}
     }, [user])
 
-    useEffect(() => {
-        setCurrentImg(imageName)
-    },[imageName])
+    // FEEDING INTO THE CURRENT IMAGE STATE FROM THE AUTH AVATARS ARRAY
+    useEffect(() => setCurrentImg(imageName),[imageName])
 
-    const [avatars] = useState([
-        {id: 1, name: "default.png"},
-        {id: 2, name: "boy.png"},
-        {id: 3, name: "girl.png"},
-        {id: 4, name: "nana.png"},
-        {id: 5, name: "mama.png"},
-        {id: 6, name: "papa.png"},
-        {id: 7, name: "pops.png"},
-    ])
-
-    const handleSelectAvatar = (name) => {
-        setCurrentImg(name);
+    // HANDLING AVATAR CHANGE FUNCTIONS
+    // const handleSelectAvatar = (name) => setCurrentImg(name)
+    const handleSelectAvatar = (name, av) => {
+        setImageName(name);
+        setavId(av)
     }
-
-    const handleChangeAvatar = () => {
-        updateAvatarFirebase(user.uid, currentImg);
-    }
+    const handleChangeAvatar = () => updateAvatarFirebase(user.uid, imageName, avId);
 
     return ReactDOM.createPortal(
         <PortalContainer show={isOpen ? "flex":"none"}>
             <ChangeAvatarBox>
                 <BtnClose onClick={() => dispatch(closeAvatarModal())}><FiX size={25} /></BtnClose>
                 <AvatarPreviewBox>
-                    <PrevImage src={process.env.PUBLIC_URL+ `avatars/${currentImg}`}/>
+                    {/* <PrevImage src={process.env.PUBLIC_URL+ `avatars/${currentImg}`}/> */}
+                    <PrevImage src={imageName}/>
                 </AvatarPreviewBox>
                 <AvatarSelection>
-                    {avatars.map(item=> (
-                        <AvatarBox onClick={() => handleSelectAvatar(item.name)} key={item.id}>
-                            <Image src={process.env.PUBLIC_URL + `avatars/${item.name}`}/>
-                            <NameAvatar>
-                                {item.name.split('.')[0]}
-                            </NameAvatar>
+                    {my_avatars.map(item=> (
+                        <AvatarBox onClick={() => handleSelectAvatar(item.url, item.id)} key={item.id}>
+                            <Image src={item.url}/>
+                            <NameAvatar>{item.id}</NameAvatar>
                         </AvatarBox>
                     ))}
                 </AvatarSelection>

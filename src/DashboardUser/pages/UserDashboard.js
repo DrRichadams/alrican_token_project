@@ -47,23 +47,10 @@ const getProofImg = async (id) => {
     } catch (error) {console.log("My error", error)}
 }
 
-const ImageRender = ({imgName}) => {
-    const [my_img, setMy_img] = useState(null)
-    const imgRef = ref(storage, `avatars/${imgName}`);
-    getDownloadURL(imgRef)
-    .then((url) => {
-      setMy_img(url)
-    //   console.log("Possible url ", url)
-    })
-    if(my_img !== null) return<Imager src={my_img} alt="" />
-    if(my_img === null) return <ImageWarning></ImageWarning>
-  }
-
-
 const UserDashboard = () => {
     const [imageName, setImageName] = useState(null)
     const { userdata, user } = UserAuth();
-    console.log("My user", userdata)
+    // console.log("My user", userdata)
     const dispatch = useDispatch()
     const handleLogout = () => {
         // alert("Logging you out")
@@ -73,8 +60,8 @@ const UserDashboard = () => {
     useEffect(() => {
         try{
          getProofImg(user.uid).then((data) => {
-           console.log("My img profile", data)
-           setImageName(data.name)
+        //    console.log("My img profile", data)
+           setImageName(data.url)
           })
         } catch(e) {console.log(e)}
     }, [user])
@@ -91,7 +78,8 @@ const UserDashboard = () => {
                     <UserProfileContainer className="user_profile_container">
                         <ImgBoxer onClick={() => handleUserProfileClicked()}>
                             {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
-                            {imageName && <ImageRender imgName={imageName} />}
+                            {/* {imageName && <ImageRender imgName={imageName} />} */}
+                            <Imager src={imageName} alt="" />
                         </ImgBoxer>
                         <UserDetailsContainer className="right_user_profile_box">
                             <UserTitle>{userdata.names}</UserTitle>
@@ -126,6 +114,10 @@ const UserDashboard = () => {
                 </LeftMenu>
             </LeftContainer>
             <RightContainerComponent>
+                <KYC_box>
+                    <KYC_Title>You must enter your KYC information in order to be able to withdraw money.</KYC_Title>
+                    <KYC_btn>Let's do it!</KYC_btn>
+                </KYC_box>
                 <Outlet />
             </RightContainerComponent>
         </MainContainer>
@@ -133,6 +125,28 @@ const UserDashboard = () => {
 }
 
 
+export const KYC_btn = styled.button`
+    
+`;
+export const KYC_Title = styled.p`
+    margin: 0;
+    color: orangered;
+    font-family: Roboto, sans-serif;
+`;
+export const KYC_box = styled.div`
+    background-color: #f5f5f5;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    padding: 12px 20px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
 
 export const ImgBoxer = styled.div`
         background-color: #f5f5f5;
