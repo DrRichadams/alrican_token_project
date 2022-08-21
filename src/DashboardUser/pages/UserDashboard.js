@@ -5,6 +5,7 @@ import { Outlet, NavLink } from "react-router-dom";
 import { colors } from "../../constants/colors";
 import { AiFillGold } from "react-icons/ai"
 import { AiFillAppstore } from "react-icons/ai"
+import { AiFillWarning } from "react-icons/ai"
 import { FaUserFriends } from "react-icons/fa"
 import { MdHistory } from "react-icons/md"
 import { RiLogoutCircleRLine } from "react-icons/ri"
@@ -115,7 +116,10 @@ const UserDashboard = () => {
             </LeftContainer>
             <RightContainerComponent>
                 <KYC_box>
-                    <KYC_Title>You must enter your KYC information in order to be able to withdraw money.</KYC_Title>
+                    <KYC_warning>
+                        <KYC_Title>You must enter your KYC information in order to be able to withdraw money.</KYC_Title>
+                        <AiFillWarning size={20} />
+                    </KYC_warning>
                     <KYC_btn>Let's do it!</KYC_btn>
                 </KYC_box>
                 <Outlet />
@@ -125,8 +129,27 @@ const UserDashboard = () => {
 }
 
 
+export const KYC_warning = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: orangered;
+`;
+
 export const KYC_btn = styled.button`
-    
+    border: none;
+    background-color: orangered;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .25s ease-in-out;
+    :hover {
+        background-color: red;
+        color: black;
+    }
 `;
 export const KYC_Title = styled.p`
     margin: 0;
@@ -142,7 +165,8 @@ export const KYC_box = styled.div`
     width: 90%;
     padding: 12px 20px;
     border-radius: 7px;
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.4),
+                -1px -1px 4px rgba(0,0,0,0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;

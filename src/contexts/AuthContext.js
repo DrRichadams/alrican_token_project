@@ -57,6 +57,12 @@ export const AuthContextProvider = ({children}) => {
             air_drops: "0.00",
             coins: "0.00"
         });
+        await setDoc(doc(db, "KYC", id), {
+            id,
+            hasKYC: false,
+            KYC_type: "",
+            KYC_url: "",
+        });
         await setDoc(doc(db, "avatars", id), {
             id,
             avatar_id: "default",

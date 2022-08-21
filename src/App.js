@@ -59,6 +59,7 @@ import WalletAddresses from './DashboardAdmin/comps/WalletAddresses';
 import AddWalletModal from './modals/AddWalletModal';
 import ChangeWalletModal from './modals/ChangeWalletModal';
 import ChangeAvatarModal from './modals/ChangeAvatarModal';
+import KYC from './DashboardUser/pages/KYC';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -77,6 +78,7 @@ function App() {
             <Route path='/verify2' element={<Verify_2_payment />} />
             <Route path='/verify3' element={<Verify_3_proof />} />
             <Route path='/verify4' element={<Verify_4_thanks />} />
+            <Route path='/kyc' element={<KYC />} />
             {
               userRoutesAllowed ?
               <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
