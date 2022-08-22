@@ -33,6 +33,7 @@ export const AuthContextProvider = ({children}) => {
     const [tronwallets, settronwallets] = useState([]);
     const [proofImg, setproofImg] = useState(null);
     const [my_avatars, set_my_avatars] = useState([]);
+    const [hasKYC, set_hasKYC] = useState(null);
 
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
@@ -62,6 +63,7 @@ export const AuthContextProvider = ({children}) => {
             hasKYC: false,
             KYC_type: "",
             KYC_url: "",
+            isAccepted: false,
         });
         await setDoc(doc(db, "avatars", id), {
             id,
@@ -86,6 +88,15 @@ export const AuthContextProvider = ({children}) => {
         await setDoc(doc(db, "tees_and_cees", id), {
             value: tees
         }, { merge: true });
+    }
+    const addKYCFirebase = async (id, url) => {
+        await setDoc(doc(db, "KYC", id), {
+            id,
+            hasKYC: true,
+            KYC_type: "",
+            KYC_url: url,
+        }, { merge: true });
+        window.location.reload();
     }
     const addWalletFirebase = async (id, name, address) => {
         const cur_id = Math.random().toString();
@@ -327,6 +338,17 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
+    const getKYCData = async (id) => {
+        const docRef = doc(db, "KYC", id);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -352,6 +374,7 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getBitcoinWallets().then((udata) => setbitcoinwallets(Object.values(udata)));
             currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
+            currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
 
             // currentUser && getProofImg(currentUser.id).then((udata) => setproofImg(udata));
             // currentUser && getProofImg(currentUser.id);
@@ -413,6 +436,8 @@ export const AuthContextProvider = ({children}) => {
             hasProvidedProofFirebase,
             updateAvatarFirebase,
             my_avatars,
+            addKYCFirebase,
+            hasKYC,
         }}>
             {children}
         </AuthContext.Provider>

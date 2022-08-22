@@ -15,11 +15,44 @@ const CircleDetailer = ({tc, usd}) => {
   )
 }
 
+const WholeWallet = ({active, type, proceedFunc}) => {
+  const [walletAddress, setwalletAddress] = useState('');
+
+  const handleChange = (e) => {
+    setwalletAddress(e.target.value)
+  }
+
+  const handleRequest = () => {
+    alert(walletAddress)
+    proceedFunc()
+  }
+  
+  return(
+    <WalletProvider display={active ? "flex":"none"}>
+      <WalletInput>
+        <ProviderLabel>Wallet address</ProviderLabel>
+        <ProviderInput 
+          type="text" 
+          placeholder={`Enter your ${type} wallet address`} 
+          value={walletAddress} 
+          onChange={(e) => handleChange(e)} 
+        />
+      </WalletInput>
+      <ProviderBtn onClick={handleRequest}>Request withdraw</ProviderBtn>
+    </WalletProvider> 
+  )
+}
+
 const WithdrawTrustCoinsPage = () => {
   const {coinrate, trustcoins} = UserAuth();
   const [toWithdraw, setToWithdraw] = useState(null)
   const [error, setError] = useState(null)
-  console.log("Rate", coinrate)
+  const [isNext, setisNext] = useState(false)
+
+  const [isBitcoin, setisBitcoin] = useState(false)
+  const [isEthereum, setisEthereum] = useState(false)
+  const [isTron, setisTron] = useState(false)
+  // console.log("Rate", coinrate)
 
   const usdAmountFunc = (rate, coins) => rate * coins
 
@@ -37,27 +70,144 @@ const WithdrawTrustCoinsPage = () => {
       }
     }
   }
-    
-  return (
-    <WithDrawContainer>
-      {trustcoins && <CircleDetailer tc={trustcoins.coins} usd={usdAmountFunc(trustcoins.coins, coinrate)} />}
-      <MainTitle>Withdraw from your trust coins</MainTitle>
-      {error && 
-        <ErrorBox>
-          <TiWarning size={25} />
-          <ErrorText>{error}</ErrorText>
-        </ErrorBox>
+
+  const handleNext = () => {
+    setisNext(true)
+  }
+
+  const handleWalletSelect = (type) => {
+      if(type === "bitcoin") {
+        setisBitcoin(true);
+        setisEthereum(false);
+        setisTron(false);
       }
-      
-      <InputContainer>
-          <InputLabel>USD$</InputLabel>
-          <Input placeholder='Amount to withdraw' onChange={(e) => handleChange(e)} value={toWithdraw} />
-      </InputContainer>
-      { toWithdraw && <RequestBtn>Request withdraw</RequestBtn> }
-    </WithDrawContainer>
-  )
+      if(type === "ethereum") {
+        setisBitcoin(false);
+        setisEthereum(true);
+        setisTron(false);
+      }
+      if(type === "tron") {
+        setisBitcoin(false);
+          setisEthereum(false);
+          setisTron(true);
+      }
+  }
+
+  const handleProceed = () => {
+    alert("Proceeding")
+  }
+    
+  if(!isNext) return (
+        <WithDrawContainer>
+          {trustcoins && <CircleDetailer tc={trustcoins.coins} usd={usdAmountFunc(trustcoins.coins, coinrate)} />}
+          <MainTitle>Withdraw from your trust coins</MainTitle>
+          {error && 
+            <ErrorBox>
+              <TiWarning size={25} />
+              <ErrorText>{error}</ErrorText>
+            </ErrorBox>
+          }
+          
+          <InputContainer>
+              <InputLabel>USD$</InputLabel>
+              <Input placeholder='Amount to withdraw' onChange={(e) => handleChange(e)} value={toWithdraw} />
+          </InputContainer>
+          {/* { toWithdraw && <RequestBtn>Request withdraw</RequestBtn> } */}
+          { toWithdraw && <RequestBtn onClick={handleNext}>Next</RequestBtn> }
+        </WithDrawContainer>
+    )
+  
+    if(isNext) return (
+      <WalletDetailsBox>
+        <MainTitle>Provide your crypto wallet address</MainTitle>
+
+        <ChooseTitle>Choose your prefered wallet below</ChooseTitle>
+        <WalletsBox>
+          <WalletSelect active={isBitcoin} onClick={() => handleWalletSelect("bitcoin")}>Bitcoin</WalletSelect>
+          <WholeWallet active={isBitcoin} type='bitcoin' proceedFunc={() => handleProceed()} />
+          <WalletSelect active={isEthereum} onClick={() => handleWalletSelect("ethereum")}>Ethereum</WalletSelect>
+          <WholeWallet active={isEthereum} type='ethereum' proceedFunc={() => handleProceed()} />
+          <WalletSelect active={isTron} onClick={() => handleWalletSelect("tron")}>Tron</WalletSelect>
+          <WholeWallet active={isTron} type='tron' proceedFunc={() => handleProceed()} />
+        </WalletsBox>
+      </WalletDetailsBox>
+    )
 }
 
+
+
+export const ChooseTitle = styled.p`
+  margin: 0;
+  margin-bottom: 5px;
+  text-align: center;
+`;
+export const ProviderBtn = styled.button`
+  border: none;
+  background-color: ${colors.accent};
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  color: ${colors.secondary};
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+  :hover {
+    background-color: ${colors.accentShadow};
+    color: #01050f;
+  }
+`;
+
+export const WalletInput = styled.div`
+  width: 100%;
+`;
+
+export const ProviderInput = styled.input`
+  padding: 8px;
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  /* background-color: ${colors.accentShadow}; */
+`;
+
+export const ProviderLabel = styled.p`
+  margin: 0;
+  font-family: Roboto, sans-serif;
+`;
+
+export const WalletProvider = styled.div`
+  /* display: ${props => props.active ? "flex":"none"}; */
+  display: ${props => props.display};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+`;
+
+export const WalletDetailsBox = styled.div``;
+
+export const WalletsBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+`;
+
+export const WalletSelect = styled.button`
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  font-family: Roboto, sans-serif;
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+  background-color: ${props => props.active ? colors.accent: colors.accentShadow};
+  color: ${props => props.active ? "#fff": "#01050f"};
+  /* border: 2px solid ${colors.accentShadow}; */
+  border: 2px solid transparent;
+  :hover {
+    border-color: ${colors.accent};
+  }
+`;
 
 export const ErrorBox = styled.div`
     display: flex;
@@ -120,6 +270,7 @@ export const MainTitle = styled.p`
   font-weight: 700;
   text-transform: uppercase;
   color: #01050f;
+  text-align: center;
 `;
 export const Value = styled.p`
   margin: 0;

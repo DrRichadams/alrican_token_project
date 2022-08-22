@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 import { colors } from "../../constants/colors";
 import { AiFillGold } from "react-icons/ai"
@@ -36,7 +36,6 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage, db } from "../../firebase/config";
 
 
-
 const getProofImg = async (id) => {
     const docRef = doc(db, "avatars", id);
     const docSnap = await getDoc(docRef);
@@ -50,13 +49,15 @@ const getProofImg = async (id) => {
 
 const UserDashboard = () => {
     const [imageName, setImageName] = useState(null)
-    const { userdata, user } = UserAuth();
+    const { userdata, user, hasKYC } = UserAuth();
     // console.log("My user", userdata)
     const dispatch = useDispatch()
     const handleLogout = () => {
         // alert("Logging you out")
         dispatch(openModal())
     }
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         try{
@@ -115,13 +116,16 @@ const UserDashboard = () => {
                 </LeftMenu>
             </LeftContainer>
             <RightContainerComponent>
-                <KYC_box>
-                    <KYC_warning>
-                        <KYC_Title>You must enter your KYC information in order to be able to withdraw money.</KYC_Title>
-                        <AiFillWarning size={20} />
-                    </KYC_warning>
-                    <KYC_btn>Let's do it!</KYC_btn>
-                </KYC_box>
+                {
+                    !hasKYC &&
+                    <KYC_box>
+                        <KYC_warning>
+                            <KYC_Title>You must enter your KYC information in order to be able to withdraw money.</KYC_Title>
+                            <AiFillWarning size={20} />
+                        </KYC_warning>
+                        <KYC_btn onClick={() => navigate("/KYC")}>Let's do it!</KYC_btn>
+                    </KYC_box>
+                }
                 <Outlet />
             </RightContainerComponent>
         </MainContainer>

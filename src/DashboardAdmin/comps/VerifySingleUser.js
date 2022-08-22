@@ -11,7 +11,7 @@ import { UserAuth } from '../../contexts/AuthContext';
 
 const getProofImg = async (id) => {
     const docRef = doc(db, "proofs", id);
-    const docSnap = await getDoc(docRef);
+    const docSnap = await getDoc(docRef); 
   
     try {
         const data = docSnap.data();
