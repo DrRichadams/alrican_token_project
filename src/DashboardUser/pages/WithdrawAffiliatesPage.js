@@ -1,72 +1,117 @@
-import React from 'react';
-import { FaMinus, FaPlus } from "react-icons/fa";
-
+import { type } from '@testing-library/user-event/dist/type';
+import React, {useState} from 'react';
 import { 
-    Tees,
-    BtnText,
-    RequestBtn,
-    TrustLabel,
-    AvailableCoinsTitle,
-    TrustBalance,
-    EquivalentBalance,
-    AmountsWithdraw,
-    PlaceWithdrawBox,
-    MainTitle,
-    SecondTitle,
-    Titles,
-    MiddleBar,
-    AvailableTrustCoins,
-    ChooseAmountBox,
-    FinalAmount,
-    AmountInput,
-    MathBtns,
-    IncrementBox,
-    WithdrawContainer,
- } from '../features/WithdrawStyledComponents';
+  WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
+  MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
+  CyptoSelectTitler, WalletAddressBox,
+ } from '../../DashboardAdmin/features/withdrawTrustCoinsPageStyledComps';
 
-const WithdrawTrustCoinsPage = () => {
+
+ const WalletTaker = ({btc, eth, trn, handleAddressChange, walletAddress}) => {
+  if(btc || eth || trn) return(
+    <WalletAddressBox>
+      <Labler>Provide wallet address for the selected crypto</Labler>
+      <Input 
+        type="text" 
+        placeholder='Enter wallet address for the crypto you selected' 
+        required={true} 
+        onChange={(e) => handleAddressChange(e)}
+        value={walletAddress}
+      />
+    </WalletAddressBox>
+  )
+ }
+ 
+
+const WithdrawAffiliatesPage = () => {
+  const [btnState, setBtnState] = useState({btc: false, eth: false, trn: false});
+  const [amount, setAmount] = useState('')
+  const [walletAddress, setwalletAddress] = useState('')
+  const [walletType, setwalletType] = useState('')
+
+  const handleMode = (type) => {
+    if(type === "btc") {
+      setBtnState({btc: true, eth: false, trn: false});
+      setwalletType("bitcoin");
+    };
+    if(type === "eth") {
+      setBtnState({btc: false, eth: true, trn: false});
+      setwalletType("ethereum");
+    };
+    if(type === "trn") {
+      setBtnState({btc: false, eth: false, trn: true});
+      setwalletType("tron");
+    };
+  } 
+
+  const handleAmountChange = (e) => {
+      if(isNaN(e.target.value)) return;
+      if(!isNaN(e.target.value)) setAmount(e.target.value)
+  }
+  const handleAddressChange = (e) => {
+    setwalletAddress(e.target.value)
+  }
+
+  let creds = {
+    id: 1,
+    type: "trust_coin",
+    wallet_type: walletType,
+    wallet_address: walletAddress,
+    amount: amount,
+    isServed: "pending"
+  }
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Request doc", creds)
+  }
+
   return (
-    <WithdrawContainer>
-      <Titles>
-        <MainTitle>Make a withdraw request</MainTitle>
-        <SecondTitle>on your <TrustLabel>AFFILIATES</TrustLabel></SecondTitle>
-      </Titles>
+    <WithdrawTC_container onSubmit={(e) => handleSubmit(e)}>
+      <MainTitle>Request withdraw form (Affiliates)</MainTitle>
+      <Disclaimer>Please fill in this form correctly, failure to do so will result in your withdrawal request being denied</Disclaimer>
+      <div className="availableBalanceBox">
+        <AvailBalanceTitle>Available balance</AvailBalanceTitle>
+        <BalanceBox>
+          <BalanceLabel>20 TC</BalanceLabel>
+          <Slash>|</Slash>
+          <BalanceLabel>USD$ 150</BalanceLabel>
+        </BalanceBox>
+      </div>
 
-      <AvailableTrustCoins>
-        <AvailableCoinsTitle>Available <TrustLabel>Balance</TrustLabel></AvailableCoinsTitle>
-        <MiddleBar></MiddleBar>
-        <div className="right_balance">
-            <TrustBalance>0.01285 TC</TrustBalance>
-            <EquivalentBalance>USD$ 200.28</EquivalentBalance>
-        </div>
-      </AvailableTrustCoins>
+      <div className="amountBox">
+        <Labler>How much do you wish to withdraw (in USD$)</Labler>
+        <Input 
+            type="text" 
+            placeholder='Amount to withdraw in USD$' 
+            required={true} 
+            value={amount} 
+            onChange={(e) => handleAmountChange(e)} 
+        />
+      </div>
 
-      <ChooseAmountBox>
-        <FinalAmount>USD$ 50.05</FinalAmount>
-        <IncrementBox>
-            <MathBtns><FaMinus size={20} /></MathBtns>
-            <AmountInput type="text" className="middle_input" />
-            <MathBtns><FaPlus size={20} /></MathBtns>
-        </IncrementBox>
-      </ChooseAmountBox>
+      <div className="cryptoSelect">
+        <CyptoSelectTitler>Select your crypto</CyptoSelectTitler>
+        <CryptoBtnsBox>
+          <CryptoBtn status={btnState.btc} onClick={() => handleMode("btc")} type="reset">Bitcoin</CryptoBtn>
+          <CryptoBtn status={btnState.eth} onClick={() => handleMode("eth")} type="reset">Ethereum</CryptoBtn>
+          <CryptoBtn status={btnState.trn} onClick={() => handleMode("trn")} type="reset">Tron</CryptoBtn>
+        </CryptoBtnsBox>
+      </div>
 
-      <PlaceWithdrawBox>
-        <AmountsWithdraw className="left_place_withdraw">
-            <TrustBalance>0.0001 TC</TrustBalance>
-            <EquivalentBalance>USD$ 50.05</EquivalentBalance>
-        </AmountsWithdraw>
-        <div className="right_place_withdraw">
-            <RequestBtn>
-                <BtnText>Request Withdraw</BtnText>
-            </RequestBtn>
-        </div>
-      </PlaceWithdrawBox>
+      <WalletTaker 
+        btc={btnState.btc}
+        eth={btnState.eth}
+        trn={btnState.trn}
+        handleAddressChange={handleAddressChange}
+        walletAddress={walletAddress}
+      />
 
-      <Tees>
-        Ts & Cs APPLY
-      </Tees>
-    </WithdrawContainer>
+      <div className="buttonBox">
+        <ReqBtn>Request withdraw | USD$ 50</ReqBtn>
+      </div>
+    </WithdrawTC_container>
   )
 }
 
-export default WithdrawTrustCoinsPage
+export default WithdrawAffiliatesPage

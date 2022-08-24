@@ -72,7 +72,7 @@ const HomePage = () => {
                 <HomeMenu />
                 {/* <div className="home_banner"> */}
                 <HomeBanner>
-                    <div className="left_sect">
+                    <HomeSectorBox>
                         <Title1 color={colors.secondary}>ALL AFRICAN TOKEN</Title1>
                         <Title2 color={colors.accent}>Private Sale</Title2>
                         <BannerText color={colors.secondary}>
@@ -80,10 +80,11 @@ const HomePage = () => {
                             Here you get a chance to purchase our coin at a very affordable 
                             price and become one of the first individuals to purchase our cryptocurrency
                         </BannerText>
-                    </div>
-                    <div className="right_sect">
-                        <Img1 src={process.env.PUBLIC_URL + "/images/banner_pic.png"} alt="" />
-                    </div>
+                    </HomeSectorBox>
+                    <HomeSectorBoxImg>
+                        {/* <Img1 src={process.env.PUBLIC_URL + "/images/banner_pic.png"} alt="" /> */}
+                        <Img1 src={process.env.PUBLIC_URL + "/onDark.png"} alt="" />
+                    </HomeSectorBoxImg>
                 </HomeBanner>
             </SectionContainer>
             <SectionContainer bg_color={colors.secondary}>
@@ -112,7 +113,7 @@ const HomePage = () => {
                 {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam, animi autem voluptatum impedit eos explicabo corrupti dolorum molestias blanditiis qui ipsa aut unde fugit nihil, accusamus molestiae, fuga porro alias?</p> */}
                 <QualitiesBox>
                     <StandForContainer>
-                        <img src={process.env.PUBLIC_URL + "images/mission.png"} alt="" />
+                        <QualityImage src={process.env.PUBLIC_URL + "images/mission.png"} alt="" />
                         <DetailsBox>
                             <QualitiesTitle>MISSION</QualitiesTitle>
                             <QualitiesStory>
@@ -136,11 +137,12 @@ const HomePage = () => {
                                 the Circulation and this will increase the Token price for the holders 
                             </QualitiesStory>
                         </DetailsBox>
-                        <img src={process.env.PUBLIC_URL + "images/vision.png"} alt="" />
+                        <QualityImage src={process.env.PUBLIC_URL + "images/vision.png"} alt="" />
                     </StandForContainer>
-                    <StandForContainer>
-                    <img src={process.env.PUBLIC_URL + "images/values.png"} alt="" />
-                        <DetailsBox>
+                    <ValuesContainer>
+                    <ValuesTitle2>VALUES</ValuesTitle2>
+                    <ValuesImage src={process.env.PUBLIC_URL + "values.png"} alt="" />
+                        {/* <DetailsBox>
                             <QualitiesTitle>VALUES</QualitiesTitle>
                             <QualitiesStory>
                                 <ValueContainer>
@@ -160,8 +162,8 @@ const HomePage = () => {
                                     <ValueTitle>PATIENCE</ValueTitle>
                                 </ValueContainer>
                             </QualitiesStory>
-                        </DetailsBox>
-                    </StandForContainer>
+                        </DetailsBox> */}
+                    </ValuesContainer>
                 </QualitiesBox>
             </SectionContainer>
             <SectionContainer bg_color={colors.bg_color}>
@@ -214,12 +216,13 @@ const HomePage = () => {
                 
                 <InvestmentPackagesComponent />
             </SectionContainer> */}
-            <SectionContainer bg_color={colors.menu_color}>
+            {/* <SectionContainer bg_color={colors.menu_color}> */}
+            <SectionContainer bg_color={"#f5f5f5"}>
                 <CustomeTitle color={colors.accent} b_color={colors.accent}> Why Buy Tokens during a private sale?</CustomeTitle>
                 <InnerServiceContainer>
                     <Img1 src={process.env.PUBLIC_URL + "/images/how_it_works.png"} alt="" className="left_service service_pic" />
                     <div className="right_service service_box">
-                        <h1 className="service_title">How to get the best out of our Token and Affiliates</h1>
+                        <WhyTitle>How to get the best out of our Token and Affiliates</WhyTitle>
                         <p className="service_paragraph">
                             The Benefits of buying your Tokens during our private sale is that you will accumulate 
                             more coins at a cheaper cost and you will be part of the first individuals to be notified 
@@ -337,6 +340,55 @@ const HomePage = () => {
 }
 
 
+
+export const WhyTitle = styled.h1`
+    font-family: Inter, sans-serif;
+`;
+export const HomeSectorBoxImg = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+export const HomeSectorBox = styled.div`
+    flex: 1;
+`;
+
+export const ValuesTitle2 = styled.h3`
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Inter, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: ${colors.accent};
+    position: relative;
+    width: 100%;
+    padding-bottom: 6px;
+    ::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        border-radius: 15px;
+        background-color: ${colors.accent};
+        opacity: .5;
+    }
+`;
+export const ValuesImage = styled.img`
+    width: 100%;
+    max-width: 430px;
+`;
+export const QualityImage = styled.img`
+    width: 100%;
+    max-width: 430px;
+`;
+export const ValuesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
 export const FooterParagraphInhouse = styled.p`
     margin: 0;
     color: #01050f;
@@ -355,6 +407,12 @@ export const CoPlansBox = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
+    @media (max-width: 860px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 650px) {
+        grid-template-columns: 1fr;
+    }
 `;
 export const CoPlanBox = styled.div`
     display: flex;
@@ -427,6 +485,9 @@ export const QualitiesTitle = styled.h3`
     margin-top: 25px;
     font-family: Inter, sans-serif;
     color: ${colors.accent};
+    font-family: Inter, sans-serif;
+    font-size: 45px;
+
 `;
 export const QualitiesBox = styled.div`
     
@@ -440,6 +501,13 @@ export const StandForContainer = styled.div`
     margin-top: 40px;
     padding: 12px;
     gap: 20px;
+    @media (max-width: 880px) {
+        /* grid-template-columns: 1fr; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 `;
 export const ValuesTitle = styled.h3`
     text-align: center;

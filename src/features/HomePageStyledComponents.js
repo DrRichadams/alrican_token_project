@@ -301,10 +301,11 @@ export const InnerServiceContainer = styled.div`
 export const HomeBanner = styled.div`
     display: flex;
     align-items: center;
-    height: 80vh;
+    min-height: 80vh;
     /* background-color: red; */
     @media (max-width: 780px) {
         flex-direction: column;
+        justify-content: center;
     };
 `;
 

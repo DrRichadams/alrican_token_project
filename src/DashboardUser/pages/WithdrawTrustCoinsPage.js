@@ -1,305 +1,117 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { colors } from '../../constants/colors';
-import { UserAuth } from '../../contexts/AuthContext';
-import { TiWarning } from "react-icons/ti";
+import { type } from '@testing-library/user-event/dist/type';
+import React, {useState} from 'react';
+import { 
+  WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
+  MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
+  CyptoSelectTitler, WalletAddressBox,
+ } from '../../DashboardAdmin/features/withdrawTrustCoinsPageStyledComps';
 
 
-const CircleDetailer = ({tc, usd}) => {
-  return(
-      <CircleDetailerContainer>
-        <Label>Available</Label>
-        <Value>{tc} TC</Value>
-        <Value>USD ${usd}</Value>
-      </CircleDetailerContainer>
+ const WalletTaker = ({btc, eth, trn, handleAddressChange, walletAddress}) => {
+  if(btc || eth || trn) return(
+    <WalletAddressBox>
+      <Labler>Provide wallet address for the selected crypto</Labler>
+      <Input 
+        type="text" 
+        placeholder='Enter wallet address for the crypto you selected' 
+        required={true} 
+        onChange={(e) => handleAddressChange(e)}
+        value={walletAddress}
+      />
+    </WalletAddressBox>
   )
-}
+ }
+ 
 
-const WholeWallet = ({active, type, proceedFunc}) => {
-  const [walletAddress, setwalletAddress] = useState('');
+const WithdrawTrustCoinsPage = () => {
+  const [btnState, setBtnState] = useState({btc: false, eth: false, trn: false});
+  const [amount, setAmount] = useState('')
+  const [walletAddress, setwalletAddress] = useState('')
+  const [walletType, setwalletType] = useState('')
 
-  const handleChange = (e) => {
+  const handleMode = (type) => {
+    if(type === "btc") {
+      setBtnState({btc: true, eth: false, trn: false});
+      setwalletType("bitcoin");
+    };
+    if(type === "eth") {
+      setBtnState({btc: false, eth: true, trn: false});
+      setwalletType("ethereum");
+    };
+    if(type === "trn") {
+      setBtnState({btc: false, eth: false, trn: true});
+      setwalletType("tron");
+    };
+  } 
+
+  const handleAmountChange = (e) => {
+      if(isNaN(e.target.value)) return;
+      if(!isNaN(e.target.value)) setAmount(e.target.value)
+  }
+  const handleAddressChange = (e) => {
     setwalletAddress(e.target.value)
   }
 
-  const handleRequest = () => {
-    alert(walletAddress)
-    proceedFunc()
+  let creds = {
+    id: 1,
+    type: "trust_coin",
+    wallet_type: walletType,
+    wallet_address: walletAddress,
+    amount: amount,
+    isServed: "pending"
   }
   
-  return(
-    <WalletProvider display={active ? "flex":"none"}>
-      <WalletInput>
-        <ProviderLabel>Wallet address</ProviderLabel>
-        <ProviderInput 
-          type="text" 
-          placeholder={`Enter your ${type} wallet address`} 
-          value={walletAddress} 
-          onChange={(e) => handleChange(e)} 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Request doc", creds)
+  }
+
+  return (
+    <WithdrawTC_container onSubmit={(e) => handleSubmit(e)}>
+      <MainTitle>Request withdraw form (Trust coins)</MainTitle>
+      <Disclaimer>Please fill in this form correctly, failure to do so will result in your withdrawal request being denied</Disclaimer>
+      <div className="availableBalanceBox">
+        <AvailBalanceTitle>Available balance</AvailBalanceTitle>
+        <BalanceBox>
+          <BalanceLabel>52 TC</BalanceLabel>
+          <Slash>|</Slash>
+          <BalanceLabel>USD$ 200</BalanceLabel>
+        </BalanceBox>
+      </div>
+
+      <div className="amountBox">
+        <Labler>How much do you wish to withdraw (in USD$)</Labler>
+        <Input 
+            type="text" 
+            placeholder='Amount to withdraw in USD$' 
+            required={true} 
+            value={amount} 
+            onChange={(e) => handleAmountChange(e)} 
         />
-      </WalletInput>
-      <ProviderBtn onClick={handleRequest}>Request withdraw</ProviderBtn>
-    </WalletProvider> 
+      </div>
+
+      <div className="cryptoSelect">
+        <CyptoSelectTitler>Select your crypto</CyptoSelectTitler>
+        <CryptoBtnsBox>
+          <CryptoBtn status={btnState.btc} onClick={() => handleMode("btc")} type="reset">Bitcoin</CryptoBtn>
+          <CryptoBtn status={btnState.eth} onClick={() => handleMode("eth")} type="reset">Ethereum</CryptoBtn>
+          <CryptoBtn status={btnState.trn} onClick={() => handleMode("trn")} type="reset">Tron</CryptoBtn>
+        </CryptoBtnsBox>
+      </div>
+
+      <WalletTaker 
+        btc={btnState.btc}
+        eth={btnState.eth}
+        trn={btnState.trn}
+        handleAddressChange={handleAddressChange}
+        walletAddress={walletAddress}
+      />
+
+      <div className="buttonBox">
+        <ReqBtn>Request withdraw | USD$ 150</ReqBtn>
+      </div>
+    </WithdrawTC_container>
   )
 }
-
-const WithdrawTrustCoinsPage = () => {
-  const {coinrate, trustcoins} = UserAuth();
-  const [toWithdraw, setToWithdraw] = useState(null)
-  const [error, setError] = useState(null)
-  const [isNext, setisNext] = useState(false)
-
-  const [isBitcoin, setisBitcoin] = useState(false)
-  const [isEthereum, setisEthereum] = useState(false)
-  const [isTron, setisTron] = useState(false)
-  // console.log("Rate", coinrate)
-
-  const usdAmountFunc = (rate, coins) => rate * coins
-
-  const checkValidity = (reqAmount, rate, available) => {
-    if(reqAmount > usdAmountFunc(rate, available)){
-      setError("You cannot withdraw an amount larger than the available balance")
-    } else return true
-  }
-
-  const handleChange = (e) => {
-    if(checkValidity(e.target.value, coinrate, trustcoins.coins)) {
-      if(!isNaN(e.target.value)){
-        setError(null)
-        setToWithdraw(e.target.value)
-      }
-    }
-  }
-
-  const handleNext = () => {
-    setisNext(true)
-  }
-
-  const handleWalletSelect = (type) => {
-      if(type === "bitcoin") {
-        setisBitcoin(true);
-        setisEthereum(false);
-        setisTron(false);
-      }
-      if(type === "ethereum") {
-        setisBitcoin(false);
-        setisEthereum(true);
-        setisTron(false);
-      }
-      if(type === "tron") {
-        setisBitcoin(false);
-          setisEthereum(false);
-          setisTron(true);
-      }
-  }
-
-  const handleProceed = () => {
-    alert("Proceeding")
-  }
-    
-  if(!isNext) return (
-        <WithDrawContainer>
-          {trustcoins && <CircleDetailer tc={trustcoins.coins} usd={usdAmountFunc(trustcoins.coins, coinrate)} />}
-          <MainTitle>Withdraw from your trust coins</MainTitle>
-          {error && 
-            <ErrorBox>
-              <TiWarning size={25} />
-              <ErrorText>{error}</ErrorText>
-            </ErrorBox>
-          }
-          
-          <InputContainer>
-              <InputLabel>USD$</InputLabel>
-              <Input placeholder='Amount to withdraw' onChange={(e) => handleChange(e)} value={toWithdraw} />
-          </InputContainer>
-          {/* { toWithdraw && <RequestBtn>Request withdraw</RequestBtn> } */}
-          { toWithdraw && <RequestBtn onClick={handleNext}>Next</RequestBtn> }
-        </WithDrawContainer>
-    )
-  
-    if(isNext) return (
-      <WalletDetailsBox>
-        <MainTitle>Provide your crypto wallet address</MainTitle>
-
-        <ChooseTitle>Choose your prefered wallet below</ChooseTitle>
-        <WalletsBox>
-          <WalletSelect active={isBitcoin} onClick={() => handleWalletSelect("bitcoin")}>Bitcoin</WalletSelect>
-          <WholeWallet active={isBitcoin} type='bitcoin' proceedFunc={() => handleProceed()} />
-          <WalletSelect active={isEthereum} onClick={() => handleWalletSelect("ethereum")}>Ethereum</WalletSelect>
-          <WholeWallet active={isEthereum} type='ethereum' proceedFunc={() => handleProceed()} />
-          <WalletSelect active={isTron} onClick={() => handleWalletSelect("tron")}>Tron</WalletSelect>
-          <WholeWallet active={isTron} type='tron' proceedFunc={() => handleProceed()} />
-        </WalletsBox>
-      </WalletDetailsBox>
-    )
-}
-
-
-
-export const ChooseTitle = styled.p`
-  margin: 0;
-  margin-bottom: 5px;
-  text-align: center;
-`;
-export const ProviderBtn = styled.button`
-  border: none;
-  background-color: ${colors.accent};
-  padding: 8px;
-  box-sizing: border-box;
-  border-radius: 6px;
-  color: ${colors.secondary};
-  cursor: pointer;
-  transition: all .25s ease-in-out;
-  :hover {
-    background-color: ${colors.accentShadow};
-    color: #01050f;
-  }
-`;
-
-export const WalletInput = styled.div`
-  width: 100%;
-`;
-
-export const ProviderInput = styled.input`
-  padding: 8px;
-  width: 100%;
-  border-radius: 6px;
-  border: none;
-  /* background-color: ${colors.accentShadow}; */
-`;
-
-export const ProviderLabel = styled.p`
-  margin: 0;
-  font-family: Roboto, sans-serif;
-`;
-
-export const WalletProvider = styled.div`
-  /* display: ${props => props.active ? "flex":"none"}; */
-  display: ${props => props.display};
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  width: 100%;
-`;
-
-export const WalletDetailsBox = styled.div``;
-
-export const WalletsBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-`;
-
-export const WalletSelect = styled.button`
-  width: 100%;
-  padding: 12px;
-  text-align: left;
-  font-family: Roboto, sans-serif;
-  cursor: pointer;
-  transition: all .25s ease-in-out;
-  background-color: ${props => props.active ? colors.accent: colors.accentShadow};
-  color: ${props => props.active ? "#fff": "#01050f"};
-  /* border: 2px solid ${colors.accentShadow}; */
-  border: 2px solid transparent;
-  :hover {
-    border-color: ${colors.accent};
-  }
-`;
-
-export const ErrorBox = styled.div`
-    display: flex;
-    align-items: center;
-    background-color: ${colors.accentShadow};
-    padding: 12px;
-    border-radius: 6px;
-    gap: 15px;
-    color: ${colors.accent};
-    margin: 15px 0 20px 0;
-`;
-export const ErrorText = styled.p`
-    margin: 0;
-`;
-
-export const RequestBtn = styled.button`
-  background-color: ${colors.accent};
-  border: none;
-  outline: none;
-  padding: 12px;
-  margin-top: 18px;
-  color: #fff;
-  font-family: Roboto, sans-serif;
-  text-transform: uppercase;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all .25s ease-in-out;
-  :hover {
-    background-color: ${colors.accentShadow};
-    color: #01050f;
-  }
-`;
-export const Input = styled.input`
-  margin: 0;
-  font-family: Roboto, sans-serif;
-  font-size: 13px;
-  padding: 12px;
-  border: none;
-  outline: none;
-  background-color: rgba(192,192,192, .5);
-  border-radius: 0 6px 6px 0;;
-`;
-export const InputLabel = styled.p`
-  margin: 0;
-  font-family: Roboto, sans-serif;
-  font-size: 13px;
-  background-color: rgba(192,192,192, .5);
-  padding: 12px;
-  border-radius: 6px 0 0 6px;
-`;
-export const InputContainer = styled.div`
-  margin: 0;
-  font-family: Roboto, sans-serif;
-  display: flex;
-  align-items: center;
-`;
-export const MainTitle = styled.p`
-  margin: 30px 0 20px 0;
-  font-family: Inter, sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #01050f;
-  text-align: center;
-`;
-export const Value = styled.p`
-  margin: 0;
-  font-family: Roboto, sans-serif;
-`;
-export const Label = styled.p`
-  margin: 0;
-  text-transform: uppercase;
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: ${colors.accent};
-`;
-export const CircleDetailerContainer = styled.div`
-  box-shadow: 1px 1px 8px rgba(192,192,192,0.3);
-  background-color: #f5f5f5;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-`;
-export const WithDrawContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 export default WithdrawTrustCoinsPage

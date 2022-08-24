@@ -7,7 +7,10 @@ import { colors } from "../constants/colors";
 const HomeMenu = () => {
     return(
         <MenuContainer>
-            <LogoBtn to={"/"}>A.A.T</LogoBtn>
+            {/* <LogoBtn to={"/"}>A.A.T</LogoBtn> */}
+            <LogoBtn to={"/"}>
+                <LogoImg src={process.env.PUBLIC_URL + "logo2_on_dark.png"} alt="" />
+            </LogoBtn>
             <AuthBtnContainer>
                 <LinkBtn to={"/login"}>LOGIN</LinkBtn>
                 <CTABtn to={"/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2"}>GET STARTED</CTABtn>
@@ -16,6 +19,9 @@ const HomeMenu = () => {
     )
 }
 
+const LogoImg = styled.img`
+    width: 100%;
+`;
 const MenuContainer = styled.div`
     display: flex;
     align-items: center;
@@ -41,6 +47,7 @@ const LogoBtn = styled(Link)`
     font-weight: 900;
     color: ${colors.accent};
     font-family: Inter, sans-serif;
+    width: 60px;
 `
 
 const LinkBtn = styled(Link)`
