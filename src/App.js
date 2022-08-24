@@ -60,6 +60,7 @@ import AddWalletModal from './modals/AddWalletModal';
 import ChangeWalletModal from './modals/ChangeWalletModal';
 import ChangeAvatarModal from './modals/ChangeAvatarModal';
 import KYC from './DashboardUser/pages/KYC';
+import ConfirmWithdrawRequest from './DashboardUser/pages/ConfirmWithdrawRequest';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -85,6 +86,7 @@ function App() {
                 <Route path='' element={<InvestmentPlansPage />} />
                 <Route path='withdrawAffiliates' element={<WithdrawAffiliatesPage />} />
                 <Route path='withdrawCoins' element={<WithdrawTrustCoinsPage />} />
+                <Route path='confirm_withdraw' element={<ConfirmWithdrawRequest />} />
                 <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
                 <Route path='earnings' element={<EarningsPage />}>
                   {/* <Route path='' element={<Dividents />} /> */}

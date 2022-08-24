@@ -1,5 +1,5 @@
-import { type } from '@testing-library/user-event/dist/type';
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
   MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
@@ -24,6 +24,8 @@ import {
  
 
 const WithdrawTrustCoinsPage = () => {
+  const navigate = useNavigate();
+
   const [btnState, setBtnState] = useState({btc: false, eth: false, trn: false});
   const [amount, setAmount] = useState('')
   const [walletAddress, setwalletAddress] = useState('')
@@ -63,7 +65,17 @@ const WithdrawTrustCoinsPage = () => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Request doc", creds)
+    // console.log("Request doc", creds)
+    navigate("/user_dash/confirm_withdraw", {
+      state: {
+        id: 1,
+        type: "trust_coin",
+        wallet_type: walletType,
+        wallet_address: walletAddress,
+        amount: amount,
+        isServed: "pending"
+      }
+    })
   }
 
   return (

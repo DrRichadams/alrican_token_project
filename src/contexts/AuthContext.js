@@ -84,6 +84,16 @@ export const AuthContextProvider = ({children}) => {
         await setDoc(doc(db, "affiliates", id), {});
     }
 
+    const addWithdrawRequest = async (id, type, walletType, walletAddress, amount) => {
+        await setDoc(doc(db, "withdrawRequests", id), {
+            id,
+            type,
+            walletType,
+            walletAddress,
+            amount,
+            isServed: "pending"
+        }, { merge: true });
+    }
     const addTeesFirebase = async (id, tees) => {
         await setDoc(doc(db, "tees_and_cees", id), {
             value: tees
@@ -438,6 +448,7 @@ export const AuthContextProvider = ({children}) => {
             my_avatars,
             addKYCFirebase,
             hasKYC,
+            addWithdrawRequest,
         }}>
             {children}
         </AuthContext.Provider>
