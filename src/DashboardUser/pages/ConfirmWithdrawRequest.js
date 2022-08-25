@@ -46,7 +46,7 @@ const ConfirmWithdrawRequest = () => {
             </HeaderBtns>
         </Header>
         <p>
-            Thoroughly go through the details your provided before continuing.
+            Thoroughly go through the details you provided before continuing.
             Ensure that your wallet address is correct to avoid having your funds sent elsewhere
         </p>
         <div>
