@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
   MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
@@ -25,6 +25,7 @@ import {
 
 const WithdrawTrustCoinsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [btnState, setBtnState] = useState({btc: false, eth: false, trn: false});
   const [amount, setAmount] = useState('')
@@ -56,7 +57,8 @@ const WithdrawTrustCoinsPage = () => {
 
   let creds = {
     id: 1,
-    type: "trust_coin",
+    // type: "trust_coin",
+    type: location,
     wallet_type: walletType,
     wallet_address: walletAddress,
     amount: amount,
@@ -69,7 +71,7 @@ const WithdrawTrustCoinsPage = () => {
     navigate("/user_dash/confirm_withdraw", {
       state: {
         id: 1,
-        type: "trust_coin",
+        type: location.state.state,
         wallet_type: walletType,
         wallet_address: walletAddress,
         amount: amount,
@@ -77,6 +79,8 @@ const WithdrawTrustCoinsPage = () => {
       }
     })
   }
+
+  console.log("Expected state", location.state.state)
 
   return (
     <WithdrawTC_container onSubmit={(e) => handleSubmit(e)}>

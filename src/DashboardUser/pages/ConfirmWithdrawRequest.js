@@ -27,7 +27,9 @@ const ConfirmWithdrawRequest = () => {
             location.state.wallet_address, 
             location.state.amount)
             .then(() => {
-                setloading(false)
+                setloading(false);
+                navigate("/user_dash/withdraw_receipt");
+                window.location.reload();
             }
         );
     }

@@ -34,6 +34,7 @@ export const AuthContextProvider = ({children}) => {
     const [proofImg, setproofImg] = useState(null);
     const [my_avatars, set_my_avatars] = useState([]);
     const [hasKYC, set_hasKYC] = useState(null);
+    const [withdrawRequest, set_withdrawRequest] = useState(null);
 
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
@@ -80,8 +81,17 @@ export const AuthContextProvider = ({children}) => {
                 affiliatesPercentage: affiliatespercentage,
                 affiliatesFee: affiliatesFee,
             }
-        }, { merge: true });
+        });
         await setDoc(doc(db, "affiliates", id), {});
+        await setDoc(doc(db, "withdrawRequests", id), {
+            id,
+            type: "",
+            walletType: "",
+            walletAddress: "",
+            amount: "",
+            isServed: "pending",
+            isEligible: false,
+        });
     }
 
     const addWithdrawRequest = async (id, type, walletType, walletAddress, amount) => {
@@ -91,8 +101,22 @@ export const AuthContextProvider = ({children}) => {
             walletType,
             walletAddress,
             amount,
-            isServed: "pending"
+            isServed: "pending",
+            time: serverTimestamp(),
+            isEligible: false,
         }, { merge: true });
+    }
+    const removeWithdrawRequest = async (id) => {
+        await setDoc(doc(db, "withdrawRequests", id), {
+            type: "",
+            walletType: "",
+            walletAddress: "",
+            amount: "",
+            isServed: "pending",
+            time: "",
+            isEligible: true
+        }, { merge: true });
+        alert("Request cancelled successfully")
     }
     const addTeesFirebase = async (id, tees) => {
         await setDoc(doc(db, "tees_and_cees", id), {
@@ -359,6 +383,17 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
+    const getWithdrawRequest = async (id) => {
+        const docRef = doc(db, "withdrawRequests", id);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -385,6 +420,7 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
             currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
+            currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
 
             // currentUser && getProofImg(currentUser.id).then((udata) => setproofImg(udata));
             // currentUser && getProofImg(currentUser.id);
@@ -449,6 +485,8 @@ export const AuthContextProvider = ({children}) => {
             addKYCFirebase,
             hasKYC,
             addWithdrawRequest,
+            withdrawRequest,
+            removeWithdrawRequest
         }}>
             {children}
         </AuthContext.Provider>

@@ -38,7 +38,8 @@ const InvestmentPlansPage = () => {
                         title={"Your Trust Coin Value"} 
                         btn_text={"Request Withdraw"} 
                         isBtn={true} 
-                        onClick={() => navigate("withdrawCoins")} />
+                        // onClick={() => navigate("withdrawCoins")} />
+                        onClick={() => navigate("withdrawRerouter", {state: "trust coins"})} />
                     <TrustBoxComp 
                         img_url={"/icons/airNFT.png"} 
                         amount={`${coins.air_drops}`} 
