@@ -63,6 +63,8 @@ import KYC from './DashboardUser/pages/KYC';
 import ConfirmWithdrawRequest from './DashboardUser/pages/ConfirmWithdrawRequest';
 import WithdrawReceipt from './DashboardUser/pages/WithdrawReceipt';
 import WithdrawRerouter from './DashboardUser/comps/WithdrawRerouter';
+import TopupRequest from './DashboardUser/pages/TopupRequest';
+import TopupThanks from './DashboardUser/pages/TopupThanks';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -92,6 +94,8 @@ function App() {
                 <Route path='confirm_withdraw' element={<ConfirmWithdrawRequest />} />
                 <Route path='withdraw_receipt' element={<WithdrawReceipt />} />
                 <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
+                <Route path='topup_request' element={<TopupRequest />} />
+                <Route path='topup_thanks' element={<TopupThanks />} />
                 <Route path='earnings' element={<EarningsPage />}>
                   {/* <Route path='' element={<Dividents />} /> */}
                   <Route path='' element={<Affiliates />} />

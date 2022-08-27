@@ -33,7 +33,7 @@ const ConfirmWithdrawRequest = () => {
             }
         );
     }
-    const handleCancel = () => { navigate("/user_dash/withdrawCoins") }
+    const handleCancel = () => { navigate("/user_dash") }
     
   return (
     <div>
