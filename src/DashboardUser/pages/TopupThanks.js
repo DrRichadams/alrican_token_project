@@ -22,7 +22,7 @@ const TopupThanks = () => {
     const [submitable, setSubmitable] = useState(true)
     const [isLoading, setisLoading] = useState(false);
 
-    const {userdata} = UserAuth();
+    const {userdata, addTopupProofFirebase} = UserAuth();
 
     const handleInputChange = (e) => {
         setTempImage(URL.createObjectURL(e.target.files[0]))
@@ -32,7 +32,8 @@ const TopupThanks = () => {
     }
     const handleSubmit = () => {
         setisLoading(true)
-        uploadTopupProof()
+        //UNCOMMENT BELOW FUNCTION CALL WHEN YOU HAVE ALL THE NECESSARY ARGUMENTS
+        // uploadTopupProof()
     }
 
     
@@ -42,15 +43,14 @@ const TopupThanks = () => {
         // const imageRef = ref(storage, `topup_proofs/${userdata.id}__${Math.random().toString()}.${imgType}`);
         const imageRef = ref(storage, `topup_proofs/${imgName}`);
         uploadBytes(imageRef, image).then((data) => {
-            console.log("retuned data", data)
+            // console.log("retuned data", data)
             // const imgRef = ref(storage, `topup_proofs/${data.metadata.name}`);
             const imgRef = ref(storage, `topup_proofs/${imgName}`);
             getDownloadURL(imgRef)
             .then((img_url) => {
-                //Must create this function in the auth context
-                // addTopupProofFirebase(userdata.id, img_url)
+                addTopupProofFirebase(userdata.id, img_url)
                 // setisLoading(false)
-                console.log("My possible url ", img_url)
+                // console.log("My possible url ", img_url)
                 setisLoading(false)
             })
         //   navigate("/rerouter");
