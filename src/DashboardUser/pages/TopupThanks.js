@@ -1,14 +1,68 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from '../../firebase/config';
+import { UserAuth } from '../../contexts/AuthContext';
 import { colors } from '../../constants/colors';
+import { getExtention } from '../../constants/functions';
+import PuffLoader from "react-spinners/PuffLoader";
+
+const override = {
+    display: "block",
+    // margin: "0 auto",
+    margin: 0,
+    borderColor: colors.accent,
+};
+
 
 const TopupThanks = () => {
+    const [image, setImage] = useState(null);
+    const [tempImage, setTempImage] = useState(null);
+    const [imgType, setimgType] = useState('');
+    const [submitable, setSubmitable] = useState(true)
+    const [isLoading, setisLoading] = useState(false);
+
+    const {userdata} = UserAuth();
+
+    const handleInputChange = (e) => {
+        setTempImage(URL.createObjectURL(e.target.files[0]))
+        setImage(e.target.files[0])
+        setSubmitable(false)
+        setimgType(getExtention(e.target.files[0].name))
+    }
+    const handleSubmit = () => {
+        setisLoading(true)
+        uploadTopupProof()
+    }
+
+    
+    const uploadTopupProof = () => {
+        if(!image) return
+        let imgName= `${userdata.id}__${Math.random().toString()}.${imgType}`;
+        // const imageRef = ref(storage, `topup_proofs/${userdata.id}__${Math.random().toString()}.${imgType}`);
+        const imageRef = ref(storage, `topup_proofs/${imgName}`);
+        uploadBytes(imageRef, image).then((data) => {
+            console.log("retuned data", data)
+            // const imgRef = ref(storage, `topup_proofs/${data.metadata.name}`);
+            const imgRef = ref(storage, `topup_proofs/${imgName}`);
+            getDownloadURL(imgRef)
+            .then((img_url) => {
+                //Must create this function in the auth context
+                // addTopupProofFirebase(userdata.id, img_url)
+                // setisLoading(false)
+                console.log("My possible url ", img_url)
+                setisLoading(false)
+            })
+        //   navigate("/rerouter");
+        })
+    }
+
   return (
     <div>
       <MainTitle>Thank you for buying our coin</MainTitle>
       <Warning>Kindly submit your proof of payment below (e.g a screenshot)</Warning>
       <ImgBox>
-        <Image src="https://firebasestorage.googleapis.com/v0/b/acm-crypto.appspot.com/o/proofs%2FCtCWUmewk4OLTW1scYkhV9ZcwFo1.png?alt=media&token=64ed2ea7-c056-4203-bf3a-c4ab43b514a8" alt="logo" />
+        {tempImage && <Image src={tempImage} alt="logo" /> }
       </ImgBox>
       <MyProof>
         <ProofHeader>
@@ -16,9 +70,10 @@ const TopupThanks = () => {
                 <ProofLabel>My proof of payment</ProofLabel>
                 <ProofItem>Select a proof screenshot from your system / gallery</ProofItem>
             </ProofTitle>
-            <SubmitBtn>Submit</SubmitBtn>
+            { !isLoading && <SubmitBtn onClick={handleSubmit} disabled={submitable}>Submit</SubmitBtn> }
+            {isLoading && <PuffLoader color={colors.accent} loading={isLoading} cssOverride={override} size={10} /> }
         </ProofHeader>
-        <input type="file" />
+        <input type="file" onChange={(e) => handleInputChange(e)} />
       </MyProof>
     </div>
   )

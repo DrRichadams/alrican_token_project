@@ -208,6 +208,18 @@ export const AuthContextProvider = ({children}) => {
         // window.location.reload();
     }
 
+    const addTopupProofFirebase = async (id, img_url, amount, wallet_type, wallet_address) => {
+        await setDoc(doc(db, "topup_proofs", id), {
+            id,
+            img_url,
+            amount,
+            wallet_type,
+            wallet_address,
+            time_of_request: serverTimestamp(),
+            time_of_response: "",
+        }, { merge: true });
+    }
+
     // const getProofImg = async (id) => {
     //     const docRef = doc(db, "proofs", id);
     //     const docSnap = await getDoc(docRef);
@@ -486,7 +498,8 @@ export const AuthContextProvider = ({children}) => {
             hasKYC,
             addWithdrawRequest,
             withdrawRequest,
-            removeWithdrawRequest
+            removeWithdrawRequest,
+            addTopupProofFirebase
         }}>
             {children}
         </AuthContext.Provider>
