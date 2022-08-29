@@ -1,9 +1,74 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { colors } from '../../constants/colors';
 import { Highlight } from '../../pages/HomePage';
+import { UserAuth } from '../../contexts/AuthContext';
+import { trustcoin_to_usd } from '../features/formulars';
+
+
+const AddressRender = ({btc, eth, trn, address}) => {
+  if(btc || eth || trn) {
+    return (
+      <WalletAddressBox>
+        <WalletAddress>{address}</WalletAddress>
+      </WalletAddressBox>
+    )
+  } 
+  
+}
 
 const TopupRequest = () => {
+  const [amount, setamount] = useState('')
+  const [btcState, setBtcState] = useState(false);
+  const [ethState, setEthState] = useState(false);
+  const [trnState, setTrnState] = useState(false);
+  const [currentWalletName, setcurrentWalletName] = useState(false);
+  const [currentAddress, setcurrentAddress] = useState('');
+
+  const {bitcoinwallets, ethereumwallets, tronwallets, trustcoins, coinrate} = UserAuth();
+  const BTC = bitcoinwallets.find(item => item.isActive);
+  const ETH = ethereumwallets.find(item => item.isActive);
+  const TRN = tronwallets.find(item => item.isActive);
+
+
+  console.log("Wallets", BTC)
+  
+  const navigate = useNavigate();
+
+  const handleWalletChange = (type) => {
+    if(type === "btc") {
+      setBtcState(true); setEthState(false);
+      setTrnState(false); setcurrentAddress(BTC.address)
+      setcurrentWalletName(BTC.name)
+    }
+    if(type === "eth") {
+      setBtcState(false); setEthState(true);
+      setTrnState(false); setcurrentAddress(ETH.address)
+      setcurrentWalletName(ETH.name)
+    }
+    if(type === "trn") {
+      setBtcState(false); setEthState(false);
+      setTrnState(true); setcurrentAddress(TRN.address)
+      setcurrentWalletName(TRN.name)
+    }
+  }
+
+  const handleAmountChange = (e) => {
+      if(isNaN(e.target.value)) return
+      setamount(e.target.value)
+  }
+
+  const handleProceed = () => {
+    if(amount.length !== 0 && WalletAddress.length !== 0) {
+      navigate("/user_dash/topup_thanks", {
+        state: {
+          amount, currentAddress, currentWalletName
+        }
+      })
+    }
+  }
+
   return (
     <div>
       <MainTitle>Top up <Highlight>TRUST COIN</Highlight> form</MainTitle>
@@ -11,33 +76,32 @@ const TopupRequest = () => {
       <SummeryContainer>
         <SummeryBox>
             <SummeryBoxTitle><Highlight>TRUST COINS</Highlight> in store</SummeryBoxTitle>
-            <SummeryBoxItem>52 TC</SummeryBoxItem>
+            <SummeryBoxItem>{trustcoins.coins} TC</SummeryBoxItem>
         </SummeryBox>
         <SummeryBox>
             <SummeryBoxTitle>Current Rate per USD$ 1</SummeryBoxTitle>
-            <SummeryBoxItem>15.02 TC</SummeryBoxItem>
+            <SummeryBoxItem>{coinrate} TC</SummeryBoxItem>
         </SummeryBox>
         <SummeryBox>
             <SummeryBoxTitle>How much I have</SummeryBoxTitle>
-            <SummeryBoxItem>USD$ 200</SummeryBoxItem>
+            <SummeryBoxItem>USD$ {trustcoin_to_usd(trustcoins.coins, coinrate)}</SummeryBoxItem>
         </SummeryBox>
       </SummeryContainer>
       <div className="amount_box">
         <HowMuchTitle>How much do you want to top up</HowMuchTitle>
-        <Input type="text" placeholder='Enter top up amount in USD$' />
+        <Input type="text" placeholder='Enter top up amount in USD$' onChange={(e) => handleAmountChange(e)} value={amount} />
       </div>
       <div className="walletBox">
         <HowMuchTitle>Select wallet type</HowMuchTitle>
         <CryptoBtnContainer>
-            <CryptoBtn status={true}>Bitcoin</CryptoBtn>
-            <CryptoBtn status={false}>Ethereum</CryptoBtn>
-            <CryptoBtn status={false}>Tron</CryptoBtn>
+            <CryptoBtn status={btcState} onClick={() => handleWalletChange("btc")}>Bitcoin</CryptoBtn>
+            <CryptoBtn status={ethState} onClick={() => handleWalletChange("eth")}>Ethereum</CryptoBtn>
+            <CryptoBtn status={trnState} onClick={() => handleWalletChange("trn")}>Tron</CryptoBtn>
         </CryptoBtnContainer>
-        <WalletAddressBox>
-            <WalletAddress>ITCS-VSCD-TYSV-PTSD</WalletAddress>
-        </WalletAddressBox>
+          {/* TH PROVIDE PROPS TO THIS COMPONENT */}
+          <AddressRender btc={btcState} eth={ethState} trn={trnState} address={currentAddress} />
         <ButtonsBox>
-            <NextBtn>Next</NextBtn>
+            <NextBtn onClick={handleProceed}>Next</NextBtn>
         </ButtonsBox>
       </div>
     </div>

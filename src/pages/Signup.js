@@ -33,9 +33,14 @@ import { useEffect } from "react";
 
 const Signup = () => {
 
-    const {createUser, user} = UserAuth();
+    const {createUser, user, affiliatespercentage, signupfee,affiliatesFee, system_rates} = UserAuth();
     const navigate = useNavigate();
     const {uid} = useParams();
+
+    console.log("Fee", signupfee)
+    console.log("aFee", affiliatesFee)
+    console.log("%", affiliatespercentage)
+    console.log("rates", system_rates)
 
     const [ names, setnames ] = useState('');
     const [ address, setaddress ] = useState('');

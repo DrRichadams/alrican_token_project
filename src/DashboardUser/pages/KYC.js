@@ -30,7 +30,7 @@ const KYC = () => {
 
     const handleChange = (e) => {
         setKyc_img(e.target.files[0]);
-        settempimg(URL.createObjectURL(e.target.files[0]));
+        settempimg(URL.createObjectURL(e.target.files[0]));  
         sethasImg(true);
         setimgType(getExtention(e.target.files[0].name))
     }

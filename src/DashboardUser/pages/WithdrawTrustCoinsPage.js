@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
+import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
   MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
   CyptoSelectTitler, WalletAddressBox,
  } from '../../DashboardAdmin/features/withdrawTrustCoinsPageStyledComps';
+ import { trustcoin_to_usd } from '../features/formulars';
+ import { UserAuth } from '../../contexts/AuthContext';
 
 
  const WalletTaker = ({btc, eth, trn, handleAddressChange, walletAddress}) => {
@@ -31,6 +34,9 @@ const WithdrawTrustCoinsPage = () => {
   const [amount, setAmount] = useState('')
   const [walletAddress, setwalletAddress] = useState('')
   const [walletType, setwalletType] = useState('')
+  const [error, seterror] = useState(null)
+
+  const {trustcoins, coinrate} = UserAuth();
 
   const handleMode = (type) => {
     if(type === "btc") {
@@ -49,7 +55,14 @@ const WithdrawTrustCoinsPage = () => {
 
   const handleAmountChange = (e) => {
       if(isNaN(e.target.value)) return;
-      if(!isNaN(e.target.value)) setAmount(e.target.value)
+      // if(!isNaN(e.target.value)) setAmount(e.target.value)
+      if(e.target.value > trustcoin_to_usd(trustcoins.coins, coinrate)) {
+          seterror("You cannot withdraw an amount larger than what is in your account")
+          return
+      } else {
+        if(!isNaN(e.target.value)) setAmount(e.target.value)
+        seterror(null)
+      }
   }
   const handleAddressChange = (e) => {
     setwalletAddress(e.target.value)
@@ -89,14 +102,15 @@ const WithdrawTrustCoinsPage = () => {
       <div className="availableBalanceBox">
         <AvailBalanceTitle>Available balance</AvailBalanceTitle>
         <BalanceBox>
-          <BalanceLabel>52 TC</BalanceLabel>
+          <BalanceLabel>{trustcoins.coins} TC</BalanceLabel>
           <Slash>|</Slash>
-          <BalanceLabel>USD$ 200</BalanceLabel>
+          <BalanceLabel>USD$ {trustcoin_to_usd(trustcoins.coins, coinrate)}</BalanceLabel>
         </BalanceBox>
       </div>
 
       <div className="amountBox">
         <Labler>How much do you wish to withdraw (in USD$)</Labler>
+        { error && <ErrorText>{error}</ErrorText> }
         <Input 
             type="text" 
             placeholder='Amount to withdraw in USD$' 
@@ -129,5 +143,16 @@ const WithdrawTrustCoinsPage = () => {
     </WithdrawTC_container>
   )
 }
+
+export const ErrorText = styled.p`
+  padding:  0 15px;
+  margin: 0;
+  margin-bottom: 5px;
+  margin-top: 25px;
+  color: red;
+  font-family: Roboto, sans-serif;
+  text-transform: uppercase;
+  font-size: 13px;
+`;
 
 export default WithdrawTrustCoinsPage

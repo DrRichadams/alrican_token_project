@@ -5,6 +5,7 @@ import { colors } from "../../constants/colors";
 import TrustBoxComp from "../comps/TrustBox";
 import { TrustTitle, TrustBoxesContainer } from "../features/InvestmentPlanStyledComponents";
 
+import { trustcoin_to_usd } from "../features/formulars";
 import { UserAuth } from "../../contexts/AuthContext";
 
 const InvestmentPlansPage = () => {
@@ -12,16 +13,16 @@ const InvestmentPlansPage = () => {
     const navigate = useNavigate();
 
     const [coins, setcoins] = useState(null);
-    const {trustcoins} = UserAuth();
+    const {trustcoins, coinrate} = UserAuth();
     console.log("COINS FROM DASH", trustcoins)
     useEffect(() => {
         setcoins({...trustcoins})
     }, [trustcoins])
 
-    const putToUSD = (coins, rate) => ((coins / 1) * rate).toFixed(2)
+    // const putToUSD = (coins, rate) => ((coins / 1) * rate).toFixed(2)
 
     if(coins){
-        return(
+        return( 
             <div>
                 <TrustTitle>Your Trust Coins</TrustTitle>
                 <TrustBoxesContainer>
@@ -31,11 +32,11 @@ const InvestmentPlansPage = () => {
                         title={"Your Trust Coin Balance"} 
                         btn_text={"Top Up"} 
                         isBtn={true} 
-                        onClick={() => alert("Worked")} />
+                        onClick={() => navigate("topup_request")} />
                     <TrustBoxComp 
                         img_url={"/icons/coin.png"} 
-                        amount={`USD$ ${putToUSD(coins.coins, 2000.123)}`} 
-                        title={"Your Trust Coin Value"} 
+                        // amount={`USD$ ${putToUSD(coins.coins, 2000.123)}`} 
+                        amount={`USD$ ${trustcoin_to_usd(trustcoins.coins, coinrate)}`}
                         btn_text={"Request Withdraw"} 
                         isBtn={true} 
                         // onClick={() => navigate("withdrawCoins")} />

@@ -11,6 +11,7 @@ import {
  } from "firebase/firestore"; 
 
 import {auth, db} from "../firebase/config";
+import { usd_to_trustcoin, trustcoin_to_usd } from "../DashboardUser/features/formulars";
 
 const AuthContext = createContext();
 
@@ -22,11 +23,11 @@ export const AuthContextProvider = ({children}) => {
     const [affiliates, setaffiliates] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
     // const [affiliatesPercentage, setaffiliatesPercentage] = useState(10);
-    const [affiliatesFee, setaffiliatesFee] = useState(50);
+    const [affiliatesFee, setaffiliatesFee] = useState(null);
     const [teesforcoins, setteesforcoins] = useState('');
     const [teesforaffiliates, setteesforaffiliates] = useState('');
     const [coinrate, setcoinrate] = useState('');
-    const [affiliatespercentage, setaffiliatespercentage] = useState('');
+    const [affiliatespercentage, setaffiliatespercentage] = useState(null);
     const [signupfee, setsignupfee] = useState('');
     const [bitcoinwallets, setbitcoinwallets] = useState([]);
     const [ethereumwallets, setethereumwallets] = useState([]);
@@ -35,6 +36,8 @@ export const AuthContextProvider = ({children}) => {
     const [my_avatars, set_my_avatars] = useState([]);
     const [hasKYC, set_hasKYC] = useState(null);
     const [withdrawRequest, set_withdrawRequest] = useState(null);
+
+    const [system_rates, set_system_rates] = useState([]);
 
 
     const addUserToFirestore = async (id, names, email, address, dob, cell, refId) => {
@@ -57,7 +60,7 @@ export const AuthContextProvider = ({children}) => {
         await setDoc(doc(db, "trust-coins", id), {
             id,
             air_drops: "0.00",
-            coins: "0.00"
+            coins: "0.00",
         });
         await setDoc(doc(db, "KYC", id), {
             id,
@@ -78,10 +81,12 @@ export const AuthContextProvider = ({children}) => {
                 isClaimed: false,
                 email,
                 names,
-                affiliatesPercentage: affiliatespercentage,
-                affiliatesFee: affiliatesFee,
+                affiliatesPercentage: system_rates[0].percentage,
+                affiliatesFee: system_rates[1].fee,
+                // affiliatespercentage,
+                // affiliatesFee,
             }
-        });
+        }, { merge: true });
         await setDoc(doc(db, "affiliates", id), {});
         await setDoc(doc(db, "withdrawRequests", id), {
             id,
@@ -180,8 +185,6 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const userVerificationFirebase = async (id) => {
-        // We have to later subtract the affiliates percentage from signup fee
-
         let deducted = (signupfee - ((affiliatespercentage / 100) * signupfee));
 
         await setDoc(doc(db, "users", id), {
@@ -189,11 +192,30 @@ export const AuthContextProvider = ({children}) => {
         }, { merge: true });
 
         await setDoc(doc(db, "trust-coins", id), {
-            coins: deducted,
+            // coins: deducted,
+            coins: usd_to_trustcoin(deducted, coinrate),
         }, { merge: true });
+        await setDoc(doc(db, "withdrawRequests", id), {
+            isEligible: true,
+        }, { merge: true });
+
+        let userVerityData = getData(id).then(data=>{
+            console.log("Veri data", data.refererId)
+            approveAffiliate(data.refererId, id)
+        })
+
         alert("User is now verified");
         // window.location.reload();
     }
+
+    const approveAffiliate = async (ref_id, affiliate_id) => {
+        await setDoc(doc(db, "affiliates", ref_id), {
+            [affiliate_id]: {
+                isVerified: true
+            }
+        }, { merge: true });
+    }
+
     const hasProvidedProofFirebase = async (user_id) => {
         await setDoc(doc(db, `users`, user_id), {
             hasProof: true,
@@ -209,14 +231,19 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const addTopupProofFirebase = async (id, img_url, amount, wallet_type, wallet_address) => {
+        let req_id = Math.random().toString();
         await setDoc(doc(db, "topup_proofs", id), {
-            id,
-            img_url,
-            amount,
-            wallet_type,
-            wallet_address,
-            time_of_request: serverTimestamp(),
-            time_of_response: "",
+            [req_id]: {
+                id,
+                req_id,
+                img_url,
+                amount,
+                wallet_type,
+                wallet_address,
+                time_of_request: serverTimestamp(),
+                time_of_response: "",
+                isServed: false,
+            }
         }, { merge: true });
     }
 
@@ -320,6 +347,17 @@ export const AuthContextProvider = ({children}) => {
     }
     const getCoinRate = async () => {
         const docRef = doc(db, "rates", "trustcoinrate");
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
+    const getAffiliatesFee = async () => {
+        const docRef = doc(db, "rates", "signupfee");
         const docSnap = await getDoc(docRef);
 
         try {
@@ -433,6 +471,8 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
             currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
             currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
+            // currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata.fee));
+            currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata));
 
             // currentUser && getProofImg(currentUser.id).then((udata) => setproofImg(udata));
             // currentUser && getProofImg(currentUser.id);
@@ -451,6 +491,21 @@ export const AuthContextProvider = ({children}) => {
             avatars.push(doc.data());
           });
           set_my_avatars(avatars);
+        });
+    
+        return () => {
+          unsubscribe();
+      }
+      }, [])
+
+    useEffect(() => {
+        const q = query(collection(db, "rates"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const system_rates = [];
+          querySnapshot.forEach((doc) => {
+            system_rates.push(doc.data());
+          });
+          set_system_rates(system_rates);
         });
     
         return () => {
@@ -499,7 +554,8 @@ export const AuthContextProvider = ({children}) => {
             addWithdrawRequest,
             withdrawRequest,
             removeWithdrawRequest,
-            addTopupProofFirebase
+            addTopupProofFirebase,
+            system_rates
         }}>
             {children}
         </AuthContext.Provider>

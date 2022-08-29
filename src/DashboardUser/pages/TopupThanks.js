@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '../../firebase/config';
 import { UserAuth } from '../../contexts/AuthContext';
@@ -18,11 +19,15 @@ const override = {
 const TopupThanks = () => {
     const [image, setImage] = useState(null);
     const [tempImage, setTempImage] = useState(null);
-    const [imgType, setimgType] = useState('');
+    const [imgType, setimgType] = useState(''); 
     const [submitable, setSubmitable] = useState(true)
     const [isLoading, setisLoading] = useState(false);
 
     const {userdata, addTopupProofFirebase} = UserAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    location.state && console.log(location)
 
     const handleInputChange = (e) => {
         setTempImage(URL.createObjectURL(e.target.files[0]))
@@ -33,7 +38,7 @@ const TopupThanks = () => {
     const handleSubmit = () => {
         setisLoading(true)
         //UNCOMMENT BELOW FUNCTION CALL WHEN YOU HAVE ALL THE NECESSARY ARGUMENTS
-        // uploadTopupProof()
+        uploadTopupProof()
     }
 
     
@@ -48,12 +53,18 @@ const TopupThanks = () => {
             const imgRef = ref(storage, `topup_proofs/${imgName}`);
             getDownloadURL(imgRef)
             .then((img_url) => {
-                addTopupProofFirebase(userdata.id, img_url)
-                // setisLoading(false)
+                addTopupProofFirebase(
+                    userdata.id, 
+                    img_url,
+                    location.state.amount,
+                    location.state.currentWalletName,
+                    location.state.currentAddress,
+                )
+                alert("Request has been placed successfully")
                 // console.log("My possible url ", img_url)
                 setisLoading(false)
             })
-        //   navigate("/rerouter");
+          navigate("/rerouter");
         })
     }
 
