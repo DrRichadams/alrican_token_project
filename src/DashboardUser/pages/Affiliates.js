@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { colors } from "../../constants/colors";
 import { 
@@ -12,7 +12,7 @@ import {
  import { MdOutlineNearbyError } from "react-icons/md";
  import { AFFILIATES } from "../../constants/DATA";
 
- import { 
+ import {  
     AffiliateBox,
     AffiliateIndex,
     AffiliateEmail,
@@ -27,18 +27,50 @@ import {
   } from "../features/AffiliatesStyledComponents";
 
   import { UserAuth } from "../../contexts/AuthContext";
+  import { affiliatesCut } from "../features/formulars";
 
 const Affiliates = () => {
 
     const {affiliates, user} = UserAuth();
 
-    console.log("My affiliates in affiliates", affiliates)
+    const displayAffiliates = affiliates.filter(item => {
+        return item.isVerified && !item.isClaimed
+    })
+
+    // const total_affiliates = displayAffiliates.reduce((acc, cur) => {
+    //     let myCur = cur.affiliatesFee - (cur.affiliatesFee * (parseInt(system_rates[0].percentage) / 100))
+    //     return acc + (parseInt(cur.affiliatesFee) - (parseInt(cur.affiliatesFee) * (parseInt(cur.affiliatespercentage) / 100)))
+    // }, 0)
+    // // console.log("Affil cut ", affiliatesCut(displayAffiliates))
+
+    // // let total_affiliates = 0;
+    // // const all_affiliates = displayAffiliates && displayAffiliates.foreach(item => {
+    // //     let tempSum = item.affiliatesFee - (item.affiliatesFee * (item.affiliatesPercentage / 100))
+    // //     total_affiliates += tempSum;
+    // // })
+
+
+        // console.log("My array", displayAffiliates)
+    // const my_affiliates_sum = displayAffiliates.reduce((acc, cur) => {
+    //     return acc + (
+    //         Number(cur.affiliatesFee) * (Number(cur.affiliatespercentage) / 100)
+    //     )
+    // }, 0)
+
+
+    // console.log("My reduced", my_affiliates_sum)
+    // console.log("My affiliates in affiliates", affiliates)
+    // console.log("rates", system_rates)
+    // console.log("sum of", sum_of_affiliates)
+    // console.log(sum_of_affiliates)
+    // // displayAffiliates && console.log("afCut", affiliatesCut(displayAffiliates))
+    // displayAffiliates && console.log("afCut", affiliatesCut(displayAffiliates))
 
     return(
         <AffiliatesContainer>
             <CurrentInvestmentContainer>
                 <CurrentInvestmentLeftSect>
-                    <CurrentInvestmentPlan>USD$ 20 000</CurrentInvestmentPlan>
+                    <CurrentInvestmentPlan>USD$ {affiliatesCut(displayAffiliates)}</CurrentInvestmentPlan>
                     <CurrentInvestmentTitle>Total affiliates earning</CurrentInvestmentTitle>
                 </CurrentInvestmentLeftSect>
 
@@ -55,7 +87,7 @@ const Affiliates = () => {
             </AffiliateLinkContainer>
             <AffiliatesListContainer>
                 {
-                    affiliates && affiliates.filter(sin => sin.isVerified).filter(claimed => !claimed.isClaimed).map((item, index) => (
+                    affiliates && displayAffiliates.filter(sin => sin.isVerified).filter(claimed => !claimed.isClaimed).map((item, index) => (
                         <AffiliateBox key={index}>
                             <AffiliateDetails>
                                 <AffiliateName>{item.names}</AffiliateName>
