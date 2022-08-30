@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { colors } from "../../constants/colors";
 import { 
     CurrentInvestmentContainer,
@@ -32,6 +33,7 @@ import {
 const Affiliates = () => {
 
     const {affiliates, user} = UserAuth();
+    const navigate = useNavigate();
 
     const displayAffiliates = affiliates.filter(item => {
         return item.isVerified && !item.isClaimed
@@ -74,7 +76,8 @@ const Affiliates = () => {
                     <CurrentInvestmentTitle>Total affiliates earning</CurrentInvestmentTitle>
                 </CurrentInvestmentLeftSect>
 
-                <CurrentInvestmentRightBtn>
+                {/* <CurrentInvestmentRightBtn onClick={() => navigate("affiliatesRerouter", {state: "trust coins"})}> */}
+                <CurrentInvestmentRightBtn onClick={() => navigate("/user_dash/affiliatesRerouter")}>
                     <p>Withdraw</p>
                     <CgArrowLongRight size={30} />
                 </CurrentInvestmentRightBtn>

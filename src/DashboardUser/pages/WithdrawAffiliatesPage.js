@@ -1,5 +1,7 @@
-import { type } from '@testing-library/user-event/dist/type';
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../../contexts/AuthContext';
+import { affiliatesCut } from '../features/formulars';
 import { 
   WithdrawTC_container, BalanceBox, BalanceLabel, Slash, AvailBalanceTitle,
   MainTitle, Disclaimer, Input, Labler, CryptoBtn, CryptoBtnsBox, ReqBtn,
@@ -25,9 +27,18 @@ import {
 
 const WithdrawAffiliatesPage = () => {
   const [btnState, setBtnState] = useState({btc: false, eth: false, trn: false});
-  const [amount, setAmount] = useState('')
   const [walletAddress, setwalletAddress] = useState('')
   const [walletType, setwalletType] = useState('')
+
+  
+  const {affiliates, user, addAffiliatesRequest} = UserAuth();
+  const navigate = useNavigate();
+  
+  const displayAffiliates = affiliates.filter(item => {
+    return item.isVerified && !item.isClaimed
+  })
+  
+  let amount = affiliatesCut(displayAffiliates);
 
   const handleMode = (type) => {
     if(type === "btc") {
@@ -44,10 +55,6 @@ const WithdrawAffiliatesPage = () => {
     };
   } 
 
-  const handleAmountChange = (e) => {
-      if(isNaN(e.target.value)) return;
-      if(!isNaN(e.target.value)) setAmount(e.target.value)
-  }
   const handleAddressChange = (e) => {
     setwalletAddress(e.target.value)
   }
@@ -63,23 +70,38 @@ const WithdrawAffiliatesPage = () => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Request doc", creds)
+    if(walletType.length != 0 && walletAddress.length != 0) {
+      addAffiliatesRequest(user.uid, "affiliates", walletType, walletAddress, amount)
+      navigate("/user_dash")
+    }
+
+    // navigate("/user_dash/confirm_withdraw", {
+    //   state: {
+    //     id: 1,
+    //     type: "affiliates",
+    //     wallet_type: walletType,
+    //     wallet_address: walletAddress,
+    //     amount: amount,
+    //     isServed: "pending"
+    //   }
+    // })
   }
 
   return (
     <WithdrawTC_container onSubmit={(e) => handleSubmit(e)}>
-      <MainTitle>Request withdraw form (Affiliates)</MainTitle>
+      <MainTitle>Request for affiliates earning withdrawal</MainTitle>
+      <p>When you request a withdrawal of affiliates earning, upon acceptance, you will be given all the available affiliate earnings</p>
       <Disclaimer>Please fill in this form correctly, failure to do so will result in your withdrawal request being denied</Disclaimer>
       <div className="availableBalanceBox">
         <AvailBalanceTitle>Available balance</AvailBalanceTitle>
         <BalanceBox>
-          <BalanceLabel>20 TC</BalanceLabel>
-          <Slash>|</Slash>
-          <BalanceLabel>USD$ 150</BalanceLabel>
+          {/* <BalanceLabel>20 TC</BalanceLabel>
+          <Slash>|</Slash> */}
+          <BalanceLabel>USD$ {amount}</BalanceLabel>
         </BalanceBox>
       </div>
 
-      <div className="amountBox">
+      {/* <div className="amountBox">
         <Labler>How much do you wish to withdraw (in USD$)</Labler>
         <Input 
             type="text" 
@@ -88,7 +110,7 @@ const WithdrawAffiliatesPage = () => {
             value={amount} 
             onChange={(e) => handleAmountChange(e)} 
         />
-      </div>
+      </div> */}
 
       <div className="cryptoSelect">
         <CyptoSelectTitler>Select your crypto</CyptoSelectTitler>
@@ -108,7 +130,7 @@ const WithdrawAffiliatesPage = () => {
       />
 
       <div className="buttonBox">
-        <ReqBtn>Request withdraw | USD$ 50</ReqBtn>
+        <ReqBtn>Place withdraw request</ReqBtn>
       </div>
     </WithdrawTC_container>
   )

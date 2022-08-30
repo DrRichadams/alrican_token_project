@@ -138,7 +138,7 @@ const WithdrawTrustCoinsPage = () => {
       />
 
       <div className="buttonBox">
-        <ReqBtn>Request withdraw | USD$ 150</ReqBtn>
+        <ReqBtn>Request withdraw</ReqBtn>
       </div>
     </WithdrawTC_container>
   )

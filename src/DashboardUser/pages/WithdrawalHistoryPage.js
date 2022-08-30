@@ -1,15 +1,41 @@
 import React, {useState} from "react";
 import styled from "styled-components";
+import { UserAuth } from "../../contexts/AuthContext";
 import {colors} from "../../constants/colors";
 import { WITHDRAWAL_HISTORY } from "../../constants/DATA";
 
+
+const PendingDisplay = ({wallet_type, wallet_address, amount}) => {
+    return(
+        <PendingBox>
+            <Sector>
+                <SectorItem>Wallet type</SectorItem>
+                <SectorItem>{wallet_type}</SectorItem>
+            </Sector>
+            <Sector>
+                <SectorItem>Wallet Address</SectorItem>
+                <SectorItem>{wallet_address}</SectorItem>
+            </Sector>
+            <Sector>
+                <SectorItem>Amount</SectorItem>
+                <SectorItem>USD$ {amount}</SectorItem>
+            </Sector>
+        </PendingBox>
+    )
+}
+
 const WithdrawalHistoryPage = () => {
     const [ selectedHistory, setSelectedHistory ] = useState({
-        all: true,
+        all: false,
         approved: false,
-        pending: false,
+        pending: true,
         failed: false
     });
+
+    const {withdrawRequest, affiliatesRequest} = UserAuth();
+
+    console.log("with", withdrawRequest);
+    console.log("afil", affiliatesRequest);
 
     const handleSelect = (type) => {
         if(type==="all") setSelectedHistory({ all: true, approved: false, pending: false, failed: false });
@@ -26,13 +52,33 @@ const WithdrawalHistoryPage = () => {
         if(selectedHistory.failed) return item.status === "rejected"
     })
 
+    if(selectedHistory.pending) {
+        return(
+            <HistoryContainer>
+            <HistoryMainTitle>Your withdrawal history</HistoryMainTitle>
+            <HistoryBtns>
+                {/* <HistoryBtn isTrue = {selectedHistory.all} onClick={handleSelect.bind(this, "all")}>All</HistoryBtn> */}
+                <HistoryBtn isTrue = {selectedHistory.pending} onClick={handleSelect.bind(this, "pending")}>Pending</HistoryBtn>
+                <HistoryBtn isTrue = {selectedHistory.approved} onClick={handleSelect.bind(this, "approved")}>Approved</HistoryBtn>
+                <HistoryBtn isTrue = {selectedHistory.failed} onClick={handleSelect.bind(this, "failed")}>Failed</HistoryBtn>
+            </HistoryBtns> 
+            <HistoryDisplay>
+                <PendingTitle>Pending Trust Coin withdrawal request</PendingTitle>
+                <PendingDisplay wallet_type={withdrawRequest.walletType} wallet_address={withdrawRequest.walletAddress} amount={withdrawRequest.amount} />
+                <PendingTitle>Pending Affiliates withdrawal request</PendingTitle>
+                <PendingDisplay wallet_type={affiliatesRequest.walletType} wallet_address={affiliatesRequest.walletAddress} amount={affiliatesRequest.amount} />
+            </HistoryDisplay>
+        </HistoryContainer>
+        )
+    }
+
     return(
         <HistoryContainer>
             <HistoryMainTitle>Your withdrawal history</HistoryMainTitle>
             <HistoryBtns>
-                <HistoryBtn isTrue = {selectedHistory.all} onClick={handleSelect.bind(this, "all")}>All</HistoryBtn>
-                <HistoryBtn isTrue = {selectedHistory.approved} onClick={handleSelect.bind(this, "approved")}>Approved</HistoryBtn>
+                {/* <HistoryBtn isTrue = {selectedHistory.all} onClick={handleSelect.bind(this, "all")}>All</HistoryBtn> */}
                 <HistoryBtn isTrue = {selectedHistory.pending} onClick={handleSelect.bind(this, "pending")}>Pending</HistoryBtn>
+                <HistoryBtn isTrue = {selectedHistory.approved} onClick={handleSelect.bind(this, "approved")}>Approved</HistoryBtn>
                 <HistoryBtn isTrue = {selectedHistory.failed} onClick={handleSelect.bind(this, "failed")}>Failed</HistoryBtn>
             </HistoryBtns> 
             <HistoryDisplay>
@@ -62,6 +108,32 @@ const WithdrawalHistoryPage = () => {
 }
 
 
+
+export const PendingBox = styled.div`
+    margin-bottom: 25px;
+`;
+
+export const Sector = styled.div`
+    margin-bottom: 6px;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const SectorItem = styled.p`
+    margin: 0;
+`;
+
+
+export const PendingTitle = styled.h3`
+    margin: 0 0 12px 0;
+    border-bottom: 2px solid ${colors.accent};
+    padding-bottom: 5px;
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    color: rgb(36,40,80);
+`;
 
 export const StatusIcon = styled.div`
     width: 20px;

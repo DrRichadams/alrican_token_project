@@ -36,6 +36,7 @@ export const AuthContextProvider = ({children}) => {
     const [my_avatars, set_my_avatars] = useState([]);
     const [hasKYC, set_hasKYC] = useState(null);
     const [withdrawRequest, set_withdrawRequest] = useState(null);
+    const [affiliatesRequest, set_affiliatesRequest] = useState(null);
 
     const [system_rates, set_system_rates] = useState([]);
 
@@ -81,7 +82,7 @@ export const AuthContextProvider = ({children}) => {
                 isClaimed: false,
                 email,
                 names,
-                affiliatesPercentage: system_rates[0].percentage,
+                affiliatespercentage: system_rates[0].percentage,
                 affiliatesFee: system_rates[1].fee,
                 // affiliatespercentage,
                 // affiliatesFee,
@@ -89,6 +90,15 @@ export const AuthContextProvider = ({children}) => {
         }, { merge: true });
         await setDoc(doc(db, "affiliates", id), {});
         await setDoc(doc(db, "withdrawRequests", id), {
+            id,
+            type: "",
+            walletType: "",
+            walletAddress: "",
+            amount: "",
+            isServed: "pending",
+            isEligible: false,
+        });
+        await setDoc(doc(db, "affiliateRequests", id), {
             id,
             type: "",
             walletType: "",
@@ -113,6 +123,31 @@ export const AuthContextProvider = ({children}) => {
     }
     const removeWithdrawRequest = async (id) => {
         await setDoc(doc(db, "withdrawRequests", id), {
+            type: "",
+            walletType: "",
+            walletAddress: "",
+            amount: "",
+            isServed: "pending",
+            time: "",
+            isEligible: true
+        }, { merge: true });
+        alert("Request cancelled successfully")
+    }
+    const addAffiliatesRequest = async (id, type, walletType, walletAddress, amount) => {
+        await setDoc(doc(db, "affiliateRequests", id), {
+            id,
+            type,
+            walletType,
+            walletAddress,
+            amount,
+            isServed: "pending",
+            time: serverTimestamp(),
+            isEligible: false,
+        }, { merge: true });
+        alert("Request placed successfully.")
+    }
+    const removeAffiliatesRequest = async (id) => {
+        await setDoc(doc(db, "affiliateRequests", id), {
             type: "",
             walletType: "",
             walletAddress: "",
@@ -196,6 +231,9 @@ export const AuthContextProvider = ({children}) => {
             coins: usd_to_trustcoin(deducted, coinrate),
         }, { merge: true });
         await setDoc(doc(db, "withdrawRequests", id), {
+            isEligible: true,
+        }, { merge: true });
+        await setDoc(doc(db, "affiliateRequests", id), {
             isEligible: true,
         }, { merge: true });
 
@@ -444,6 +482,17 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
+    const getAffiliatesRequest = async (id) => {
+        const docRef = doc(db, "affiliateRequests", id);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -471,6 +520,7 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
             currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
             currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
+            currentUser && getAffiliatesRequest(currentUser.uid).then((udata) => set_affiliatesRequest(udata));
             // currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata.fee));
             currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata));
 
@@ -555,7 +605,10 @@ export const AuthContextProvider = ({children}) => {
             withdrawRequest,
             removeWithdrawRequest,
             addTopupProofFirebase,
-            system_rates
+            system_rates,
+            affiliatesRequest,
+            addAffiliatesRequest,
+            removeAffiliatesRequest,
         }}>
             {children}
         </AuthContext.Provider>

@@ -65,6 +65,8 @@ import WithdrawReceipt from './DashboardUser/pages/WithdrawReceipt';
 import WithdrawRerouter from './DashboardUser/comps/WithdrawRerouter';
 import TopupRequest from './DashboardUser/pages/TopupRequest';
 import TopupThanks from './DashboardUser/pages/TopupThanks';
+import AffiliatesReceipt from './DashboardUser/pages/AffiliatesReceipt';
+import AffiliatesRerouter from './DashboardUser/comps/AffiliatesRerouter';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -91,8 +93,10 @@ function App() {
                 <Route path='withdrawAffiliates' element={<WithdrawAffiliatesPage />} />
                 <Route path='withdrawCoins' element={<WithdrawTrustCoinsPage />} />
                 <Route path='withdrawRerouter' element={<WithdrawRerouter />} />
+                <Route path='affiliatesRerouter' element={<AffiliatesRerouter />} />
                 <Route path='confirm_withdraw' element={<ConfirmWithdrawRequest />} />
                 <Route path='withdraw_receipt' element={<WithdrawReceipt />} />
+                <Route path='affiliates_receipt' element={<AffiliatesReceipt />} />
                 <Route path='withdrawal_history' element={<WithdrawalHistoryPage />} />
                 <Route path='topup_request' element={<TopupRequest />} />
                 <Route path='topup_thanks' element={<TopupThanks />} />

@@ -25,6 +25,19 @@ export const unselectedLink = {
     color: '#aaa'
 };
 
+export const LeftMobileMenu = styled.div`
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    min-height: 60px;
+    padding: 6px;
+    box-sizing: border-box;
+    /* display: none; */
+    display: flex;
+    @media (max-width: 800px) {
+        display: flex;
+    }
+`;
 export const LeftMenu = styled.div`
     background-color: #d9d9d9;
     width: 300px;
@@ -34,7 +47,12 @@ export const LeftMenu = styled.div`
     box-sizing: border-box;
 `;
 export const LeftContainer = styled.div`
-    /* display: none; */
+    /* display: none;
+    position: absolute;
+    z-index: 2000; */
+    @media (max-width: 800px) {
+        display: none;
+    }
 `;
 export const MainContainer = styled.div`
     display: flex;

@@ -24,6 +24,7 @@ import {
     UserTitle,
     UserPicContainer,
     UserPic,
+    LeftMobileMenu
  } from "../features/UserDashStyledComponents";
  import { RightContainer } from "../features/Containers";
  import RightContainerComponent from "../features/Containers";
@@ -73,9 +74,9 @@ const UserDashboard = () => {
     }
 
     return(
-        <MainContainer className="main_container">
-            <LeftContainer className="left_container">
-                <LeftMenu className="left_menu">
+        <MainContainer>
+            <LeftContainer>
+                <LeftMenu>
                     <ProfileContainer>
                     <UserProfileContainer className="user_profile_container">
                         <ImgBoxer onClick={() => handleUserProfileClicked()}>
@@ -128,6 +129,13 @@ const UserDashboard = () => {
                 }
                 <Outlet />
             </RightContainerComponent>
+            <LeftMobileMenu>
+            <ImgBoxer onClick={() => handleUserProfileClicked()}>
+                {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
+                {/* {imageName && <ImageRender imgName={imageName} />} */}
+                <Imager src={imageName} alt="" />
+            </ImgBoxer>
+            </LeftMobileMenu>
         </MainContainer>
     )
 }

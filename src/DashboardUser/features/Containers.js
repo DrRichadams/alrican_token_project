@@ -16,6 +16,15 @@ export const RightContainer = styled.div`
     padding-top: 50px;
     position: relative;
     overflow: hidden;
+    @media (max-width: 1040px) {
+        padding: 20px;
+    }
+    @media (max-width: 800px) {
+        padding: 20px 100px;
+    }
+    @media (max-width: 660px) {
+        padding: 20px;
+    }
 `;
 
 

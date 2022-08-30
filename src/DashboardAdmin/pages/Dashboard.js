@@ -26,13 +26,13 @@ const Dashboard = () => {
             <WalletsTitle>Wallets in use</WalletsTitle>
             <DashboardWalletBox address="ITCP-AAED-EGEW-GWER-ERFF" type="Bitcoin" onClick={() => {}} />
             <DashboardWalletBox address="NCPD-AAED-EGEW-GWER-ERFF" type="Etherium" onClick={() => {}} />
-            <DashboardWalletBox address="DOPS-AAED-EGEW-GWER-ERFF" type="Dogicoin" onClick={() => {}} />
+            <DashboardWalletBox address="DOPS-AAED-EGEW-GWER-ERFF" type="Tron" onClick={() => {}} />
           </UserWallets>
 
           <UserStats>
 
             <DashboardStatBox title="From Trust Coins" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "DOG", value: "0.00021"}} />
-            <DashboardStatBox title="User fees" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "DOG", value: "0.00021"}} />
+            <DashboardStatBox title="User fees" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "Tron", value: "0.00021"}} />
           </UserStats>
         </DashboardRects>
     </div>
