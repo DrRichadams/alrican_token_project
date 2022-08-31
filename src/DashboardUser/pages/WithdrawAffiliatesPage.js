@@ -34,11 +34,19 @@ const WithdrawAffiliatesPage = () => {
   const {affiliates, user, addAffiliatesRequest} = UserAuth();
   const navigate = useNavigate();
   
-  const displayAffiliates = affiliates.filter(item => {
-    return item.isVerified && !item.isClaimed
-  })
+  console.log("The real affils", affiliates)
+
+  let displayAffiliates;
+  try {
+    displayAffiliates = affiliates?.filter(item => {
+      return item.isVerified && !item.isClaimed
+    })
+  } catch (error) {
+    
+  }
   
   let amount = affiliatesCut(displayAffiliates);
+  // let amount = 1;
 
   const handleMode = (type) => {
     if(type === "btc") {

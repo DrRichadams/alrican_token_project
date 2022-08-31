@@ -50,7 +50,10 @@ const ChangeAvatarModal = () => {
         setImageName(name);
         setavId(av)
     }
-    const handleChangeAvatar = () => updateAvatarFirebase(user.uid, imageName, avId);
+    const handleChangeAvatar = () => {
+        updateAvatarFirebase(user.uid, imageName, avId);
+        dispatch(closeAvatarModal())
+    }
 
     return ReactDOM.createPortal(
         <PortalContainer show={isOpen ? "flex":"none"}>
@@ -117,6 +120,9 @@ export const ControlBtns = styled.div`
 `;
 export const AvatarSelection = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     margin-top: 30px;
     gap: 15px;
 `;
@@ -135,6 +141,10 @@ export const AvatarBox = styled.button`
     cursor: pointer;
     transition: all .25s ease-in-out;
     box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+    @media (max-width: 390px) {
+        padding: 8px;
+        gap: 4px;
+    }
     :hover {
         transform: scale(1.1);
         border-color: ${colors.accent};
@@ -197,6 +207,17 @@ export const ChangeAvatarBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    padding: 6px;
+    @media (max-width: 1190px) {
+        width: 70vw;
+    }
+    @media (max-width: 1030px) {
+        width: 80vw;
+    }
+    @media (max-width: 880px) {
+        width: 95vw;
+    }
 `;
 
 export const PortalContainer = styled.div`

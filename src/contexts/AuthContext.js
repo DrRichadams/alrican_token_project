@@ -7,7 +7,8 @@ import {
     getDoc,
     collection,
     query,
-    onSnapshot
+    onSnapshot,
+    where
  } from "firebase/firestore"; 
 
 import {auth, db} from "../firebase/config";
@@ -37,6 +38,7 @@ export const AuthContextProvider = ({children}) => {
     const [hasKYC, set_hasKYC] = useState(null);
     const [withdrawRequest, set_withdrawRequest] = useState(null);
     const [affiliatesRequest, set_affiliatesRequest] = useState(null);
+    const [myAvatar, setMyAvatar] = useState(null);
 
     const [system_rates, set_system_rates] = useState([]);
 
@@ -170,7 +172,7 @@ export const AuthContextProvider = ({children}) => {
             KYC_type: "",
             KYC_url: url,
         }, { merge: true });
-        window.location.reload();
+        // window.location.reload();
     }
     const addWalletFirebase = async (id, name, address) => {
         const cur_id = Math.random().toString();
@@ -216,7 +218,7 @@ export const AuthContextProvider = ({children}) => {
             url: name
         }, { merge: true });
         alert("Avatar updated successfully");
-        window.location.reload();
+        // window.location.reload();
     }
 
     const userVerificationFirebase = async (id) => {
@@ -313,6 +315,9 @@ export const AuthContextProvider = ({children}) => {
     const logout = () => {
         return signOut(auth).then(() => {
             // window.location.reload();
+            setUser(null);
+            setuserdata(null);
+            setroutedata(null);
         })
     }
 
@@ -339,17 +344,7 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
-    const getAffiliates = async (uid) => {
-        const docRef = doc(db, "affiliates", uid);
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
+    
     // const getRates = async () => {
     //     const docRef = doc(db, "rates", "affiliateRates");
     //     const docSnap = await getDoc(docRef);
@@ -460,39 +455,6 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
-    const getKYCData = async (id) => {
-        const docRef = doc(db, "KYC", id);
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
-    const getWithdrawRequest = async (id) => {
-        const docRef = doc(db, "withdrawRequests", id);
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
-    const getAffiliatesRequest = async (id) => {
-        const docRef = doc(db, "affiliateRequests", id);
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -507,7 +469,10 @@ export const AuthContextProvider = ({children}) => {
             })
 
             currentUser && getCoins(currentUser.uid).then((udata) => settrustcoins({...udata}));
-            currentUser && getAffiliates(currentUser.uid).then((udata) => setaffiliates(Object.values(udata)));
+            // currentUser && getAffiliates(currentUser.uid).then((udata) => {
+            //     setaffiliates(Object.values(udata))
+            //     console.log("Expected data", Object.values(udata))
+            // });
 
             currentUser && getCoinTees().then((udata) => setteesforcoins(udata.value));
             currentUser && getAffiliatesTees().then((udata) => setteesforaffiliates(udata.value));
@@ -518,9 +483,9 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getBitcoinWallets().then((udata) => setbitcoinwallets(Object.values(udata)));
             currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
             currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
-            currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
-            currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
-            currentUser && getAffiliatesRequest(currentUser.uid).then((udata) => set_affiliatesRequest(udata));
+            // currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
+            // currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
+            // currentUser && getAffiliatesRequest(currentUser.uid).then((udata) => set_affiliatesRequest(udata));
             // currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata.fee));
             currentUser && getAffiliatesFee().then((udata) => setaffiliatesFee(udata));
 
@@ -562,6 +527,137 @@ export const AuthContextProvider = ({children}) => {
           unsubscribe();
       }
       }, [])
+
+    useEffect(() => {
+        const q = query(collection(db, "avatars"), where("id", "==", `${user?.uid}`));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const my_avatar = [];
+          querySnapshot.forEach((doc) => {
+            my_avatar.push(doc.data());
+          });
+          setMyAvatar(my_avatar);
+        //   console.log("My avita", my_avatar);
+        });
+    
+        return () => {
+          unsubscribe();
+      }
+      }, [user])
+
+    useEffect(() => {
+        const q = query(collection(db, "withdrawRequests"), where("id", "==", `${user?.uid}`));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const withdraw_request = [];
+          querySnapshot.forEach((doc) => {
+            withdraw_request.push(doc.data());
+          });
+          set_withdrawRequest(withdraw_request[0]);
+        //   console.log("My requesta", withdraw_request);
+        });
+    
+        return () => {
+          unsubscribe();
+      }
+      }, [user])
+
+    useEffect(() => {
+        const q = query(collection(db, "KYC"), where("id", "==", `${user?.uid}`));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const myKYC = [];
+          querySnapshot.forEach((doc) => {
+            myKYC.push(doc.data());
+          });
+          set_hasKYC(myKYC[0]?.hasKYC);
+        //   console.log("My KYCyo", myKYC);
+        });
+    
+        return () => {
+          unsubscribe();
+      }
+      }, [user])
+
+    // useEffect(() => {
+    //     // const q = query(collection(db, "affiliates"), where("id", "==", `${user?.uid}`));
+    //     const q = query(collection(db, "affiliates", user?.uid));
+    //     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //       const myAffiliates = [];
+    //       querySnapshot.forEach((doc) => {
+    //         myAffiliates.push(doc.data());
+    //       });
+    //     //   set_hasKYC(myAffiliates[0]);
+    //       console.log("My affiliata", myAffiliates);
+    //     });
+    
+    //     return () => {
+    //       unsubscribe();
+    //   }
+    //   }, [user])
+
+      useEffect(() => {
+        const unsub = onSnapshot(doc(db, "affiliates", `${user?.uid}`), (doc) => {
+            setaffiliates(Object.values(doc.data()))
+            console.log("Current afil data: ", Object.values(doc.data()));
+        });
+
+        return () => {
+            unsub();
+        }
+      }, [user])
+
+      useEffect(() => {
+        const unsub = onSnapshot(doc(db, "affiliateRequests", `${user?.uid}`), (doc) => {
+            set_affiliatesRequest(doc.data())
+            console.log("Current afil reqs: ", doc.data());
+        });
+      }, [user])
+
+      const getAffiliatesRequest = async (id) => {
+        const docRef = doc(db, "affiliateRequests", id);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
+
+      const getAffiliates = async (uid) => {
+        const docRef = doc(db, "affiliates", uid);
+        const docSnap = await getDoc(docRef);
+
+        try {
+            const data = docSnap.data();
+            return data
+        } catch (error) {
+            console.log("My error", error)
+        }
+    }
+
+    //   const getKYCData = async (id) => {
+    //     const docRef = doc(db, "KYC", id);
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
+
+    //   const getWithdrawRequest = async (id) => {
+    //     const docRef = doc(db, "withdrawRequests", id);
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
 
     const loadSpinner = () => setIsSpinner(true);
     const unloadSpinner = () => setIsSpinner(false);
@@ -609,6 +705,7 @@ export const AuthContextProvider = ({children}) => {
             affiliatesRequest,
             addAffiliatesRequest,
             removeAffiliatesRequest,
+            myAvatar
         }}>
             {children}
         </AuthContext.Provider>

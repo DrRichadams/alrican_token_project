@@ -1,5 +1,6 @@
 import React from "react";
 import { CgArrowLongRight } from "react-icons/cg"
+import styled from "styled-components";
 import { 
     TrustTitle,
     Img,
@@ -30,11 +31,17 @@ const TrustBoxComp = ({ img_url, amount, title, btn_text, isBtn, onClick }) => {
             <TrustLeft>
                 {isBtn ? <TrustBtn onClick={onClick}>
                     <BtnText>{btn_text}</BtnText>
-                    <CgArrowLongRight size={30} />
+                    <Hider><CgArrowLongRight size={30} /></Hider>
                 </TrustBtn>: ""}
             </TrustLeft>
         </TrustBox>
     )
 }
+
+export const Hider = styled.span`
+    @media (max-width: 440px) {
+        display: none;
+    }
+`;
 
 export default TrustBoxComp;

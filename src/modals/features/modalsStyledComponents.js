@@ -126,6 +126,15 @@ export const LogoutBox = styled.div`
     border-radius: 6px;
     box-shadow: 3px 3px 12px rgba(0,0,0,0.8),
     -3px -3px 12px rgba(0,0,0,0.5);
+    @media (max-width: 1060px) {
+        width: 50vw;
+    }
+    @media (max-width: 630px) {
+        width: 70vw;
+    }
+    @media (max-width: 400px) {
+        width: 95vw;
+    }
 `;
 export const LogoutWarning = styled.div`
     display: flex;

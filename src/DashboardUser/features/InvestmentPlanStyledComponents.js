@@ -14,6 +14,9 @@ export const TrustTitle = styled.h3`
 
 export const Img = styled.img`
     width: 100px;
+    @media (max-width: 510px) {
+        width: 70px;
+    }
 `;
 export const TrustBoxesContainer = styled.div`
     /* overflow: scroll; */
@@ -73,6 +76,14 @@ export const TrustBtn = styled.button`
     align-items: center;
     justify-content: space-between;
     gap: 18px;
+    @media (max-width: 485px) {
+        font-size: 10px;
+        gap: 6px;
+        min-width: 50px;
+    }
+    @media (max-width: 440px) {
+        padding: 0;
+    }
     :hover {
         padding: 10px 30px;
         color: blue;

@@ -24,7 +24,7 @@ const AffiliatesReceipt = () => {
     const cancelRequest = () => {
         removeAffiliatesRequest(user.uid).then(() => {
             navigate("/user_dash");
-            window.location.reload();
+            // window.location.reload();
         });
     }
 

@@ -16,6 +16,7 @@ export const RightContainer = styled.div`
     padding-top: 50px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
     @media (max-width: 1040px) {
         padding: 20px;
     }

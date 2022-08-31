@@ -9,42 +9,9 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage, db } from '../../firebase/config';
 import { UserAuth } from '../../contexts/AuthContext';
 
-const getProofImg = async (id) => {
-    const docRef = doc(db, "avatars", id);
-    const docSnap = await getDoc(docRef);
-  
-    try {
-        const data = docSnap.data();
-        console.log(data)
-        return data
-    } catch (error) {console.log("My error", error)}
-}
-
-  const ImageRender = ({imgName}) => {
-    const [my_img, setMy_img] = useState(null)
-    const imgRef = ref(storage, `avatars/${imgName}`);
-    getDownloadURL(imgRef)
-    .then((url) => {
-      setMy_img(url)
-    //   console.log("Possible url ", url)
-    })
-    if(my_img !== null) return<Imager src={my_img} alt="" />
-    if(my_img === null) return <ImageWarning></ImageWarning>
-  }
-
 const UserProfile = () => {
-    const [imageName, setImageName] = useState(null)
-    const {user} = UserAuth();
+    const {userdata, myAvatar} = UserAuth();
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        try{
-         getProofImg(user.uid).then((data) => {
-           console.log("My img profile", data)
-           setImageName(data.name)
-          })
-        } catch(e) {console.log(e)}
-    }, [user])
 
     const handleUserProfileClicked = () => {
         dispatch(openAvatarModal())
@@ -54,11 +21,10 @@ const UserProfile = () => {
     <Controls>
         <UserProfiler>
             <Image onClick={() => handleUserProfileClicked()}>
-                {/* <Img src={process.env.PUBLIC_URL + "/images/user1.jpg"} alt="" /> */}
-                {imageName && <ImageRender imgName={imageName} />}
+                {myAvatar && <Imager src={myAvatar[0]?.url} /> }
             </Image>
             <Names>
-                <Name>Richard</Name>
+                <Name>{userdata?.names}</Name>
                 <UserType>Admin</UserType>
             </Names>
         </UserProfiler>

@@ -29,7 +29,7 @@ const ConfirmWithdrawRequest = () => {
             .then(() => {
                 setloading(false);
                 navigate("/user_dash/withdraw_receipt");
-                window.location.reload();
+                // window.location.reload();
             }
         );
     }

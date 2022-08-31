@@ -50,7 +50,7 @@ const getProofImg = async (id) => {
 
 const UserDashboard = () => {
     const [imageName, setImageName] = useState(null)
-    const { userdata, user, hasKYC } = UserAuth();
+    const { userdata, user, hasKYC, myAvatar } = UserAuth();
     // console.log("My user", userdata)
     const dispatch = useDispatch()
     const handleLogout = () => {
@@ -82,7 +82,8 @@ const UserDashboard = () => {
                         <ImgBoxer onClick={() => handleUserProfileClicked()}>
                             {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
                             {/* {imageName && <ImageRender imgName={imageName} />} */}
-                            <Imager src={imageName} alt="" />
+                            {/* <Imager src={imageName} alt="" /> */}
+                            {myAvatar && <Imager src={myAvatar[0]?.url} alt="" /> }
                         </ImgBoxer>
                         <UserDetailsContainer className="right_user_profile_box">
                             <UserTitle>{userdata.names}</UserTitle>
@@ -133,14 +134,42 @@ const UserDashboard = () => {
             <ImgBoxer onClick={() => handleUserProfileClicked()}>
                 {/* <UserPic src={process.env.PUBLIC_URL + "images/user1.jpg"} alt="" /> */}
                 {/* {imageName && <ImageRender imgName={imageName} />} */}
-                <Imager src={imageName} alt="" />
+                {/* <Imager src={imageName} alt="" /> */}
+                {myAvatar && <Imager src={myAvatar[0]?.url} alt="" /> }
             </ImgBoxer>
+
+                <MobileLinks>
+                    <NavLink to={""} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
+                        <AiFillAppstore size={30} />
+                        {/* <MenuLinkTitlte>DASHBOARD</MenuLinkTitlte> */}
+                    </NavLink>
+                    <NavLink to={"/user_dash/earnings"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
+                        <AiFillGold size={30} />
+                        {/* <MenuLinkTitlte>AFFILIATES</MenuLinkTitlte> */}
+                    </NavLink>
+                    <NavLink to={"/user_dash/withdrawal_history"} style={({isActive}) => isActive ? selectedLink:unselectedLink}>
+                        <MdHistory size={30} />
+                        {/* <MenuLinkTitlte>WITHDRAWAL HISTORY</MenuLinkTitlte> */}
+                    </NavLink>
+                </MobileLinks>
+
+                <LogoutBtn onClick={handleLogout}>
+                    <RiLogoutCircleRLine size={30} color={"orange"}/>
+                </LogoutBtn>
             </LeftMobileMenu>
         </MainContainer>
     )
 }
 
 
+export const MobileLinks = styled.div`
+    display: flex;
+    /* flex-direction: row-reverse; */
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    color: orangered;
+`;
 export const KYC_warning = styled.div`
     display: flex;
     flex-direction: row-reverse;

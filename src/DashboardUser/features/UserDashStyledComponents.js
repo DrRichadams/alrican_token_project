@@ -26,14 +26,17 @@ export const unselectedLink = {
 };
 
 export const LeftMobileMenu = styled.div`
-    background-color: red;
-    width: 100%;
+    /* background-color: red; */
+    background-color: #fff;
+    width: 100vw;
     height: 100%;
     min-height: 60px;
-    padding: 6px;
+    padding: 8px 20px;
     box-sizing: border-box;
-    /* display: none; */
-    display: flex;
+    display: none;
+    /* display: flex; */
+    justify-content: space-between;
+    align-items: center;
     @media (max-width: 800px) {
         display: flex;
     }
@@ -56,6 +59,9 @@ export const LeftContainer = styled.div`
 `;
 export const MainContainer = styled.div`
     display: flex;
+    @media (max-width: 800px) {
+        flex-direction: column;
+    }
 `;
 
 export const MenuLinkTitlte = styled.p`

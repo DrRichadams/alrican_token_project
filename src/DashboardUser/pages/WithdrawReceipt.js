@@ -23,7 +23,7 @@ const WithdrawReceipt = () => {
     const cancelRequest = () => {
         removeWithdrawRequest(user.uid).then(() => {
             navigate("/user_dash");
-            window.location.reload();
+            // window.location.reload();
         });
     }
 
