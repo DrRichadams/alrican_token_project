@@ -116,6 +116,7 @@ export const SocContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
+    gap: 20px;
     @media (max-width: 830px) {
         grid-template-columns: repeat(2, 1fr);
         gap: 80px;

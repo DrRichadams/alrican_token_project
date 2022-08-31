@@ -99,6 +99,8 @@ export const AuthContextProvider = ({children}) => {
             amount: "",
             isServed: "pending",
             isEligible: false,
+            names,
+            email,
         });
         await setDoc(doc(db, "affiliateRequests", id), {
             id,
@@ -108,6 +110,8 @@ export const AuthContextProvider = ({children}) => {
             amount: "",
             isServed: "pending",
             isEligible: false,
+            names,
+            email,
         });
     }
 

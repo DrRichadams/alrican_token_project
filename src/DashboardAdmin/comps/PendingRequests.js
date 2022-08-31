@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { colors } from '../../constants/colors';
 import styled from 'styled-components';
 import { WITHDRAWAL_HISTORY } from '../../constants/DATA';

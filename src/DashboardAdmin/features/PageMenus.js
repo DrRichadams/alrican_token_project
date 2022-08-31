@@ -27,9 +27,10 @@ const PageMenus = ({place}) => {
         return (
             <Menu>
                 <ControlsContainer>
-                    <MenuBtn title="Pending requests" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} />
-                    <MenuBtn title="Approved requests" active={location.pathname.includes("approved_requests")} link="" clickable={() => navigate("approved_requests")} />
-                    <MenuBtn title="Rejected requests" active={location.pathname.includes("rejected_requests")} link="" clickable={() => navigate("rejected_requests")} />
+                    {/* <MenuBtn title="Pending requests" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} /> */}
+                    <MenuBtn title="Trust Coins" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} />
+                    <MenuBtn title="Affiliates" active={location.pathname.includes("approved_requests")} link="" clickable={() => navigate("approved_requests")} />
+                    <MenuBtn title="History" active={location.pathname.includes("rejected_requests")} link="" clickable={() => navigate("rejected_requests")} />
                 </ControlsContainer>
                 {/* <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge> */}
               </Menu>

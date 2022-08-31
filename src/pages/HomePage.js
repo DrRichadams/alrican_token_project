@@ -83,7 +83,8 @@ const HomePage = () => {
                     </HomeSectorBox>
                     <HomeSectorBoxImg>
                         {/* <Img1 src={process.env.PUBLIC_URL + "/images/banner_pic.png"} alt="" /> */}
-                        <Img1 src={process.env.PUBLIC_URL + "/onDark.png"} alt="" />
+                        {/* <Img1 src={process.env.PUBLIC_URL + "/onDark.png"} alt="" /> */}
+                        <Img1 src={process.env.PUBLIC_URL + "/withBG.png"} alt="" />
                     </HomeSectorBoxImg>
                 </HomeBanner>
             </SectionContainer>
@@ -277,10 +278,10 @@ const HomePage = () => {
                 <CustomeTitle color={colors.accent} b_color={colors.accent}>Let's get social</CustomeTitle>
                 <Para>Get to know us personally through our social media platforms. <br></br>Can't wait to see you there!</Para>
                 <SocContainer className="social_media_boxes">
-                    <SocCircle link="facebook.com" color="#1976D2"><FaFacebookF size={36} /></SocCircle>
-                    <SocCircle link="telegram.com" color="#0177B5"><FaTelegramPlane size={36} /></SocCircle>
-                    <SocCircle link="instagram.com" color="#D34069"><RiInstagramFill size={36} /></SocCircle>
-                    <SocCircle link="twitter.com" color="#03A9F4"><RiTwitterFill size={36} /></SocCircle>
+                    <SocCircle link="facebook.com/All-African-Token-106325625545105" color="#1976D2"><FaFacebookF size={36} /></SocCircle>
+                    <SocCircle link="t.me/allafricantoken " color="#0177B5"><FaTelegramPlane size={36} /></SocCircle>
+                    <SocCircle link="instagram.com/allafricantoken?igshid=YmMyMTA2M2Y=" color="#D34069"><RiInstagramFill size={36} /></SocCircle>
+                    <SocCircle link="twitter.com/alrican_token?s=21&t=RFvtQJbLKHqvvoMSkb-MdA" color="#03A9F4"><RiTwitterFill size={36} /></SocCircle>
                 </SocContainer>
             </SectionContainer>
             <SectionContainer bg_color={colors.primary}>
@@ -323,7 +324,7 @@ const HomePage = () => {
                             </ContactDetail> */}
                             <ContactDetail>
                                 <strong>Email:</strong>
-                                <FooterParagraph>assistance@allafricantoken.com</FooterParagraph>
+                                <FooterParagraph>assistance@alricantoken.com</FooterParagraph>
                             </ContactDetail>
                         </div>
                     </div>

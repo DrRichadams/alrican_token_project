@@ -86,7 +86,7 @@ const Affiliates = () => {
             <AffiliateLinkContainer>
                 <AffiliateLinkTitle>Your affiliate link</AffiliateLinkTitle>
                 <AffiliateLinkBox>localhost:3000/signup/{user.uid}</AffiliateLinkBox>
-                <AffiliateLinkBtn>COPY</AffiliateLinkBtn>
+                {/* <AffiliateLinkBtn>COPY</AffiliateLinkBtn> */}
             </AffiliateLinkContainer>
             <AffiliatesListContainer>
                 {
