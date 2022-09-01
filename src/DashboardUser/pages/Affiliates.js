@@ -76,7 +76,7 @@ const Affiliates = () => {
                     <CurrentInvestmentTitle>Total affiliates earning</CurrentInvestmentTitle>
                 </CurrentInvestmentLeftSect>
 
-                {/* <CurrentInvestmentRightBtn onClick={() => navigate("affiliatesRerouter", {state: "trust coins"})}> */}
+                {/* <CurrentInvestmentRightBtn onClick={() => navigate("affiliatesRerouter", {state: "alrican tokens"})}> */}
                 <CurrentInvestmentRightBtn onClick={() => navigate("/user_dash/affiliatesRerouter")}>
                     <p>Withdraw</p>
                     <CgArrowLongRight size={30} />

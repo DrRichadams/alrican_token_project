@@ -8,7 +8,7 @@ const WithdrawContainer = () => {
     return(
         <WithDrawContainer>
             {trustcoins && <CircleDetailer tc={trustcoins.coins} usd={usdAmountFunc(trustcoins.coins, coinrate)} />}
-            <MainTitle>Withdraw from your trust coins</MainTitle>
+            <MainTitle>Withdraw from your alrican tokens</MainTitle>
             {error && 
             <ErrorBox>
                 <TiWarning size={25} />

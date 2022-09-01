@@ -8,7 +8,7 @@ import PageMenus from '../features/PageMenus';
 const TopupRequests = () => {
   return (
     <TopupRequestsContainer>
-      <PageTitles name="Richard" location="Respond to trust coin Top up requests" />
+      <PageTitles name="Admin" location="Respond to alrican token Top up requests" />
       <PageMenus place="top_up_requests" />
       <Outlet />
     </TopupRequestsContainer>

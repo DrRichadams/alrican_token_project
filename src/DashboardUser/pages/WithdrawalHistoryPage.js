@@ -63,7 +63,7 @@ const WithdrawalHistoryPage = () => {
                 <HistoryBtn isTrue = {selectedHistory.failed} onClick={handleSelect.bind(this, "failed")}>Failed</HistoryBtn>
             </HistoryBtns> 
             <HistoryDisplay>
-                <PendingTitle>Pending Trust Coin withdrawal request</PendingTitle>
+                <PendingTitle>Pending Alrican Token withdrawal request</PendingTitle>
                 <PendingDisplay wallet_type={withdrawRequest.walletType} wallet_address={withdrawRequest.walletAddress} amount={withdrawRequest.amount} />
                 <PendingTitle>Pending Affiliates withdrawal request</PendingTitle>
                 <PendingDisplay wallet_type={affiliatesRequest.walletType} wallet_address={affiliatesRequest.walletAddress} amount={affiliatesRequest.amount} />

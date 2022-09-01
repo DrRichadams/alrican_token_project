@@ -214,7 +214,7 @@ export const AuthContextProvider = ({children}) => {
             }
         }, { merge: true });
         alert("Wallet changed successfully");
-        window.location.reload();
+        // window.location.reload();
     }
     const updateAvatarFirebase = async (id, name, av_id) => { 
         await setDoc(doc(db, "avatars", id), {
@@ -225,8 +225,9 @@ export const AuthContextProvider = ({children}) => {
         // window.location.reload();
     }
 
-    const userVerificationFirebase = async (id) => {
-        let deducted = (signupfee - ((affiliatespercentage / 100) * signupfee));
+    const userVerificationFirebase = async (id, customeCoins) => {
+        // let coins = (signupfee - ((affiliatespercentage / 100) * signupfee));
+        // let coins = usd_to_trustcoin(signupfee, coinrate);
 
         await setDoc(doc(db, "users", id), {
             isVerified: true,
@@ -234,23 +235,14 @@ export const AuthContextProvider = ({children}) => {
 
         await setDoc(doc(db, "trust-coins", id), {
             // coins: deducted,
-            coins: usd_to_trustcoin(deducted, coinrate),
+            coins: customeCoins
+            // coins: signupfee,
         }, { merge: true });
         await setDoc(doc(db, "withdrawRequests", id), {
             isEligible: true,
         }, { merge: true });
         await setDoc(doc(db, "affiliateRequests", id), {
             isEligible: true,
-
-            id,
-            type: "",
-            walletType: "",
-            walletAddress: "",
-            amount: "",
-            isServed: "pending",
-            // isEligible: false,
-            // names,
-            // email,
         }, { merge: true });
 
         let userVerityData = getData(id).then(data=>{
@@ -436,39 +428,6 @@ export const AuthContextProvider = ({children}) => {
             console.log("My error", error)
         }
     }
-    const getBitcoinWallets = async () => {
-        const docRef = doc(db, "wallets", "bitcoin");
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
-    const getEthereumWallets = async () => {
-        const docRef = doc(db, "wallets", "ethereum");
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
-    const getTronWallets = async () => {
-        const docRef = doc(db, "wallets", "tron");
-        const docSnap = await getDoc(docRef);
-
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -494,9 +453,9 @@ export const AuthContextProvider = ({children}) => {
             currentUser && getAffiliatesPercentage().then((udata) => setaffiliatespercentage(udata.percentage));
             currentUser && getSignupFee().then((udata) => setsignupfee(udata.fee));
 
-            currentUser && getBitcoinWallets().then((udata) => setbitcoinwallets(Object.values(udata)));
-            currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
-            currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
+            // currentUser && getBitcoinWallets().then((udata) => setbitcoinwallets(Object.values(udata)));
+            // currentUser && getEthereumWallets().then((udata) => setethereumwallets(Object.values(udata)));
+            // currentUser && getTronWallets().then((udata) => settronwallets(Object.values(udata)));
             // currentUser && getKYCData(currentUser.uid).then((udata) => set_hasKYC(udata.hasKYC));
             // currentUser && getWithdrawRequest(currentUser.uid).then((udata) => set_withdrawRequest(udata));
             // currentUser && getAffiliatesRequest(currentUser.uid).then((udata) => set_affiliatesRequest(udata));
@@ -624,6 +583,62 @@ export const AuthContextProvider = ({children}) => {
             console.log("Current afil reqs: ", doc.data());
         });
       }, [user])
+
+      useEffect(() => {
+        const unsub = onSnapshot(doc(db, "wallets", "bitcoin"), (doc) => {
+            // set_affiliatesRequest(doc.data())
+            setbitcoinwallets(Object.values(doc.data()))
+            console.log("Current btc reqs: ", doc.data());
+        });
+      }, [user])
+      useEffect(() => {
+        const unsub = onSnapshot(doc(db, "wallets", "ethereum"), (doc) => {
+            // set_affiliatesRequest(doc.data())
+            setethereumwallets(Object.values(doc.data()))
+            console.log("Current eth reqs: ", doc.data());
+        });
+      }, [user])
+      useEffect(() => {
+        const unsub = onSnapshot(doc(db, "wallets", "tron"), (doc) => {
+            // set_affiliatesRequest(doc.data())
+            settronwallets(Object.values(doc.data()))
+            console.log("Current trn reqs: ", doc.data());
+        });
+      }, [user])
+
+    //   const getBitcoinWallets = async () => {
+    //     const docRef = doc(db, "wallets", "bitcoin");
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
+    // const getEthereumWallets = async () => {
+    //     const docRef = doc(db, "wallets", "ethereum");
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
+    // const getTronWallets = async () => {
+    //     const docRef = doc(db, "wallets", "tron");
+    //     const docSnap = await getDoc(docRef);
+
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
 
       const getAffiliatesRequest = async (id) => {
         const docRef = doc(db, "affiliateRequests", id);

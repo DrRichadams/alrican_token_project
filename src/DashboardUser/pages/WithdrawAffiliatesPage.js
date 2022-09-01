@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../contexts/AuthContext';
 import { affiliatesCut } from '../features/formulars';
@@ -137,11 +138,31 @@ const WithdrawAffiliatesPage = () => {
         walletAddress={walletAddress}
       />
 
-      <div className="buttonBox">
+      <BtnsContainer>
         <ReqBtn>Place withdraw request</ReqBtn>
-      </div>
+        {/* <TeesBtn>Terms & Conditions</TeesBtn> */}
+      </BtnsContainer>
     </WithdrawTC_container>
   )
 }
+
+export const TeesBtn = styled.div`
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  :hover {
+    color: orangered;
+  }
+`;
+export const BtnsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default WithdrawAffiliatesPage

@@ -50,7 +50,8 @@ const Verify_1_welcome = () => {
           <VerTitle>Welcome {userdata && userdata.names}</VerTitle>
           <VerMessage1>Thank you for joining our amazing family</VerMessage1>
           <VerMessage2>
-            To continue and start using our services, pay a none-refundable fee of <Fee>USD$ {signupfee}</Fee> to any one of the following crypto wallets
+            {/* To continue and start using our services, pay a none-refundable fee of <Fee>USD$ {signupfee}</Fee> to any one of the following crypto wallets */}
+            To continue using our serveces, select a crypto wallet below and purchase a minimun of (not limited to) <Fee>USD$ {signupfee}</Fee> worth of Alrican Tokens.
           </VerMessage2>
           <WarningBox>
             <RiErrorWarningLine size={30} color={colors.accent} />

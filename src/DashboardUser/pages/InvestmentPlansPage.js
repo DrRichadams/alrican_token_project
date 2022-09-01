@@ -24,12 +24,12 @@ const InvestmentPlansPage = () => {
     if(coins){
         return( 
             <div>
-                <TrustTitle>Your Trust Coins</TrustTitle>
+                <TrustTitle>Your Alrican Tokens</TrustTitle>
                 <TrustBoxesContainer>
                     <TrustBoxComp 
                         img_url={"/icons/aa1.png"} 
                         amount={`${coins.coins} TC`} 
-                        title={"Your Trust Coin Balance"} 
+                        title={"Your Alrican Tokens Balance"} 
                         btn_text={"Top Up"} 
                         isBtn={true} 
                         onClick={() => navigate("topup_request")} />
@@ -40,7 +40,7 @@ const InvestmentPlansPage = () => {
                         btn_text={"Request Withdraw"} 
                         isBtn={true} 
                         // onClick={() => navigate("withdrawCoins")} />
-                        onClick={() => navigate("withdrawRerouter", {state: "trust coins"})} />
+                        onClick={() => navigate("withdrawRerouter", {state: "alrican tokens"})} />
                     <TrustBoxComp 
                         img_url={"/icons/airNFT.png"} 
                         amount={`${coins.air_drops}`} 

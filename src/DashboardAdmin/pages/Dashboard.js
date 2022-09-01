@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div>
         <PageTitles name="Richard" location="Dashboard" />
         <DashboardCircles>
-          <DashboardCircle value="80" title="Trust coin current rate" />
+          <DashboardCircle value="80" title="Alrican Token current rate" />
           <DashboardCircle value="100" title="Current signing up fee" />
           <DashboardCircle value="10%" title="Affiliates percentage" />
           <DashboardCircle value="$1000" title="Affiliates expenses" />
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
           <UserStats>
 
-            <DashboardStatBox title="From Trust Coins" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "DOG", value: "0.00021"}} />
+            <DashboardStatBox title="From Alrican Tokens" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "DOG", value: "0.00021"}} />
             <DashboardStatBox title="User fees" crypt1={{type: "BTC", value: "10.0002"}} crypt2={{type: "ETH", value: "13.0002"}} crypt3={{type: "Tron", value: "0.00021"}} />
           </UserStats>
         </DashboardRects>

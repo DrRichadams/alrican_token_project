@@ -28,7 +28,7 @@ const PageMenus = ({place}) => {
             <Menu>
                 <ControlsContainer>
                     {/* <MenuBtn title="Pending requests" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} /> */}
-                    <MenuBtn title="Trust Coins" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} />
+                    <MenuBtn title="Alrican Tokens" active={location.pathname.includes("pending_requests")} link="" clickable={() => navigate("pending_requests")} />
                     <MenuBtn title="Affiliates" active={location.pathname.includes("approved_requests")} link="" clickable={() => navigate("approved_requests")} />
                     <MenuBtn title="History" active={location.pathname.includes("rejected_requests")} link="" clickable={() => navigate("rejected_requests")} />
                 </ControlsContainer>
@@ -41,7 +41,7 @@ const PageMenus = ({place}) => {
         return (
             <Menu>
                 <ControlsContainer>
-                    <MenuBtn title="Trust coin rate" active={location.pathname.includes("trust_coin_rate")} link="" clickable={() => navigate("trust_coin_rate")} />
+                    <MenuBtn title="Alrican Token rate" active={location.pathname.includes("trust_coin_rate")} link="" clickable={() => navigate("trust_coin_rate")} />
                     <MenuBtn title="Affiliates fee" active={location.pathname.includes("affiliates_fee")} link="" clickable={() => navigate("affiliates_fee")} />
                     <MenuBtn title="Wallet Addresses" active={location.pathname.includes("wallet_addresses")} link="" clickable={() => navigate("wallet_addresses")} />
                 </ControlsContainer>
@@ -66,7 +66,7 @@ const PageMenus = ({place}) => {
         return (
             <Menu>
                 <ControlsContainer>
-                    <MenuBtn title="Ts & Cs for Trust Coins" active={location.pathname.includes("trust_coins")} link="" clickable={() => navigate("trust_coins")} />
+                    <MenuBtn title="Ts & Cs for Alrican Tokens" active={location.pathname.includes("trust_coins")} link="" clickable={() => navigate("trust_coins")} />
                     <MenuBtn title="Ts & Cs for Affiliats" active={location.pathname.includes("affiliates")} link="" clickable={() => navigate("affiliates")} />
                 </ControlsContainer>
                 {/* <AllAccountsBadge>Total requests | {USERS.length}</AllAccountsBadge> */}

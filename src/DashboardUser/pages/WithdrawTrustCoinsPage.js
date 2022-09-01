@@ -97,7 +97,7 @@ const WithdrawTrustCoinsPage = () => {
 
   return (
     <WithdrawTC_container onSubmit={(e) => handleSubmit(e)}>
-      <MainTitle>Request withdraw form (Trust coins)</MainTitle>
+      <MainTitle>Request withdraw form (Alrican Tokens)</MainTitle>
       <Disclaimer>Please fill in this form correctly, failure to do so will result in your withdrawal request being denied</Disclaimer>
       <div className="availableBalanceBox">
         <AvailBalanceTitle>Available balance</AvailBalanceTitle>
@@ -137,13 +137,32 @@ const WithdrawTrustCoinsPage = () => {
         walletAddress={walletAddress}
       />
 
-      <div className="buttonBox">
+      <BtnsContainer>
         <ReqBtn>Request withdraw</ReqBtn>
-      </div>
+        {/* <TeesBtn>Terms & Conditions</TeesBtn> */}
+      </BtnsContainer>
     </WithdrawTC_container>
   )
 }
 
+export const TeesBtn = styled.div`
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  :hover {
+    color: orangered;
+  }
+`;
+export const BtnsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+`;
 export const ErrorText = styled.p`
   padding:  0 15px;
   margin: 0;

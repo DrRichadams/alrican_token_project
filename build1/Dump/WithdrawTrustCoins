@@ -46,11 +46,11 @@ const WithdrawTrustCoinsPage = () => {
     <WithdrawContainer>
       <Titles>
         <MainTitle>Make a withdraw request</MainTitle>
-        <SecondTitle>on your <TrustLabel>TRUST COINS</TrustLabel></SecondTitle>
+        <SecondTitle>on your <TrustLabel>ALRICAN TOKENS</TrustLabel></SecondTitle>
       </Titles>
 
       <AvailableTrustCoins>
-        <AvailableCoinsTitle>Available <TrustLabel>TRUST COINS</TrustLabel></AvailableCoinsTitle>
+        <AvailableCoinsTitle>Available <TrustLabel>ALRICAN TOKENS</TrustLabel></AvailableCoinsTitle>
         <MiddleBar></MiddleBar>
         <div className="right_balance">
             <TrustBalance>{availablecoins} TC</TrustBalance>

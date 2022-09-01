@@ -71,11 +71,11 @@ const TopupRequest = () => {
 
   return (
     <div>
-      <MainTitle>Top up <Highlight>TRUST COIN</Highlight> form</MainTitle>
+      <MainTitle>Top up <Highlight>ALRICAN TOKENS</Highlight> form</MainTitle>
       <MainWarning>Please fill in the form correctly and ensure you send funds to the correct crypto address</MainWarning>
       <SummeryContainer>
         <SummeryBox>
-            <SummeryBoxTitle><Highlight>TRUST COINS</Highlight> in store</SummeryBoxTitle>
+            <SummeryBoxTitle><Highlight>ALRICAN TOKENS</Highlight> in store</SummeryBoxTitle>
             <SummeryBoxItem>{trustcoins.coins} TC</SummeryBoxItem>
         </SummeryBox>
         <SummeryBox>

@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage, db } from '../../firebase/config';
 import { UserAuth } from '../../contexts/AuthContext';
+import { usd_to_trustcoin } from '../../DashboardUser/features/formulars';
 
 
 
@@ -37,8 +38,9 @@ const getProofImg = async (id) => {
 
 const VerifySingleUser = () => {
     const [imageName, setImageName] = useState(null)
+    const [customeTokens, setCustomeTokens] = useState('')
     const location = useLocation();
-    const {userVerificationFirebase} = UserAuth();
+    const {userVerificationFirebase, signupfee, coinrate, user} = UserAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -53,9 +55,21 @@ const VerifySingleUser = () => {
 
 
     const handleVerify = () => {
-        userVerificationFirebase(location.state.id)
+        let coins = usd_to_trustcoin(customeTokens, coinrate);
+        userVerificationFirebase(location.state.id, coins)
         navigate("/admin_dash/verify_users/potentially_paid")
     }
+
+    const handleCustomeChange = (e) => {
+      if(!isNaN(e.target.value)) {
+          setCustomeTokens(e.target.value)
+      }
+    }
+
+    let coins = usd_to_trustcoin(signupfee, coinrate);
+    useEffect(() => {
+        setCustomeTokens(coins)
+    }, [user])
 
   return (
     <VerifySingleContainer>
@@ -78,7 +92,18 @@ const VerifySingleUser = () => {
             <Id>{location.state.id}</Id>
             <ItemLabel>client ID</ItemLabel>
         </IdBox>
-        <VerifyBtn onClick={() => handleVerify()}>Verify Client</VerifyBtn>
+        <div>
+            <CustomeMoneyBox>
+              <MoneyLabel>USD$ </MoneyLabel>
+              <CustomeInput 
+                  type="text" 
+                  placeholder='Custome amount' 
+                  value={customeTokens}
+                  onChange={(e) => handleCustomeChange(e)}
+              />
+            </CustomeMoneyBox>
+            <VerifyBtn onClick={() => handleVerify()}>Verify Client</VerifyBtn>
+        </div>
         </DetailsBox>
     </VerifySingleContainer>
   )
@@ -86,6 +111,34 @@ const VerifySingleUser = () => {
 
 
 
+export const CustomeInput = styled.input`
+  border: none;
+  outline: none;
+  padding: 12px 12px 12px 6px;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const CustomeMoneyBox = styled.div`
+  display: flex;
+  background-color: #fff;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 3px;
+`;
+export const MoneyLabel = styled.p`
+  margin: 0;
+  padding: 12px 0 12px 12px;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 export const ImageWarning = styled.div`
   color: #fff;
   font-family: Roboto, sans-serif;
@@ -105,9 +158,9 @@ export const VerifySingleContainer = styled.div`
     grid-template-columns: 1fr 1fr;
 `;
 export const VerifyBtn = styled.button`
-    position: absolute;
+    /* position: absolute;
     top: 20px;
-    right: 20px;
+    right: 20px; */
     background-color: ${colors.accent};
     color: #fff;
     text-transform: uppercase;

@@ -17,7 +17,7 @@ const Verify_2_payment = () => {
       <MinMenuBar />
       <MessageContainer>
           <VerTitle>Paying with {location.state?.wallet}</VerTitle>
-          <VerMessage1>Veriy you have chosen the correct wallet and use the wallet address below</VerMessage1>
+          <VerMessage1>Verify you have chosen the correct wallet and use the wallet address below</VerMessage1>
       </MessageContainer>
       <Margins>
         <WarningBox>
