@@ -82,7 +82,7 @@ const WithdrawalHistoryPage = () => {
                 <HistoryBtn isTrue = {selectedHistory.failed} onClick={handleSelect.bind(this, "failed")}>Failed</HistoryBtn>
             </HistoryBtns> 
             <HistoryDisplay>
-                {trueItems.map((item, index) => (
+                {/* {trueItems.map((item, index) => (
                     <HistoryBox key={item.id}>
                         <FromBox><Title>{item.from}</Title><Label>From</Label></FromBox>
                         <AmountBox><Title>{item.amount}</Title><Label>Amount</Label></AmountBox>
@@ -101,7 +101,10 @@ const WithdrawalHistoryPage = () => {
                             }></StatusIcon>
                         </Status>
                     </HistoryBox>
-                ))}
+                ))} */}
+                <NoDataYet>
+                    NO DATA YET
+                </NoDataYet>
             </HistoryDisplay>
         </HistoryContainer>
     )
@@ -109,6 +112,10 @@ const WithdrawalHistoryPage = () => {
 
 
 
+export const NoDataYet = styled.h1`
+    font-family: Inter, sans-serif;
+    color: ${colors.accentShadow};
+`;
 export const PendingBox = styled.div`
     margin-bottom: 25px;
 `;

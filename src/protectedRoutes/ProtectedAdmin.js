@@ -6,8 +6,8 @@ const ProtectedAdmin = ({children}) => {
     const {user, routedata} = UserAuth();
     // const {isVerified,userType} = routedata;
     if(!user) return <Navigate to='/login' />
-    if(!routedata.isVerified) return <Navigate to='/verify' />
-    if(routedata.userType != "admin") return <Navigate to='/login' />
+    // if(!routedata.isVerified) return <Navigate to='/verify' />
+    if(routedata.userType != "admin") return <Navigate to='/rerouter' />
 
     return children;
 }

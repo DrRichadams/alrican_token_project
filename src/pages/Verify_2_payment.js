@@ -111,12 +111,20 @@ export const PayOptions = styled.div`
     display: flex;
     margin: 20px 0;
     gap: 40px;
+    @media (max-width: 680px) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 `;
 export const Img = styled.img`
     width: 100%;
 `;
 export const QrCodeContainer = styled.div`
     max-width: 300px;
+    @media (max-width: 680px) {
+      max-width: 200px;
+    }
 `;
 
 export default Verify_2_payment

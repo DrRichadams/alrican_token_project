@@ -13,7 +13,9 @@ const HomeMenu = () => {
             </LogoBtn>
             <AuthBtnContainer>
                 <LinkBtn to={"/login"}>LOGIN</LinkBtn>
-                <CTABtn to={"/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2"}>GET STARTED</CTABtn>
+                {/* <CTABtn to={"/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2"}>GET STARTED</CTABtn> */}
+                <CTABtn href = "https://sur-automation.herokuapp.com/">GET STARTED</CTABtn>
+                {/* <a className="service_btn" href = "https://sur-automation.herokuapp.com/">Get Started</a> */}
             </AuthBtnContainer>
         </MenuContainer>
     )
@@ -57,7 +59,8 @@ const LinkBtn = styled(Link)`
     color: ${colors.accent};
 `
 
-const CTABtn = styled(Link)`
+// const CTABtn = styled(Link)`
+const CTABtn = styled.a`
     list-style: none;
     text-decoration: none;
     background-color: ${colors.accent};

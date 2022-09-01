@@ -6,6 +6,12 @@ export const WalletsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 25px;
+  @media (max-width: 830px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 580px) {
+    grid-template-columns: 1fr;
+  }
 `;
 export const WalletBox = styled.div`
   box-sizing: border-box;

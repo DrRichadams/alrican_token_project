@@ -108,7 +108,7 @@ function App() {
             </Route>: ""
             }
             {/* <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>} /> */}
-            <Route path='admin_dash' element={<AdminDash />}>
+            <Route path='admin_dash' element={<ProtectedAdmin><AdminDash /></ProtectedAdmin>}>
               <Route path="" element={<AdminRouter routeto="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="verify_users" element={<VerifyUsers />}>

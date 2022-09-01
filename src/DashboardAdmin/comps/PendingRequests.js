@@ -4,8 +4,29 @@ import styled from 'styled-components';
 import { WITHDRAWAL_HISTORY } from '../../constants/DATA';
 import WithdrawRequestBox from '../features/WithdrawRequestBox';
 import NoRequestsError from './NoRequestsError';
+import { UserAuth } from '../../contexts/AuthContext';
+import { db } from '../../firebase/config';
+import { onSnapshot, doc, where, query } from 'firebase/firestore';
 
 const PendingRequests = () => {
+  const {user} = UserAuth();
+
+  // useEffect(() => {
+  //   const q = query(collection(db, "KYC"), where("id", "==", `${user?.uid}`));
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     const myKYC = [];
+  //     querySnapshot.forEach((doc) => {
+  //       myKYC.push(doc.data());
+  //     });
+  //     // set_hasKYC(myKYC[0]?.hasKYC);
+  //     console.log("My KYCyo", myKYC);
+  //   });
+
+  //   return () => {
+  //     unsubscribe();
+  // }
+  // }, [user])
+
   const pending_requests = WITHDRAWAL_HISTORY.filter(item=>item.status==='pending');
   // const pending_requests = WITHDRAWAL_HISTORY;
   if(pending_requests.length) {

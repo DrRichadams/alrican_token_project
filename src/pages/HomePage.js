@@ -180,7 +180,8 @@ const HomePage = () => {
                             as many more Benefits. Consult White paper to find out more information on 
                             Affiliate Benefits
                         </p>
-                        <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button>
+                        {/* <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button> */}
+                        <a className="service_btn" href = "https://sur-automation.herokuapp.com/">Get Started</a>
                     </div>
                 </InnerServiceContainer>
                 <InnerServiceContainer>
@@ -201,7 +202,8 @@ const HomePage = () => {
                             <ValueTitle>Movies and series Streaming </ValueTitle>
                             <ValueTitle>And many more  </ValueTitle>
                         </ValueContainerColumn>
-                        <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button>
+                        {/* <button className="service_btn" onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get Started</button> */}
+                        <a className="service_btn" href = "https://sur-automation.herokuapp.com/">Get Started</a>
                     </div>
                     <Img1 src={process.env.PUBLIC_URL + "/images/investment_img.png"} alt="" className="right_service service_pic" />
                 </InnerServiceContainer>
@@ -313,7 +315,8 @@ const HomePage = () => {
                     <div className="part2">
                         <FooterTitle>GET STARTED.</FooterTitle>
                         <FooterParagraphInhouse><Highlight>ALL AFRICAN TOKEN</Highlight>  WILL ELIMINATE POVERTY IN THE AFRICAN CONTINENT COME AND WITNESS HISTORY<br/> journey now.</FooterParagraphInhouse>
-                        <PackageBtn onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get started</PackageBtn>
+                        {/* <PackageBtn onClick={() => navigate("/signup/uxDKTekFvuROQIpgtGLg4kJjOmq2")}>Get started</PackageBtn> */}
+                        <a className="service_btn" href = "https://sur-automation.herokuapp.com/"><PackageBtn>Get started</PackageBtn></a>
                     </div>
                     <div className="part3">
                         <FooterTitle>GET IN TOUCH</FooterTitle>

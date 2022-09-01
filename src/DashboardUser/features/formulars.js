@@ -18,7 +18,7 @@ export const usd_to_trustcoin = (usds, rate) => {
 //     return sum;
 // }
 export const affiliatesCut = (affiliates) => {
-    const my_affiliates_sum = affiliates.reduce((acc, cur) => {
+    const my_affiliates_sum = affiliates?.reduce((acc, cur) => {
         return acc + (
             Number(cur.affiliatesFee) * (Number(cur.affiliatespercentage) / 100)
         )

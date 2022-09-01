@@ -126,6 +126,9 @@ export const ProofBox = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-top: 20px;
+    @media (max-width: 700px) {
+      grid-template-columns: 1fr;
+    }
 `;
 export const Image = styled.img`
     width: 100%;

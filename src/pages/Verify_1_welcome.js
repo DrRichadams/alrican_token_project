@@ -100,6 +100,7 @@ export const WalletBox = styled.button`
     box-sizing: border-box;
     background-color: rgba(192,192,192,.4);
     min-height: 250px;
+    min-width: 217px;
     height: 100%;
     border-radius: 6px;
     border: none;

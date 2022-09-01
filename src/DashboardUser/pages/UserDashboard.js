@@ -211,6 +211,13 @@ export const KYC_box = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media (max-width: 740px) {
+        flex-direction: column;
+        gap: 15px;
+    }
+    @media (max-width: 500px) {
+        width: 80%;
+    }
 `;
 
 export const ImgBoxer = styled.div`

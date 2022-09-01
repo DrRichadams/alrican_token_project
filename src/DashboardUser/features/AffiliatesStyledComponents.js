@@ -41,6 +41,12 @@ export const AffiliatesListContainer = styled.div`
     gap: 20px;
     width: 100%;
     /* background-color: blue; */
+    @media (max-width: 590px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 445px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const AffiliateLinkTitle = styled.h3`
@@ -57,13 +63,25 @@ export const AffiliateLinkTitle = styled.h3`
 `;
 export const AffiliateLinkBox = styled.p`
     margin: 0;
+    box-sizing: border-box;
+    /* max-width: 200px; */
+    word-wrap: break-word;
     background-color: #fff;
-    flex: 1;
+    color: blue;
+    text-decoration: underline;
+    /* flex: 1; */
     padding: 8px 12px;
-    min-height: 30px;
-    display: flex;
+    width: 95%;
+    /* min-width: 100%;
+    min-height: 30px; */
+    /* display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap; */
+    /* width: 100%; */
+    @media (max-width: 580px) {
+        /* width: 80%; */
+    }
 `;
 export const AffiliateLinkBtn = styled.div`
     background-color: ${colors.accent};
@@ -83,9 +101,16 @@ export const AffiliateLinkBtn = styled.div`
 `;
 export const AffiliateLinkContainer = styled.div`
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
     gap: 20px;
+    width: 100%;
+    @media (max-width: 1275px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `;
 export const AffiliatesContainer = styled.div`
     /* background-color: red; */

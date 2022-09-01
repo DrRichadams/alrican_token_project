@@ -35,7 +35,7 @@ const Affiliates = () => {
     const {affiliates, user} = UserAuth();
     const navigate = useNavigate();
 
-    const displayAffiliates = affiliates.filter(item => {
+    const displayAffiliates = affiliates?.filter(item => {
         return item.isVerified && !item.isClaimed
     })
 
@@ -71,8 +71,8 @@ const Affiliates = () => {
     return(
         <AffiliatesContainer>
             <CurrentInvestmentContainer>
-                <CurrentInvestmentLeftSect>
-                    <CurrentInvestmentPlan>USD$ {affiliatesCut(displayAffiliates)}</CurrentInvestmentPlan>
+                <CurrentInvestmentLeftSect> 
+                    <CurrentInvestmentPlan>USD$ {displayAffiliates && affiliatesCut(displayAffiliates)}</CurrentInvestmentPlan>
                     <CurrentInvestmentTitle>Total affiliates earning</CurrentInvestmentTitle>
                 </CurrentInvestmentLeftSect>
 
@@ -85,7 +85,8 @@ const Affiliates = () => {
 
             <AffiliateLinkContainer>
                 <AffiliateLinkTitle>Your affiliate link</AffiliateLinkTitle>
-                <AffiliateLinkBox>localhost:3000/signup/{user.uid}</AffiliateLinkBox>
+                {/* <AffiliateLinkBox>localhost:3000/signup/{user.uid}</AffiliateLinkBox> */}
+                <AffiliateLinkBox>https://sur-automation.herokuapp.com/signup/{user.uid}</AffiliateLinkBox>
                 {/* <AffiliateLinkBtn>COPY</AffiliateLinkBtn> */}
             </AffiliateLinkContainer>
             <AffiliatesListContainer>
