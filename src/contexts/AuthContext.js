@@ -241,6 +241,16 @@ export const AuthContextProvider = ({children}) => {
         }, { merge: true });
         await setDoc(doc(db, "affiliateRequests", id), {
             isEligible: true,
+
+            id,
+            type: "",
+            walletType: "",
+            walletAddress: "",
+            amount: "",
+            isServed: "pending",
+            // isEligible: false,
+            // names,
+            // email,
         }, { merge: true });
 
         let userVerityData = getData(id).then(data=>{
