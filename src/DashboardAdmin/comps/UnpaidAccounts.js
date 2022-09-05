@@ -29,7 +29,7 @@ const UnpaidAccounts = () => {
   return (
     <>
       {my_users && my_users.map(item=>(
-        <UserBox name={item.names} email={item.email} btnTitle="" onClick={() => {}} />
+        <UserBox key={item.id} name={item.names} email={item.email} btnTitle="" onClick={() => {}} />
       ))}
     </>
   )

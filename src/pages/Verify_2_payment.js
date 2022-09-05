@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../contexts/AuthContext';
@@ -6,12 +6,52 @@ import { SectionContainer } from '../features/SectionContainer';
 import MinMenuBar from '../features/MinMenuBar';
 import { RiErrorWarningLine } from "react-icons/ri";
 import { colors } from '../constants/colors';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 import { VerTitle, VerMessage1, MessageContainer, WarningBox, WarningText } from '../features/VerifyStyledComponents';
 
+
+const getData = async (uid) => {
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+
+  try {
+      const data = docSnap.data();
+      return data
+  } catch (error) {console.log("My error", error)}}
+
+  
 const Verify_2_payment = () => {
+  const [amount, setAmount] = useState('')
+  const [error, seterror] = useState(null)
   const location = useLocation();
   const navigate = useNavigate();
+  const {signupfee, user, setAffiliateFee} = UserAuth();
+
+  const handleChange = (e) => {
+    if(!isNaN(e.target.value)) {
+      seterror(null);
+      setAmount(e.target.value)
+    }
+  }
+
+  const handleNext = () => {
+    if(amount.length == 0) {
+      seterror("Please provide the amount you wish to pay");
+      return
+    }
+    if(Number(amount) < Number(signupfee)) {
+      seterror(`The minimum amount is USD$ ${signupfee}`)
+      return
+    }
+    seterror(null);
+    getData(user.uid).then((data) => {
+      setAffiliateFee(data.refererId, user.uid, amount)
+    })
+    navigate("/verify3")
+  }
+
   return (
     <SectionContainer>
       <MinMenuBar />
@@ -35,15 +75,61 @@ const Verify_2_payment = () => {
                 <AddressText>{location.state?.address}</AddressText>
                 {/* <BtnCopy>Copy</BtnCopy> */}
               </WalletAddressBox>
+              <CustomeAmount>
+                <AmountLabel>USD$</AmountLabel>
+                <AmountInput 
+                    type="text" 
+                    placeholder="Enter the amount you want to pay" 
+                    required={true}
+                    onChange={(e) => handleChange(e)}
+                    value={amount}
+                    />
+              </CustomeAmount>
+              {error && <ErrorBox>{error}</ErrorBox>}
             </WalletAddress>
           </PayOptions>
 
           <BtnContainer>
-            <ContBtn onClick={() => navigate("/verify3")}>Continue</ContBtn>
+            <ContBtn onClick={() => handleNext()}>Continue</ContBtn>
           </BtnContainer>
     </SectionContainer>
   )
 }
+
+
+
+export const ErrorBox = styled.div`
+  padding: 12px 20px;
+  color: red;
+  font-family: Poppins, sans-serif;
+  font-style: italic;
+  font-size: 13px;
+`;
+export const CustomeAmount = styled.div`
+  background-color: ${colors.accentShadow};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 6px;
+  box-sizing: border-box;
+`;
+
+export const AmountLabel = styled.div`
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
+export const AmountInput = styled.input`
+  padding: 12px;
+  border: none;
+  outline: none;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  background-color: transparent;
+  flex: 1;
+`;
 
 
 export const WalletAddress = styled.div`
@@ -61,6 +147,7 @@ export const AddressText = styled.div`
   margin: 15px 0;
   /* display: block; */
   border-radius: 6px;
+  word-wrap: break-word;
 `;
 export const BtnCopy = styled.button`
   border: none;

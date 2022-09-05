@@ -246,7 +246,7 @@ export const AuthContextProvider = ({children}) => {
         }, { merge: true });
 
         let userVerityData = getData(id).then(data=>{
-            console.log("Veri data", data.refererId)
+            // console.log("Veri data", data.refererId)
             approveAffiliate(data.refererId, id)
         })
 
@@ -258,6 +258,13 @@ export const AuthContextProvider = ({children}) => {
         await setDoc(doc(db, "affiliates", ref_id), {
             [affiliate_id]: {
                 isVerified: true
+            }
+        }, { merge: true });
+    }
+    const setAffiliateFee = async (ref_id, affiliate_id, affiliatesFee) => {
+        await setDoc(doc(db, "affiliates", ref_id), {
+            [affiliate_id]: {
+                affiliatesFee
             }
         }, { merge: true });
     }
@@ -640,29 +647,29 @@ export const AuthContextProvider = ({children}) => {
     //     }
     // }
 
-      const getAffiliatesRequest = async (id) => {
-        const docRef = doc(db, "affiliateRequests", id);
-        const docSnap = await getDoc(docRef);
+    //   const getAffiliatesRequest = async (id) => {
+    //     const docRef = doc(db, "affiliateRequests", id);
+    //     const docSnap = await getDoc(docRef);
 
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
 
-      const getAffiliates = async (uid) => {
-        const docRef = doc(db, "affiliates", uid);
-        const docSnap = await getDoc(docRef);
+    //   const getAffiliates = async (uid) => {
+    //     const docRef = doc(db, "affiliates", uid);
+    //     const docSnap = await getDoc(docRef);
 
-        try {
-            const data = docSnap.data();
-            return data
-        } catch (error) {
-            console.log("My error", error)
-        }
-    }
+    //     try {
+    //         const data = docSnap.data();
+    //         return data
+    //     } catch (error) {
+    //         console.log("My error", error)
+    //     }
+    // }
 
     //   const getKYCData = async (id) => {
     //     const docRef = doc(db, "KYC", id);
@@ -734,7 +741,8 @@ export const AuthContextProvider = ({children}) => {
             affiliatesRequest,
             addAffiliatesRequest,
             removeAffiliatesRequest,
-            myAvatar
+            myAvatar,
+            setAffiliateFee
         }}>
             {children}
         </AuthContext.Provider>

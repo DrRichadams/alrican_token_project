@@ -9,7 +9,7 @@ import { storage, db } from "../firebase/config";
 import { UserAuth } from "../contexts/AuthContext";
 
 import { useSelector, useDispatch } from "react-redux";
-import { closeAvatarModal } from "../store/actions/modalAction";
+import { closeAvatarModal } from "../store/actions/modalAction"; 
 
 
 const getProofImg = async (id) => {
