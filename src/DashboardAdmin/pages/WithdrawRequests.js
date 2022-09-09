@@ -8,7 +8,7 @@ import PageMenus from '../features/PageMenus';
 const WithdrawRequests = () => {
   return (
     <WithdrawRequestsContainer>
-      <PageTitles name="Richard" location="Approve or decline withdraw requests" />
+      <PageTitles name="Adm" location="Approve or decline withdraw requests" />
       <PageMenus place="withdraw_requests" />
       <OutletContainer>
         <Outlet />

@@ -2,25 +2,38 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constants/colors';
 import PuffLoader from "react-spinners/PuffLoader";
+import { db } from '../../firebase/config';
+import { doc, deleteDoc, deleteField, updateDoc  } from "firebase/firestore";
 
-
-
-const override = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
 
 const UserBoxDelete = ({name, email, btnTitle, onClick, id, refererId}) => {
-  const [loading, set_loading] = useState(true);
+  const [loading, set_loading] = useState(false);
+
+  const handleDelete = async() => {
+    set_loading(true)
+    await deleteDoc(doc(db, "KYC", `${id}`));
+    await deleteDoc(doc(db, "affiliateRequests", `${id}`));
+    await deleteDoc(doc(db, "avatars", `${id}`));
+    await deleteDoc(doc(db, "proofs", `${id}`));
+    await deleteDoc(doc(db, "topup_proofs", `${id}`));
+    await deleteDoc(doc(db, "trust-coins", `${id}`));
+    await deleteDoc(doc(db, "withdrawRequests", `${id}`));
+    await deleteDoc(doc(db, "affiliates", `${id}`));
+    await updateDoc(doc(db, 'affiliates', `${refererId}`), {
+        [id]: deleteField()
+    });
+    await deleteDoc(doc(db, "users", `${id}`));
+    set_loading(false)
+  }
+  
   return (
-    <UserContainer onClick={() => alert("Workang")}> 
+    <UserContainer> 
         <UserDetails>
         <UserName>{name}</UserName>
         <UserEmail>{email}</UserEmail>
         </UserDetails>
-        {!loading && <VerifyBtn>{btnTitle}</VerifyBtn>}
-        <LoaderBox><PuffLoader color={colors.accent} loading={loading} size={30} /></LoaderBox>
+        {!loading && <VerifyBtn onClick={() => handleDelete()}>{btnTitle}</VerifyBtn>}
+        {loading && <LoaderBox><PuffLoader color={colors.accent} loading={loading} size={30} /></LoaderBox>}
     </UserContainer>
   )
 }

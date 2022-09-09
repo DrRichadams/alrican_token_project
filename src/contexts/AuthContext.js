@@ -99,8 +99,10 @@ export const AuthContextProvider = ({children}) => {
             amount: "",
             isServed: "pending",
             isEligible: false,
+            canRequest: false,
             names,
             email,
+            time: serverTimestamp(),
         });
         await setDoc(doc(db, "affiliateRequests", id), {
             id,
@@ -110,8 +112,10 @@ export const AuthContextProvider = ({children}) => {
             amount: "",
             isServed: "pending",
             isEligible: false,
+            canRequest: false,
             names,
             email,
+            time: serverTimestamp(),
         });
     }
 
@@ -240,9 +244,11 @@ export const AuthContextProvider = ({children}) => {
         }, { merge: true });
         await setDoc(doc(db, "withdrawRequests", id), {
             isEligible: true,
+            canRequest: true,
         }, { merge: true });
         await setDoc(doc(db, "affiliateRequests", id), {
             isEligible: true,
+            canRequest: true,
         }, { merge: true });
 
         let userVerityData = getData(id).then(data=>{
@@ -440,6 +446,10 @@ export const AuthContextProvider = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser) 
             currentUser && getData(currentUser.uid).then((udata) => {
+                if(!udata) {
+                    logout()
+                    return
+                }
                 setroutedata({
                     isVerified: udata.isVerified,
                     userType: udata.userType,

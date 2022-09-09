@@ -19,7 +19,7 @@ const PageMenus = ({place}) => {
                     <MenuBtn title="Active accounts" active={location.pathname.includes("all_accounts")} link="" clickable={() => navigate("all_accounts")} />
                 </ControlsContainer>
                 {/* <AllAccountsBadge>Total accounts | {USERS.length}</AllAccountsBadge> */}
-              </Menu>
+              </Menu> 
           )
     }
 
