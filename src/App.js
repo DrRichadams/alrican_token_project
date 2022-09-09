@@ -67,6 +67,7 @@ import TopupRequest from './DashboardUser/pages/TopupRequest';
 import TopupThanks from './DashboardUser/pages/TopupThanks';
 import AffiliatesReceipt from './DashboardUser/pages/AffiliatesReceipt';
 import AffiliatesRerouter from './DashboardUser/comps/AffiliatesRerouter';
+import ApproveWithdraw from './modals/ApproveWithdraw';
 
 function App() {
   const [ userRoutesAllowed, setUserRoutesAllowed ] = useState(true)
@@ -86,6 +87,8 @@ function App() {
             <Route path='/verify3' element={<Verify_3_proof />} />
             <Route path='/verify4' element={<Verify_4_thanks />} />
             <Route path='/kyc' element={<KYC />} />
+            {/* THIS SECTION IS SUPPOSED TO BE REMOVED LATER */}
+            <Route path='/approve_withdraw' element={<ApproveWithdraw />} />
             {
               userRoutesAllowed ?
               <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
@@ -155,7 +158,7 @@ function App() {
 
 const AppContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh; 
 `;
 
 export default App;

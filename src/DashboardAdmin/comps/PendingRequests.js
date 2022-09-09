@@ -50,7 +50,7 @@ const PendingRequests = () => {
         </>
       )
     }
+    if(!requests.length) return <NoRequestsError type="pending" />}
   }
-  if(!pending_requests.length) return <NoRequestsError type="pending" />}
 
 export default PendingRequests
