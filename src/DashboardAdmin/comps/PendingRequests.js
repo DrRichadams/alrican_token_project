@@ -1,16 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import { colors } from '../../constants/colors';
 import styled from 'styled-components';
-import { WITHDRAWAL_HISTORY } from '../../constants/DATA';
 import WithdrawRequestBox from '../features/WithdrawRequestBox';
 import NoRequestsError from './NoRequestsError';
 import { UserAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase/config';
 import { onSnapshot, doc, where, query, collection } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { openApproveWithdrawModal } from '../../store/actions/modalAction';
 
 const PendingRequests = () => {
   const [requests, setRequests] = useState(null);
   const {user} = UserAuth();
+  const dispatch = useDispatch();
+
+  const handleRequest = (id, balance, names, email, type) => {
+    let payload = { id, balance, names, email, type }
+    dispatch(openApproveWithdrawModal(payload))
+  }
 
   useEffect(() => {
     const q = query(collection(db, "affiliateRequests"));
@@ -29,8 +36,7 @@ const PendingRequests = () => {
   }
   }, [user])
 
-  const pending_requests = WITHDRAWAL_HISTORY.filter(item=>item.status==='pending');
-  // const pending_requests = WITHDRAWAL_HISTORY;
+  
   if(requests) {
     if(requests.length) {
       return (
@@ -43,7 +49,13 @@ const PendingRequests = () => {
                 email={item.email}
                 from={item.type}
                 amount={item.amount}
-                onClick={()=>{}}
+                onClick={()=> handleRequest(
+                  item.id, 
+                  item.amount, 
+                  item.names, 
+                  item.email,
+                  item.type
+                )}
               />
             ))
           }

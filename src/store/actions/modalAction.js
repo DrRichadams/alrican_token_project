@@ -6,6 +6,8 @@ export const CLOSE_CHANGE_WALLET_MODAL = "CLOSE_CHANGE_WALLET_MODAL";
 export const OPEN_CHANGE_WALLET_MODAL = "OPEN_CHANGE_WALLET_MODAL";
 export const CLOSE_AVATAR_MODAL = "CLOSE_AVATAR_MODAL";
 export const OPEN_AVATAR_MODAL = "OPEN_AVATAR_MODAL";
+export const OPEN_APPROVE_WITHDRAW_MODAL = "OPEN_APPROVE_WITHDRAW_MODAL";
+export const CLOSE_APPROVE_WITHDRAW_MODAL = "CLOSE_APPROVE_WITHDRAW_MODAL";
 
 export const closeModal = () => {
     return{ type: CLOSE_MODAL }
@@ -31,4 +33,11 @@ export const closeAvatarModal = () => {
 }
 export const openAvatarModal = () => {
     return{ type: OPEN_AVATAR_MODAL }
+}
+
+export const closeApproveWithdrawModal = () => {
+    return{ type: CLOSE_APPROVE_WITHDRAW_MODAL }
+}
+export const openApproveWithdrawModal = (payload) => {
+    return{ type: OPEN_APPROVE_WITHDRAW_MODAL, payload }
 }

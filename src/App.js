@@ -87,8 +87,6 @@ function App() {
             <Route path='/verify3' element={<Verify_3_proof />} />
             <Route path='/verify4' element={<Verify_4_thanks />} />
             <Route path='/kyc' element={<KYC />} />
-            {/* THIS SECTION IS SUPPOSED TO BE REMOVED LATER */}
-            <Route path='/approve_withdraw' element={<ApproveWithdraw />} />
             {
               userRoutesAllowed ?
               <Route path='/user_dash' element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
@@ -147,10 +145,12 @@ function App() {
             </Route>
             <Route path='*' element={<ErrorNoROute />} />
         </Routes>
+        {/* MODALS SECTION BELOW */}
         <ChangeWalletModal />
         <AddWalletModal />
         <LogoutModal />
         <ChangeAvatarModal />
+        <ApproveWithdraw />
       </AuthContextProvider>
     </AppContainer>
   );

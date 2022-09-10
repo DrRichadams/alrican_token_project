@@ -1,13 +1,47 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { IoWarning } from "react-icons/io5"
 import { AiFillCloseCircle } from "react-icons/ai"
 import { colors } from '../constants/colors';
+import { useSelector, useDispatch } from 'react-redux';
+import SyncLoader from "react-spinners/SyncLoader";
+import { closeApproveWithdrawModal } from '../store/actions/modalAction';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const ApproveWithdraw = () => {
     const [warning, setWarning] = useState(false)
-  return (
-    <ApproveWithdrawContainer>
+    const [loading, setloading] = useState(false)
+    const [balance, setbalance] = useState(null)
+
+    const {isOpen, id, requestedBalance, names, email, type} = useSelector(state => state.approveWithdraw);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        try{
+            const unsub = onSnapshot(doc(db, "affiliates", `${id}`), (doc) => {
+                // set_affiliatesRequest(doc.data())
+                setbalance(Object.values(doc.data()))
+                console.log("Current balance: ", Object.values(doc.data()));
+            });
+        } catch(e) {}
+      }, [id])
+
+    const handleApprove = () => {
+        setloading(true)
+        setTimeout(() => {
+            setWarning(true)
+            setloading(false)
+        }, 1000);
+    }
+
+    const handleCancel = () => {
+        dispatch(closeApproveWithdrawModal())
+    }
+
+  return ReactDOM.createPortal(
+    <ApproveWithdrawContainer isOpen={isOpen}>
       <WarningBox isWarning={warning}>
         <WarningTitles>
             <IoWarning size={35} color="orange" />
@@ -22,14 +56,19 @@ const ApproveWithdraw = () => {
       <ContentsBox isWarning={warning}>
         <Naming_n_Controls>
             <NamingBox>
-                <Naming>Richard</Naming>
-                <Naming>proxyserver7798@gmail.com</Naming>
+                <Naming>{names}</Naming>
+                <Naming>{email}</Naming>
             </NamingBox>
 
             <ControlBtns>
-                <RejetBtn>Reject request</RejetBtn>
-                <AcceptBtn onClick={() => setWarning(true)}>Approve request</AcceptBtn>
-                <MainCloseBtn><AiFillCloseCircle size={30} onClick={() => setWarning(false)} /></MainCloseBtn>
+                {!loading && <RejetBtn disabled={loading}>Reject request</RejetBtn>}
+                {!loading &&<AcceptBtn onClick={() => handleApprove()}>Approve request</AcceptBtn>}
+                {!loading &&<MainCloseBtn
+                    onClick={() => handleCancel()}
+                ><AiFillCloseCircle size={30} onClick={() => setWarning(false)} /></MainCloseBtn>}
+                {loading &&<BtnLoader>
+                    <SyncLoader color={'orangered'} loading={loading} size={5} />
+                </BtnLoader>}
             </ControlBtns>
         </Naming_n_Controls>
 
@@ -42,22 +81,26 @@ const ApproveWithdraw = () => {
                 </AmountsItem>
                 <AmountsItem>
                     <AmountValues>Requested balance</AmountValues>
-                    <AmountValues>USD$ 500</AmountValues>
+                    <AmountValues>USD$ {requestedBalance}</AmountValues>
                 </AmountsItem>
             </div>
         </section>
 
         <WithdrawType>
             <TypeTitle>Withdrawing from |</TypeTitle>
-            <TypeTitle>ALRICAN TOKENS</TypeTitle>
+            <TypeTitle>{type}</TypeTitle>
         </WithdrawType>
       </ContentsBox>
-    </ApproveWithdrawContainer>
+    </ApproveWithdrawContainer>,
+    document.getElementById('approve-withdraw')
   )
 }
 
 
 
+export const BtnLoader = styled.div`
+    
+`;
 export const AcceptBtn = styled.button`
     border: none;
     background-color: ${colors.accent};
@@ -68,6 +111,8 @@ export const AcceptBtn = styled.button`
     transition: all .25s ease-in-out;
     padding: 8px 12px;
     border-radius: 6px;
+    width: 120px;
+    height: 31px;
     :hover {
         background-color: ${colors.accentShadow};
         color: ${colors.accent};
@@ -76,12 +121,17 @@ export const AcceptBtn = styled.button`
 `;
 export const RejetBtn = styled.button`
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: transparent;
     color: ${colors.accent};
     font-family: Roboto, sans-serif;
     font-size: 13px;
     cursor: pointer;
     transition: all .25s ease-in-out;
+    width: 120px;
+    height: 31px;
     :hover {
         color: red;
         scale: .9;
@@ -233,12 +283,17 @@ export const ContentsBox = styled.div`
     padding: 25px;
 `;
 export const ApproveWithdrawContainer = styled.div`
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0,0,20,.9);
     height: 100%;
-    display: flex;
+    display: ${props => props.isOpen ? "flex":"none"};
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 `;
 
 export default ApproveWithdraw
