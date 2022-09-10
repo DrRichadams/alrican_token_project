@@ -15,7 +15,7 @@ const ApproveWithdraw = () => {
         </WarningTitles>
         <Warning_n_Btn>
             <WarningPara>User cannot withdraw an amount larger than their available balance</WarningPara>
-            <AiFillCloseCircle size={30} color="orange" onClick={() => setWarning(false)} />
+            <MainCloseBtn><AiFillCloseCircle size={30} onClick={() => setWarning(false)} /></MainCloseBtn>
         </Warning_n_Btn>
         
       </WarningBox>
@@ -26,23 +26,23 @@ const ApproveWithdraw = () => {
                 <Naming>proxyserver7798@gmail.com</Naming>
             </NamingBox>
 
-            <div>
-                <button>Reject request</button>
-                <button onClick={() => setWarning(true)}>Approve request</button>
-                <button><AiFillCloseCircle size={30} color="orange" onClick={() => setWarning(false)} /></button>
-            </div>
+            <ControlBtns>
+                <RejetBtn>Reject request</RejetBtn>
+                <AcceptBtn onClick={() => setWarning(true)}>Approve request</AcceptBtn>
+                <MainCloseBtn><AiFillCloseCircle size={30} onClick={() => setWarning(false)} /></MainCloseBtn>
+            </ControlBtns>
         </Naming_n_Controls>
 
         <section>
             <AmountsTitle>Amounts</AmountsTitle>
             <div>
                 <AmountsItem>
-                    <p>Available balance</p>
-                    <p>USD$ 200</p>
+                    <AmountValues>Available balance</AmountValues>
+                    <AmountValues>USD$ 200</AmountValues>
                 </AmountsItem>
                 <AmountsItem>
-                    <p>Requested balance</p>
-                    <p>USD$ 500</p>
+                    <AmountValues>Requested balance</AmountValues>
+                    <AmountValues>USD$ 500</AmountValues>
                 </AmountsItem>
             </div>
         </section>
@@ -58,6 +58,54 @@ const ApproveWithdraw = () => {
 
 
 
+export const AcceptBtn = styled.button`
+    border: none;
+    background-color: ${colors.accent};
+    color: #fff;
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .25s ease-in-out;
+    padding: 8px 12px;
+    border-radius: 6px;
+    :hover {
+        background-color: ${colors.accentShadow};
+        color: ${colors.accent};
+        scale: .95;
+    }
+`;
+export const RejetBtn = styled.button`
+    border: none;
+    background-color: transparent;
+    color: ${colors.accent};
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .25s ease-in-out;
+    :hover {
+        color: red;
+        scale: .9;
+    }
+`;
+export const ControlBtns = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 15px;
+`;
+export const MainCloseBtn = styled.button`
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    color: orange;
+    /* background-color: blue; */
+    margin: 0;
+    padding: 0;
+    :hover{
+        color: orangered;
+        transform: scale(.85);
+    }
+`;
 export const TypeTitle = styled.p`
     margin: 0;
     font-family: Poppins, sans-serif;
@@ -95,6 +143,10 @@ export const AmountsItem = styled.div`
         border-radius: 6px;
     }
 `;
+export const AmountValues = styled.p`
+    font-family: Roboto, sans-serif;
+    
+`;
 export const AmountsTitle = styled.h3`
     font-family: Inter, sans-serif;
     margin-top: 50px;
@@ -107,7 +159,7 @@ export const Naming_n_Controls = styled.div`
     justify-content: space-between;
     align-items: center;
     position: relative;
-    padding-bottom: 8px;
+    padding-bottom: 15px;
     ::after {
         content: '';
         bottom: 0;
@@ -164,7 +216,7 @@ export const WarningBox = styled.div`
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 8px 15px;
+    padding: 8px 25px;
     /* transition: all .3s ease-in-out; */
     transition: all .4s cubic-bezier(1, 0.23, 0, 0.81);
     transform: translateY(${props => props.isWarning ? '0':'31px'});
